@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.emc.monitor.utils.DatabaseUtil;
 
-public class DocumentumService {
+public class DocumentumService {	
 
 	public String address;
 	public String docbase;
@@ -39,28 +39,7 @@ public class DocumentumService {
 		this.name = name;
 	}
 
-	// public DocumentumService() throws SQLException {
-	//
-	// ResultSet rs = DatabaseUtil
-	// .executeSelect("SELECT admin_address, docbase, user_passwd,"
-	// + "service_user, service_host, service_port, service_type,"
-	// + "service_name FROM mntr_env_details"
-	// + "WHERE service_type = '" + type + " AND service_name = '" + name +
-	// "'");
-	// rs.first();
-	//
-	// this.address = rs.getString(1);
-	// this.docbase = rs.getString(2);
-	// this.password = rs.getString(3);
-	// this.user = rs.getString(4);
-	// this.host = rs.getString(5);
-	// this.port = rs.getInt(6);
-	// this.type = rs.getString(7);
-	// this.name = rs.getString(8);
-	//
-	// }
-
-	public static Set<DocumentumService> getServicesByType(String type) throws Exception {
+	public static Set<DocumentumService> getServicesByType(String type) {
 
 		ResultSet rs = DatabaseUtil.executeSelect("SELECT admin_address, docbase, user_passwd,"
 				+ "service_user, service_host, service_port, service_type," + "service_name FROM mntr_env_details "
@@ -70,15 +49,52 @@ public class DocumentumService {
 		sds = new HashSet<>();
 		DocumentumService ds;
 
-		while (rs.next()) {
-			ds = new DocumentumService(rs.getString("admin_address"), rs.getString("docbase"),
-					rs.getString("user_passwd"), rs.getString("service_user"), rs.getString("service_host"),
-					rs.getInt("service_port"), rs.getString("service_type"), rs.getString("service_name"));
-			sds.add(ds);
+		try {
+			while (rs.next()) {
+				ds = new DocumentumService(rs.getString("admin_address"), rs.getString("docbase"),
+						rs.getString("user_passwd"), rs.getString("service_user"), rs.getString("service_host"),
+						rs.getInt("service_port"), rs.getString("service_type"), rs.getString("service_name"));
+				sds.add(ds);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
+		return sds;
+	}
 
-		if (rs != null) {
-			rs.close();
+	public static Set<DocumentumService> getServices() {
+		ResultSet rs = DatabaseUtil.executeSelect("SELECT admin_address, docbase, user_passwd,"
+				+ "service_user, service_host, service_port, service_type, service_name FROM mntr_env_details");
+
+		Set<DocumentumService> sds;
+		sds = new HashSet<>();
+		DocumentumService ds;
+
+		try {
+			while (rs.next()) {
+				ds = new DocumentumService(rs.getString("admin_address"), rs.getString("docbase"),
+						rs.getString("user_passwd"), rs.getString("service_user"), rs.getString("service_host"),
+						rs.getInt("service_port"), rs.getString("service_type"), rs.getString("service_name"));
+				sds.add(ds);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return sds;
 	}
@@ -88,7 +104,39 @@ public class DocumentumService {
 	}
 
 	public int getPort() {
-		return port;	
+		return port;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public String getDocbase() {
+		return docbase;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 
 	public void update(boolean b, String result) {
