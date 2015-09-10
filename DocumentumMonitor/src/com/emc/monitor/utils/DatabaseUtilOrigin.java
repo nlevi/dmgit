@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseUtilTest {
+public class DatabaseUtilOrigin {
 
 	public static Connection conn;
     private static String user;
@@ -16,22 +16,20 @@ public class DatabaseUtilTest {
     private String tablename;
     private String dbname;
     private static String dburl;
-    private static String driverclass;
 	
     
-    public DatabaseUtilTest() {
-    	DbProperties dbp = new DbProperties();
-		this.user = dbp.getUser();
-		this.password = dbp.getPwd();
-		this.dbname = dbp.getDatabase();
-		this.dburl = dbp.getJdbcUrl().concat(dbp.getDatabase());
-		this.driverclass = dbp.getDriverClass();
+    public DatabaseUtilOrigin(String user, String password, String dbname,
+			String dburl) {
+		this.user = user;
+		this.password = password;
+		this.dbname = dbname;
+		this.dburl = dburl + dbname;
 		setConnection();
 	}
     
     public static void setConnection() {
-        try {        	
-        	Class.forName(driverclass);
+        try {
+        	Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(dburl, user, password);
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();

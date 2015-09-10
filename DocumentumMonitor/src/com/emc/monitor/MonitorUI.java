@@ -29,42 +29,11 @@ public class MonitorUI extends HttpServlet {
 	 */
 	// private static final long serialVersionUID = -7681214561115135621L;
 	private String params;
-	private String dbuser;
-	private String dbpassword;
-	private String dbname;
-	private String dburl;
 	private DatabaseUtil du;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-
-	@Override
-	public void init() {
-		// StringBuilder sb = new StringBuilder();
-		// sb.append("<h4>Initialization parameters: </h4>");
-		Enumeration<String> plist = getInitParameterNames();
-		String s;
-		while (plist.hasMoreElements()) {
-			s = plist.nextElement();
-			// sb.append("<br>" + s + " : " + getInitParameter(s));
-
-			switch (s) {
-			case "dbname":
-				dbname = getInitParameter(s);
-				break;
-			case "dbuser":
-				dbuser = getInitParameter(s);
-				break;
-			case "dbpassword":
-				dbpassword = getInitParameter(s);
-			case "dburl":
-				dburl = getInitParameter(s);
-			}
-		}
-		// sb.append("<hr width=\"100%\">");
-		// params = sb.toString();
-	}
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -73,7 +42,7 @@ public class MonitorUI extends HttpServlet {
 		ServletContext sc = getServletContext();
 		du = (DatabaseUtil) sc.getAttribute("dbcon");
 		if (du == null) {
-			du = new DatabaseUtil(dbuser, dbpassword, dbname, dburl);
+			du = new DatabaseUtil();
 			sc.setAttribute("dbcon", du);
 		}
 

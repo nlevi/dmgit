@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
-import com.emc.monitor.utils.DatabaseUtilTest;
 import com.emc.monitor.utils.DbProperties;
 
 
@@ -39,9 +38,10 @@ public class Tester {
 		System.out.println(dbp.getUser());
 		System.out.println(dbp.getDriverClass());
 		
-		DatabaseUtilTest dut = new DatabaseUtilTest();
+		DatabaseUtil dut = new DatabaseUtil();
 		System.out.println(dut.conn);
 		System.out.println(dut.executeSelect("select * from mntr_env_status"));
+		dut.closeConnection();
 	}
 
 }

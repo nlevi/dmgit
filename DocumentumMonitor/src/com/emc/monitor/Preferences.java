@@ -34,19 +34,20 @@ public class Preferences extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		 HttpSession s = request.getSession(false);
-		 if (s == null) {
-		 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-		 "Invalid HTTP session");
-		 }
-		 ServletContext sc = getServletContext();
-		 du = (DatabaseUtil) sc.getAttribute("dbcon");
-		 if (du == null) {
-		 du = new DatabaseUtil(dbuser, dbpassword, dbname, dburl);
-		 }
+		HttpSession s = request.getSession(false);
+		if (s == null) {
+			s = request.getSession();
+//			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid HTTP session");
+		}
+		ServletContext sc = getServletContext();
+		du = (DatabaseUtil) sc.getAttribute("dbcon");
+		if (du == null) {
+			du = new DatabaseUtil();
+			sc.setAttribute("dbcon", du);
+		}
 		try (PrintWriter out = response.getWriter()) {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
@@ -54,7 +55,7 @@ public class Preferences extends HttpServlet {
 			out.println("<title>Documentum Environment Monitor</title>");
 			out.println("</head>");
 			out.println("<body>");
-			
+
 			out.println("<table border = '1' style='width:100%'>");
 			out.println("<tr>");
 			out.println("<th>Service</th>");
@@ -72,7 +73,7 @@ public class Preferences extends HttpServlet {
 					out.println("<td>" + rs.getDate(4) + "</td>");
 					out.println("</tr>");
 				}
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
@@ -94,19 +95,20 @@ public class Preferences extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		HttpSession s = request.getSession(false);
 		if (s == null) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-					"Invalid HTTP session");
+			s = request.getSession();
+//			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid HTTP session");
 		}
 
 		ServletContext sc = getServletContext();
 		du = (DatabaseUtil) sc.getAttribute("dbcon");
 		if (du == null) {
-			du = new DatabaseUtil(dbuser, dbpassword, dbname, dburl);
+			du = new DatabaseUtil();
+			sc.setAttribute("dbcon", du);
 		}
 		try (PrintWriter out = response.getWriter()) {
 			out.println("<!DOCTYPE html>");
@@ -117,13 +119,13 @@ public class Preferences extends HttpServlet {
 			out.println("<body>");
 			out.println("<h1>Xplore</h1>");
 			XploreMonitor xm = new XploreMonitor();
-			
+
 			try {
 				xm.worker();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
+
 			out.println("<table border = '1' style='width:100%'>");
 			out.println("<tr>");
 			out.println("<th>Service</th>");
@@ -141,14 +143,14 @@ public class Preferences extends HttpServlet {
 					out.println("<td>" + rs.getDate(4) + "</td>");
 					out.println("</tr>");
 				}
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} finally {
 				if (rs != null) {
 					try {
 						rs.close();
-					} catch (SQLException e) {						
+					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}

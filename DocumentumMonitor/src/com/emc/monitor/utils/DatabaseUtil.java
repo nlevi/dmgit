@@ -16,20 +16,22 @@ public class DatabaseUtil {
     private String tablename;
     private String dbname;
     private static String dburl;
+    private static String driverclass;
 	
     
-    public DatabaseUtil(String user, String password, String dbname,
-			String dburl) {
-		this.user = user;
-		this.password = password;
-		this.dbname = dbname;
-		this.dburl = dburl + dbname;
+    public DatabaseUtil() {
+    	DbProperties dbp = new DbProperties();
+		this.user = dbp.getUser();
+		this.password = dbp.getPwd();
+		this.dbname = dbp.getDatabase();
+		this.dburl = dbp.getJdbcUrl().concat(dbp.getDatabase());
+		this.driverclass = dbp.getDriverClass();
 		setConnection();
 	}
     
     public static void setConnection() {
-        try {
-        	Class.forName("org.apache.derby.jdbc.ClientDriver");
+        try {        	
+        	Class.forName(driverclass);
             conn = DriverManager.getConnection(dburl, user, password);
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
