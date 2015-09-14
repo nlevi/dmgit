@@ -118,13 +118,13 @@ public class PreferencesOrigin extends HttpServlet {
 			out.println("</head>");
 			out.println("<body>");
 			out.println("<h1>Xplore</h1>");
-			XploreMonitor xm = new XploreMonitor();
-
-			try {
-				xm.worker();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+//			XploreMonitor xm = new XploreMonitor();
+//
+//			try {
+//				xm.worker();
+//			} catch (Exception e1) {
+//				e1.printStackTrace();
+//			}
 
 			out.println("<table border = '1' style='width:100%'>");
 			out.println("<tr>");

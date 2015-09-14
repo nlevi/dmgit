@@ -128,7 +128,7 @@ public class DocumentumService {
 
 	public static Set<DocumentumService> getServicesByType(String type) {
 
-		ResultSet rs = DatabaseUtil.executeSelect("SELECT admin_address, docbase, user_passwd,"
+		ResultSet rs = DatabaseUtil.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
 				+ "service_user, service_host, service_port, service_type," + "service_name FROM mntr_env_details "
 				+ "WHERE service_type = '" + type + "'");
 
@@ -197,7 +197,7 @@ public class DocumentumService {
 		if (b) {
 
 			r = DatabaseUtil.executeInsert("UPDATE mntr_env_status SET service_status = 'Running', service_version = '"
-					+ result + "', " + "last_update = '" + d.format(now) + "' WHERE service_name = " + service_id);
+					+ result + "', " + "last_update = '" + d.format(now) + "' WHERE service_id = " + service_id);
 
 			if (r < 1) {
 				r = DatabaseUtil.executeInsert(
@@ -209,11 +209,11 @@ public class DocumentumService {
 		} else {
 			r = DatabaseUtil.executeInsert(
 					"UPDATE mntr_env_status SET service_status = '" + result + "', " + "last_update = '" + d.format(now)
-							+ "', service_version = 'Not Available' WHERE service_name = " + service_id);
+							+ "', service_version = 'Not Available' WHERE service_id = " + service_id);
 
 			if (r < 1) {
 				r = DatabaseUtil.executeInsert(
-						"INSERT INTO mntr_env_status (service_name, service_status,service_version , last_update)"
+						"INSERT INTO mntr_env_status (service_id, service_name, service_status,service_version , last_update)"
 								+ " VALUES (" + service_id + ", '" + name + "', '" + result + "', 'Not Available', '"
 								+ d.format(now) + "')");
 			}

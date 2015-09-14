@@ -11,15 +11,19 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 
-public class XploreMonitor {
+public class XploreMonitor implements Job {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 	private DocumentumService[] ds;
 
-	public void worker() throws Exception {
+	public void execute(final JobExecutionContext ctx) throws JobExecutionException{
 		Set<DocumentumService> sds;
 		DocumentumService tempds;
 		String result = null;
@@ -32,8 +36,13 @@ public class XploreMonitor {
 		while (it.hasNext()) {
 			tempds = (DocumentumService) it.next();
 			url = "http://" + tempds.getHost() + ":" + tempds.getPort() + "/dsearch";
+			System.out.println(url);
 
-			result = getStatus(url);
+			try {
+				result = getStatus(url);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			if (isRunning(result)) {
 				tempds.update(true, result);
