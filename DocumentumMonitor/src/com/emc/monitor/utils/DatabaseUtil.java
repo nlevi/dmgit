@@ -61,6 +61,7 @@ public class DatabaseUtil {
 		
 		int r = 0;
 		try {
+			System.out.println(conn.toString());
 			stmt = conn.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();

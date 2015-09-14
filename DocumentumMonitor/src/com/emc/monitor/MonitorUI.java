@@ -131,7 +131,7 @@ public class MonitorUI extends HttpServlet {
 
 	private String preferencesForm() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<form action=\"Preferences\" method=\"POST\">");
+		sb.append("<form action=\"EnvDetails\" method=\"GET\">");
 		sb.append("<input type=\"submit\" value=\"Modify Environment Details\"/>");
 		sb.append("</form>");
 		return sb.toString();
