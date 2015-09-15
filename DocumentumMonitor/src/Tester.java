@@ -1,8 +1,7 @@
 import java.util.Iterator;
 import java.util.Set;
 
-
-
+import com.emc.monitor.job.XcpMonitor;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 import com.emc.monitor.utils.DbProperties;
@@ -15,7 +14,7 @@ public class Tester {
 //		DocumentumService tempds;
 //		String[] url = null;
 //		
-//		DatabaseUtil du = new DatabaseUtil("root", "root", "myDB","jdbc:derby://localhost:1527/");
+		DatabaseUtil du = new DatabaseUtil();
 //		
 //		sds = DocumentumService.getServicesByType("xplore");
 //		
@@ -31,17 +30,22 @@ public class Tester {
 //			
 //		}		
 		
-		DbProperties dbp = new DbProperties();
-		System.out.println(dbp.getDatabase());
-		System.out.println(dbp.getJdbcUrl());
-		System.out.println(dbp.getPwd());
-		System.out.println(dbp.getUser());
-		System.out.println(dbp.getDriverClass());
+//		DbProperties dbp = new DbProperties();
+//		System.out.println(dbp.getDatabase());
+//		System.out.println(dbp.getJdbcUrl());
+//		System.out.println(dbp.getPwd());
+//		System.out.println(dbp.getUser());
+//		System.out.println(dbp.getDriverClass());
+//		
+//		DatabaseUtil dut = new DatabaseUtil();
+//		System.out.println(dut.conn);
+//		System.out.println(dut.executeSelect("select * from mntr_env_status"));
+//		dut.closeConnection();
 		
-		DatabaseUtil dut = new DatabaseUtil();
-		System.out.println(dut.conn);
-		System.out.println(dut.executeSelect("select * from mntr_env_status"));
-		dut.closeConnection();
+		
+		XcpMonitor xm = new XcpMonitor();
+		xm.execute();
+		
 	}
 
 }
