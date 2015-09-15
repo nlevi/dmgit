@@ -1,47 +1,44 @@
 package com.emc.monitor.job;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.HttpHost;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 
 public class XcpMonitor {
 
-	private final String USER_AGENT = "Mozilla/5.0";
-	
 	private DocumentumService ds;
 
 	public void execute() {
 		Set<DocumentumService> sds;
-		
+
 		String result = null;
 
 		sds = DocumentumService.getServicesByType("xcp");
@@ -51,8 +48,6 @@ public class XcpMonitor {
 		String url;
 		while (it.hasNext()) {
 			ds = (DocumentumService) it.next();
-			url = "http://" + ds.getHost() + ":" + ds.getPort() + "/PlanTest";
-			System.out.println(url);
 
 			try {
 				result = getStatus();
@@ -60,11 +55,11 @@ public class XcpMonitor {
 				e.printStackTrace();
 			}
 
-//			if (isRunning(result)) {
-//				ds.update(true, result);
-//			} else {
-//				ds.update(false, result);
-//			}
+			 if (isRunning(result)) {
+			 ds.update(true, result);
+			 } else {
+			 ds.update(false, result);
+			 }
 		}
 	}
 
@@ -81,73 +76,112 @@ public class XcpMonitor {
 
 		String response = sendRequest();
 
-		String version;
-
 		if (response.length() > 3) {
-			System.out.println(response);
-			version = response.replaceAll("[^0-9&&[^\\.]]", "");
-			System.out.println(version);
+			response = readResponse(response);			
 		} else {
-			version = "Failed";
+			response = "Failed";
 		}
-		return version;
+		return response;
+	}
+
+	private String readResponse(String response) {
+
+		String version = null;
+
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			InputStream is = new ByteArrayInputStream(response.getBytes(StandardCharsets.UTF_8));
+			Document xmlDoc = dBuilder.parse(is);
+			xmlDoc.getDocumentElement().normalize();
+			System.out.println("Root element :" + xmlDoc.getDocumentElement().getNodeName());
+			version = xmlDoc.getElementsByTagName("dm:major").item(0).getTextContent().concat(".")
+					.concat(xmlDoc.getElementsByTagName("dm:minor").item(0).getTextContent()).concat(".")
+					.concat(xmlDoc.getElementsByTagName("dm:build_number").item(0).getTextContent());
+
+			// NodeList nList = xmlDoc.getElementsByTagName("dm:properties");
+			//
+			// System.out.println("----------------------------");
+			//
+			// Node nNode = nList.item(0);
+			//
+			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
+			//
+			// if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			//
+			// Element element = (Element) nNode;
+			// version =
+			// element.getElementsByTagName("dm:major").item(0).getTextContent().concat(".")
+			// .concat(element.getElementsByTagName("dm:minor").item(0).getTextContent()).concat(".")
+			// .concat(element.getElementsByTagName("dm:build_number").item(0).getTextContent());
+			//
+			//
+			// System.out.println("Major : " +
+			// element.getElementsByTagName("dm:major").item(0).getTextContent());
+			// version.append(".");
+			// version.append(eElement.getElementsByTagName("dm:minor").item(0).getTextContent());
+			// System.out.println("Minor : " +
+			// element.getElementsByTagName("dm:minor").item(0).getTextContent());
+			// version.append(".");
+			// version.append(eElement.getElementsByTagName("dm:build_number").item(0).getTextContent());
+			// System.out.println("Build number : " +
+			// element.getElementsByTagName("dm:build_number").item(0).getTextContent());
+			// }
+
+			System.out.println(version);
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return version.toString();
+
 	}
 
 	private String sendRequest() {
+		String result = null;
 
-//		URI xcpuri = new URIBuilder()
-//				.setScheme("http")
-//				.setHost(ds.getHost())
-//				.setPort(ds.getPort())
-//				.setPath(ds.getName())
-//				.build();
-		
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-		
+
 		try {
-		
-		HttpClientContext context = HttpClientContext.create();
-		
-		CookieStore cs = context.getCookieStore();
-		List<Cookie> cookies;
-		cookies = cs.getCookies();
-		
-		//Cookie cookie;
-		for (Cookie cookie: cookies) {
-			System.out.println("Name: " + cookie.getName() + ":" + "Value: " + cookie.getValue());
-		}
-		
-		
-		HttpHost targetXcpAppHost = new HttpHost(ds.getHost(), ds.getPort(), "http");
-		HttpGet request = new HttpGet("/".concat(ds.getName()));
-		request.addHeader("Authorization", "Basic " + getEncodedCredentials());
-		
-		System.out.println("Executing request " + request + " to " + targetXcpAppHost);
-		CloseableHttpResponse response;
-		
-		response = httpclient.execute(targetXcpAppHost,request, context);
-			
-		       
-        try {
-        	System.out.println("----------------------------------------");
-            System.out.println(response.getStatusLine()); 
-			EntityUtils.consume(response.getEntity());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				response.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+
+			HttpClientContext context = HttpClientContext.create();
+
+			CookieStore cookieStore = new BasicCookieStore();
+
+			context.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
+
+			HttpHost targetXcpAppHost = new HttpHost(ds.getHost(), ds.getPort(), "http");
+			HttpGet request = new HttpGet("/PlanTest/products/xcp_product_info");
+			String pwd = getEncodedCredentials();
+			System.out.println(pwd);
+			request.addHeader("Authorization", "Basic " + getEncodedCredentials());
+			request.addHeader("Accept", "application/xml");
+
+			System.out.println("Executing request " + request + " to " + targetXcpAppHost);
+			CloseableHttpResponse response;
+
+			response = httpclient.execute(targetXcpAppHost, request, context);
+
+			int responseStatusCode = response.getStatusLine().getStatusCode();
+			System.out.println("GET Response Status:: " + responseStatusCode);
+
+			if (responseStatusCode == 200) {
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+				String inputLine;
+				StringBuffer sb = new StringBuffer();
+				while ((inputLine = br.readLine()) != null) {
+					sb.append(inputLine);
+				}
+				result = sb.toString();
+				System.out.println(result);
+			} else {
+				result = "Failed";
 			}
-		}
-        
-        
-        cookies = cs.getCookies();
-        for (Cookie cookie: cookies) {
-			System.out.println("Name: " + cookie.getName() + ":" + "Value: " + cookie.getValue());
-		}
-        
+
+			EntityUtils.consume(response.getEntity());
+			response.close();
+
 		} catch (ClientProtocolException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -159,98 +193,32 @@ public class XcpMonitor {
 				e.printStackTrace();
 			}
 		}
-		
-        
-        return "OK";
-//		try {
-//			serviceurl = new URL(url);
-//		} catch (MalformedURLException e1) {
-//			e1.printStackTrace();
-//		}
-//
-//		HttpURLConnection con = null;
-//		int responseCode = 0;
-//		StringBuffer response = new StringBuffer();
-//
-//		try {
-//			con = (HttpURLConnection) serviceurl.openConnection();
-//
-//			con.setRequestMethod("GET");
-//			
-//			con.setRequestProperty("User-Agent", USER_AGENT);
-//			con.setRequestProperty("Authorization", "Basic " + getEncodedCredentials());
-//			System.out.println("\nSending 'GET' request to URL : " + url);
-//			
-//			Map<String, List<String>> map = con.getHeaderFields();
-//			
-//			for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-//				System.out.println("Key : " + entry.getKey() 
-//		                           + " ,Value : " + entry.getValue());
-//			}
-//			
-//			
-//			
-//			//responseCode = con.getResponseCode();
-//			
-//			//con.setRequestProperty("Set-Cookie", e);
-//			
-//		} catch (IOException e) {
-//			System.out.println("Cannot connect to " + url);
-//
-//		} finally {
-//
-//			System.out.println("Response Code : " + responseCode);
-//
-//			if (responseCode == 259) {
-//
-//				BufferedReader br = null;
-//				try {
-//					br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//
-//					String inputLine;
-//
-//					while ((inputLine = br.readLine()) != null) {
-//						response.append(inputLine);
-//					}
-//
-//					br.close();
-//					System.out.println(response);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//
-//			} else {
-//				response.append(responseCode);
-//				System.out.println(response);
-//			}
-//		}
-//
-//		return response.toString();
+
+		return result;
 	}
 
 	private String getEncodedCredentials() {
-		String creds = ds.getUser().concat(":").concat(ds.getPassword());
-		byte[] encodedCreds = Base64.encodeBase64(creds.getBytes());
-				
-		return encodedCreds.toString();
+		String encodedPwd = new String(
+				Base64.encodeBase64(ds.getUser().concat(":").concat(ds.getPassword()).getBytes()),
+				StandardCharsets.UTF_8);
+		return encodedPwd;
 	}
 
 	private String getUrl(DocumentumService service) throws SQLException {
 
 		String url = "http://" + service.getHost() + ":" + service.getPort() + "/dsearch";
 
-		 ResultSet rs = DatabaseUtil
-		 .executeSelect("SELECT service_host, service_port FROM mntr_env_details WHERE service_type = 'xplore'");
-		 try {
-		 while (rs.next()) {
-		 url = "http://" + rs.getString(1) + ":" + rs.getString(2)+
-		 "/dsearch";
-		 System.out.println(url);
-		 }
-		 rs.close();
-		 } catch (SQLException e) {
-		 e.printStackTrace();
-		 }
+		ResultSet rs = DatabaseUtil
+				.executeSelect("SELECT service_host, service_port FROM mntr_env_details WHERE service_type = 'xplore'");
+		try {
+			while (rs.next()) {
+				url = "http://" + rs.getString(1) + ":" + rs.getString(2) + "/dsearch";
+				System.out.println(url);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return url;
 	}
