@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import com.emc.monitor.utils.DatabaseUtil;
@@ -190,10 +191,12 @@ public class DocumentumService {
 
 	public void update(boolean b, String result) {
 		int r;
+		Locale currentLocale = Locale.getDefault();
 		Date now = new Date();
-		DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
-
-		System.out.println(d.format(now));
+		DateFormat d = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, currentLocale);
+		//DateFormat d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDateTime = d.format(now);
+		System.out.println(currentDateTime);
 		if (b) {
 
 			r = DatabaseUtil.executeInsert("UPDATE mntr_env_status SET service_status = 'Running', service_version = '"
