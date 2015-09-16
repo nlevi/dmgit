@@ -74,7 +74,7 @@ public class MonitorUI extends HttpServlet {
 					out.println("<td>" + rs.getString(1) + "</td>");
 					out.println("<td>" + rs.getString(2) + "</td>");
 					out.println("<td>" + rs.getString(3) + "</td>");
-					out.println("<td>" + rs.getDate(4) + "</td>");
+					out.println("<td>" + rs.getTimestamp(4) + "</td>");
 					out.println("</tr>");
 				}
 

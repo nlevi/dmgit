@@ -26,17 +26,20 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.HttpHost;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 
-public class XcpMonitor {
+public class XcpMonitor implements Job {
 
 	private DocumentumService ds;
 
-	public void execute() {
+	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		Set<DocumentumService> sds;
 
 		String result = null;
@@ -75,12 +78,11 @@ public class XcpMonitor {
 	private String getStatus() throws Exception {
 
 		String response = sendRequest();
-
-		if (response.length() > 3) {
+		
+		if (response != "Failed") {
 			response = readResponse(response);			
-		} else {
-			response = "Failed";
-		}
+		} 
+		System.out.println("Response: " + response);
 		return response;
 	}
 
@@ -98,36 +100,6 @@ public class XcpMonitor {
 			version = xmlDoc.getElementsByTagName("dm:major").item(0).getTextContent().concat(".")
 					.concat(xmlDoc.getElementsByTagName("dm:minor").item(0).getTextContent()).concat(".")
 					.concat(xmlDoc.getElementsByTagName("dm:build_number").item(0).getTextContent());
-
-			// NodeList nList = xmlDoc.getElementsByTagName("dm:properties");
-			//
-			// System.out.println("----------------------------");
-			//
-			// Node nNode = nList.item(0);
-			//
-			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
-			//
-			// if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			//
-			// Element element = (Element) nNode;
-			// version =
-			// element.getElementsByTagName("dm:major").item(0).getTextContent().concat(".")
-			// .concat(element.getElementsByTagName("dm:minor").item(0).getTextContent()).concat(".")
-			// .concat(element.getElementsByTagName("dm:build_number").item(0).getTextContent());
-			//
-			//
-			// System.out.println("Major : " +
-			// element.getElementsByTagName("dm:major").item(0).getTextContent());
-			// version.append(".");
-			// version.append(eElement.getElementsByTagName("dm:minor").item(0).getTextContent());
-			// System.out.println("Minor : " +
-			// element.getElementsByTagName("dm:minor").item(0).getTextContent());
-			// version.append(".");
-			// version.append(eElement.getElementsByTagName("dm:build_number").item(0).getTextContent());
-			// System.out.println("Build number : " +
-			// element.getElementsByTagName("dm:build_number").item(0).getTextContent());
-			// }
-
 			System.out.println(version);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
@@ -151,11 +123,11 @@ public class XcpMonitor {
 			context.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 
 			HttpHost targetXcpAppHost = new HttpHost(ds.getHost(), ds.getPort(), "http");
-			HttpGet request = new HttpGet("/PlanTest/products/xcp_product_info");
+			HttpGet request = new HttpGet("/".concat(ds.getName()).concat("/products/xcp_product_info"));
 			String pwd = getEncodedCredentials();
 			System.out.println(pwd);
 			request.addHeader("Authorization", "Basic " + getEncodedCredentials());
-			request.addHeader("Accept", "application/xml");
+			request.addHeader("Accept", "text/html,application/xml,*/*");
 
 			System.out.println("Executing request " + request + " to " + targetXcpAppHost);
 			CloseableHttpResponse response;
@@ -174,7 +146,7 @@ public class XcpMonitor {
 					sb.append(inputLine);
 				}
 				result = sb.toString();
-				System.out.println(result);
+				System.out.println("Response: " + result);
 			} else {
 				result = "Failed";
 			}
@@ -193,7 +165,7 @@ public class XcpMonitor {
 				e.printStackTrace();
 			}
 		}
-
+		System.out.println("Response: " + result);
 		return result;
 	}
 

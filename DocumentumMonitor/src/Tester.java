@@ -43,8 +43,8 @@ public class Tester {
 //		dut.closeConnection();
 		
 		
-		XcpMonitor xm = new XcpMonitor();
-		xm.execute();
+//		XcpMonitor xm = new XcpMonitor();
+//		xm.execute();
 		
 	}
 
