@@ -67,9 +67,9 @@ public class XploreMonitor implements Job {
 		String version;
 
 		if (response != "Failed") {
-			System.out.println(response);
+			//System.out.println(response);
 			version = response.replaceAll("[^0-9&&[^\\.]]", "");
-			System.out.println(version);
+			//System.out.println(version);
 		} else {
 			version = "Failed";
 		}

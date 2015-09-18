@@ -23,5 +23,10 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/monitor/dsearch-sdk-1.4.0000.0216/dist/dsearchadmin-api.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/dsearch-sdk-1.4.0000.0216/dist/dsearchadmin-remote.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/dsearch-sdk-1.4.0000.0216/dist/dsearch-client.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/dsearch-sdk-1.4.0000.0216/dist/dsearch-uima.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/dsearch-sdk-1.4.0000.0216/dist/dsearch-utils.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -45,25 +45,25 @@ public class HttpServiceUtils {
 				break;
 			}
 			
-			String pwd = getEncodedCredentials();
-			System.out.println(pwd);
+			//String pwd = getEncodedCredentials();
+			//System.out.println(pwd);
 			request.addHeader("Authorization", "Basic " + getEncodedCredentials());
 			request.addHeader("Accept", "text/html,application/xml,*/*");
 
-			System.out.println("Executing request " + request + " to " + targetHost);
+			//System.out.println("Executing request " + request + " to " + targetHost);
 			CloseableHttpResponse response = null;
 			int responseStatusCode = 0;
 			try {
 				response = httpclient.execute(targetHost, request, context);
 			} catch (IOException e) {
-				System.out.println("Cannot connect to " + targetHost);
+				//System.out.println("Cannot connect to " + targetHost);
 				responseStatusCode = 1;
 			} finally {
 				if (responseStatusCode == 1) {
 					result = "Failed";
 				} else {
 					responseStatusCode = response.getStatusLine().getStatusCode();
-					System.out.println("GET Response Status:: " + responseStatusCode);
+					//System.out.println("GET Response Status:: " + responseStatusCode);
 
 					if (responseStatusCode == 259 || responseStatusCode == 200) {
 
@@ -74,7 +74,7 @@ public class HttpServiceUtils {
 							sb.append(inputLine);
 						}
 						result = sb.toString();
-						System.out.println("Response: " + result);
+						//System.out.println("Response: " + result);
 					} else {
 						result = "Failed";
 					}
@@ -95,7 +95,7 @@ public class HttpServiceUtils {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Response: " + result);
+		//System.out.println("Response: " + result);
 		return result;
 	}
 
