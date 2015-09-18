@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -13,7 +11,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,7 +18,6 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.DatabaseUtil;
 import com.emc.monitor.utils.HttpServiceUtils;
 
 public class XcpMonitor implements Job {
@@ -97,31 +93,4 @@ public class XcpMonitor implements Job {
 		return version.toString();
 
 	}
-
-	private String getEncodedCredentials() {
-		String encodedPwd = new String(
-				Base64.encodeBase64(ds.getUser().concat(":").concat(ds.getPassword()).getBytes()),
-				StandardCharsets.UTF_8);
-		return encodedPwd;
-	}
-
-	private String getUrl(DocumentumService service) throws SQLException {
-
-		String url = "http://" + service.getHost() + ":" + service.getPort() + "/dsearch";
-
-		ResultSet rs = DatabaseUtil
-				.executeSelect("SELECT service_host, service_port FROM mntr_env_details WHERE service_type = 'xplore'");
-		try {
-			while (rs.next()) {
-				url = "http://" + rs.getString(1) + ":" + rs.getString(2) + "/dsearch";
-				System.out.println(url);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return url;
-	}
-
 }

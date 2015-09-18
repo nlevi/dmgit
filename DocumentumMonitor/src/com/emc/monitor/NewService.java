@@ -115,11 +115,14 @@ public class NewService extends HttpServlet {
 		sb.append("<td>" + "<input type='password' name='password' form='prefs' value=''></td>");
 		sb.append("<td>" + "<input type='email' name='address' form='prefs' value=''></td>");
 		sb.append("<td>" + "<select name='type' form='prefs'>" 
-				+ "<option value='xplore'>xplore</option>"
-				+ "<option value='xcp'>xcp</option>" 
-				+ "<option value='cs'>cs</option>"
-				+ "<option value='cts'>cts</option>" 
-				+ "<option value='d2'>d2</option>");
+				+ "<option value='xplore'>xPlore</option>"
+				+ "<option value='xcp'>xCP Application</option>" 
+				+ "<option value='cs'>Content Server</option>"
+				+ "<option value='cts'>CTS</option>" 
+				+ "<option value='d2'>D2</option>"
+				+ "<option value='bpm'>BPM</option>"
+				+ "<option value='jms'>JMS</option>"
+				+ "<option value='bps'>BPS</option>");
 		sb.append("</tr>");
 
 		sb.append("<input type=\"submit\" value=\"Save\"/>");

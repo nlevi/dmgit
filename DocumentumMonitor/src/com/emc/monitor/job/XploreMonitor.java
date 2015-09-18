@@ -1,7 +1,5 @@
 package com.emc.monitor.job;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -10,7 +8,6 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.DatabaseUtil;
 import com.emc.monitor.utils.HttpServiceUtils;
 
 public class XploreMonitor implements Job {
@@ -33,6 +30,11 @@ public class XploreMonitor implements Job {
 
 			try {
 				result = getStatus();
+				
+				if (result != "Failed") {
+					getDssStatus();
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -43,6 +45,11 @@ public class XploreMonitor implements Job {
 				ds.update(false, result);
 			}
 		}
+	}
+
+	private void getDssStatus() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private boolean isRunning(String result) {
@@ -68,24 +75,4 @@ public class XploreMonitor implements Job {
 		}
 		return version;
 	}
-
-	private String getUrl(DocumentumService service) throws SQLException {
-
-		String url = "http://" + service.getHost() + ":" + service.getPort() + "/dsearch";
-
-		ResultSet rs = DatabaseUtil
-				.executeSelect("SELECT service_host, service_port FROM mntr_env_details WHERE service_type = 'xplore'");
-		try {
-			while (rs.next()) {
-				url = "http://" + rs.getString(1) + ":" + rs.getString(2) + "/dsearch";
-				System.out.println(url);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return url;
-	}
-
 }
