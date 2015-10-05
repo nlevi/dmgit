@@ -1,6 +1,10 @@
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import com.emc.documentum.core.fulltext.client.admin.api.FtAdminFactory;
+import com.emc.documentum.core.fulltext.client.admin.api.IFtAdminService;
+import com.emc.documentum.core.fulltext.client.admin.api.interfaces.IFtAdminSystem;
 import com.emc.monitor.job.XcpMonitor;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
@@ -14,7 +18,7 @@ public class Tester {
 //		DocumentumService tempds;
 //		String[] url = null;
 //		
-		DatabaseUtil du = new DatabaseUtil();
+		//DatabaseUtil du = new DatabaseUtil();
 //		
 //		sds = DocumentumService.getServicesByType("xplore");
 //		
@@ -45,6 +49,18 @@ public class Tester {
 		
 //		XcpMonitor xm = new XcpMonitor();
 //		xm.execute();
+		
+		IFtAdminService adminService = FtAdminFactory.getAdminService("10.76.251.42", 9300, "dctmdctm");
+		
+		String ver = adminService.getVersion();
+		List<String> xstatus = adminService.getStatus();
+		Iterator it = xstatus.iterator();
+		String status;
+		while (it.hasNext()) {
+			status = (String) it.next();
+			System.out.println(status);
+		}
+		System.out.println(ver);
 		
 	}
 

@@ -7,15 +7,19 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.emc.documentum.core.fulltext.client.admin.api.FtAdminFactory;
+import com.emc.documentum.core.fulltext.client.admin.api.IFtAdminService;
+import com.emc.documentum.core.fulltext.common.admin.DSearchAdminException;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
-public class XploreMonitor implements Job {
+public class XploreMonitor {
 
 	private final String USER_AGENT = "Mozilla/5.0";
 	private DocumentumService ds;
 
-	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
+	//public void execute(final JobExecutionContext ctx) throws JobExecutionException {
+	public void execute() {
 		Set<DocumentumService> sds;
 
 		String result = null;
@@ -29,11 +33,7 @@ public class XploreMonitor implements Job {
 			ds = (DocumentumService) it.next();
 
 			try {
-				result = getStatus();
-				
-				if (result != "Failed") {
-					getDssStatus();
-				}
+				result = getStatus();			
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -47,9 +47,10 @@ public class XploreMonitor implements Job {
 		}
 	}
 
-	private void getDssStatus() {
-		// TODO Auto-generated method stub
-		
+	private void getDssStatus() throws DSearchAdminException {
+		IFtAdminService adminService = FtAdminFactory.getAdminService(ds.getHost(), ds.getPort(), ds.getPassword());
+		String ver = adminService.getVersion();
+		System.out.println(ver);
 	}
 
 	private boolean isRunning(String result) {
