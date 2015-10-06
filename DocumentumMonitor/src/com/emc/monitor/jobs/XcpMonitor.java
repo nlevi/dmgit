@@ -58,7 +58,7 @@ public class XcpMonitor implements Job {
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", ds.getName().concat(XCP_INFO), ds.getUser(), ds.getPassword());
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", "/".concat(ds.getName()).concat(XCP_INFO), ds.getUser(), ds.getPassword());
 		if (response != "Failed") {
 			response = readResponse(response);
 		}
