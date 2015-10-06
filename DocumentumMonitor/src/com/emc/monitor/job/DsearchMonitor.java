@@ -10,13 +10,13 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
-public class DsearchMonitor {
+public class DsearchMonitor implements Job{
 
 	private static final String DSEARCH_INFO = "/dsearch";	
 	private DocumentumService ds;
 
-	//public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-	public void execute() {
+	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
+	//public void execute() {
 		Set<DocumentumService> sds;
 		String result = null;
 		sds = DocumentumService.getServicesByType("dsearch");
@@ -47,10 +47,10 @@ public class DsearchMonitor {
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", DSEARCH_INFO);
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", DSEARCH_INFO, null, null);
 		String version;
 		if (response != "Failed") {
-			//System.out.println(response);
+			System.out.println(response);
 			version = response.replaceAll("[^0-9&&[^\\.]]", "");			
 			//System.out.println(version);
 		} else {

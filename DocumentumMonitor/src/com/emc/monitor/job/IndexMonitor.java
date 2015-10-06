@@ -10,13 +10,13 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
-public class IndexMonitor {
+public class IndexMonitor implements Job{
 
 	private static final String INDEX_INFO = "/IndexAgent";	
 	private DocumentumService ds;
 
-	//public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-	public void execute() {
+	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
+	//public void execute() {
 		Set<DocumentumService> sds;
 		String result = null;
 		sds = DocumentumService.getServicesByType("indexagent");
@@ -48,7 +48,7 @@ public class IndexMonitor {
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", INDEX_INFO);		
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", INDEX_INFO, null, null);		
 		return response;
 	}
 }

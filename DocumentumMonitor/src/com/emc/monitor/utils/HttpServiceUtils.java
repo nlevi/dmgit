@@ -21,9 +21,8 @@ import com.emc.monitor.service.DocumentumService;
 
 public class HttpServiceUtils {
 
-	private static DocumentumService service;
-
-	public static String sendRequest(String host, int port, String protocol, String pinfo) {
+	public static String sendRequest(String host, int port, String protocol, String pinfo, String user,
+			String password) {
 		String result = null;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 
@@ -32,27 +31,28 @@ public class HttpServiceUtils {
 			CookieStore cookieStore = new BasicCookieStore();
 			context.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 			HttpHost targetHost = new HttpHost(host, port, protocol);
-			HttpGet request = new HttpGet(protocol);
-			request.addHeader("Authorization", "Basic " + getEncodedCredentials());
+			HttpGet request = new HttpGet(pinfo);
+			if (user != null && password != null) {
+				request.addHeader("Authorization", "Basic " + getEncodedCredentials(user, password));
+			}
 			request.addHeader("Accept", "text/html,application/xml,*/*");
 
-			// System.out.println("Executing request " + request + " to " +
-			// targetHost);
+			 System.out.println("Executing request " + request + " to " + targetHost);
 
 			CloseableHttpResponse response = null;
 			int responseStatusCode = 0;
 			try {
 				response = httpclient.execute(targetHost, request, context);
 			} catch (IOException e) {
-				// System.out.println("Cannot connect to " + targetHost);
+				 System.out.println("Cannot connect to " + targetHost);
 				responseStatusCode = 1;
 			} finally {
 				if (responseStatusCode == 1) {
 					result = "Failed";
 				} else {
 					responseStatusCode = response.getStatusLine().getStatusCode();
-					// System.out.println("GET Response Status:: " +
-					// responseStatusCode);
+					 System.out.println("GET Response Status:: " +
+					 responseStatusCode);
 					if (responseStatusCode == 259 || responseStatusCode == 200) {
 
 						BufferedReader br = new BufferedReader(
@@ -63,7 +63,7 @@ public class HttpServiceUtils {
 							sb.append(inputLine);
 						}
 						result = sb.toString();
-						// System.out.println("Response: " + result);
+						 System.out.println("Response: " + result);
 					} else {
 						result = "Failed";
 					}
@@ -84,13 +84,13 @@ public class HttpServiceUtils {
 				e.printStackTrace();
 			}
 		}
-		// System.out.println("Response: " + result);
+		 System.out.println("Response: " + result);
 		return result;
 	}
 
-	private static String getEncodedCredentials() {
+	private static String getEncodedCredentials(String user, String password) {		
 		String encodedPwd = new String(
-				Base64.encodeBase64(service.getUser().concat(":").concat(service.getPassword()).getBytes()),
+				Base64.encodeBase64(user.concat(":").concat(password).getBytes()),
 				StandardCharsets.UTF_8);
 		return encodedPwd;
 	}
