@@ -1,7 +1,12 @@
+import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.documentum.com.DfClientX;
+import com.documentum.fc.client.IDfSession;
+import com.documentum.fc.client.IDfSessionManager;
+import com.documentum.fc.common.DfLoginInfo;
 import com.emc.monitor.jobs.XcpMonitor;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
@@ -31,17 +36,19 @@ public class Tester {
 //			
 //		}		
 		
-//		DbProperties dbp = new DbProperties();
-//		System.out.println(dbp.getDatabase());
-//		System.out.println(dbp.getJdbcUrl());
-//		System.out.println(dbp.getPwd());
-//		System.out.println(dbp.getUser());
-//		System.out.println(dbp.getDriverClass());
-//		
-//		DatabaseUtil dut = new DatabaseUtil();
-//		System.out.println(dut.conn);
-//		System.out.println(dut.executeSelect("select * from mntr_env_status"));
-//		dut.closeConnection();
+		DbProperties dbp = new DbProperties();
+		System.out.println(dbp.getDatabase());
+		System.out.println(dbp.getJdbcUrl());
+		System.out.println(dbp.getPwd());
+		System.out.println(dbp.getUser());
+		System.out.println(dbp.getDriverClass());
+		
+		DatabaseUtil dut = new DatabaseUtil();
+		System.out.println(dut.conn);
+		ResultSet rs = dut.executeSelect("select * from mntr_env_status");
+		while(rs.next()) {
+			System.out.println("OK");
+		}
 		
 		
 //		XcpMonitor xm = new XcpMonitor();
@@ -59,6 +66,13 @@ public class Tester {
 //		}
 //		System.out.println(ver);
 //		
+		
+//		IDfSessionManager sessionManager = (new DfClientX()).getLocalClient().newSessionManager();
+//        sessionManager.setIdentity("dctm72", new DfLoginInfo("dmadmin","dctm"));
+//        IDfSession session = sessionManager.getSession("dctm72");
+//        System.out.println(session.getDocbaseName());
+//        session.get
+		
 	}
 
 }

@@ -23,5 +23,12 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/monitor/dfc.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/log4j.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/certjFIPS.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/jsafeFIPS.jar"/>
+	<classpathentry kind="lib" path="D:/monitor/dfc"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
