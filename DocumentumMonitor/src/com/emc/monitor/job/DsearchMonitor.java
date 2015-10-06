@@ -7,54 +7,38 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.emc.documentum.core.fulltext.client.admin.api.FtAdminFactory;
-import com.emc.documentum.core.fulltext.client.admin.api.IFtAdminService;
-import com.emc.documentum.core.fulltext.common.admin.DSearchAdminException;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
-public class XploreMonitor {
+public class DsearchMonitor {
 
-	private final String USER_AGENT = "Mozilla/5.0";
+	private static final String DSEARCH_INFO = "/dsearch";	
 	private DocumentumService ds;
 
 	//public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 	public void execute() {
 		Set<DocumentumService> sds;
-
 		String result = null;
-
-		sds = DocumentumService.getServicesByType("xplore");
-
+		sds = DocumentumService.getServicesByType("dsearch");
 		Iterator it = sds.iterator();
 		int i = 0;
 		String url;
 		while (it.hasNext()) {
 			ds = (DocumentumService) it.next();
-
 			try {
-				result = getStatus();			
-				
+				result = getStatus();				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			if (isRunning(result)) {
-				ds.update(true, result);
+				ds.updateStatus(true, result);
 			} else {
-				ds.update(false, result);
+				ds.updateStatus(false, result);
 			}
 		}
 	}
 
-	private void getDssStatus() throws DSearchAdminException {
-		IFtAdminService adminService = FtAdminFactory.getAdminService(ds.getHost(), ds.getPort(), ds.getPassword());
-		String ver = adminService.getVersion();
-		System.out.println(ver);
-	}
-
 	private boolean isRunning(String result) {
-
 		if (result == "Failed") {
 			return false;
 		} else {
@@ -63,13 +47,11 @@ public class XploreMonitor {
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds);
-
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", DSEARCH_INFO);
 		String version;
-
 		if (response != "Failed") {
 			//System.out.println(response);
-			version = response.replaceAll("[^0-9&&[^\\.]]", "");
+			version = response.replaceAll("[^0-9&&[^\\.]]", "");			
 			//System.out.println(version);
 		} else {
 			version = "Failed";

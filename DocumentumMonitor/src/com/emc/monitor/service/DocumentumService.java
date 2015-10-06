@@ -189,7 +189,7 @@ public class DocumentumService {
 		return sds;
 	}
 
-	public void update(boolean b, String result) {
+	public void updateStatus(boolean b, String result) {
 		int r;
 		Locale currentLocale = Locale.getDefault();
 		Date now = new Date();

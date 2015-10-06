@@ -115,7 +115,8 @@ public class NewService extends HttpServlet {
 		sb.append("<td>" + "<input type='password' name='password' form='prefs' value=''></td>");
 		sb.append("<td>" + "<input type='email' name='address' form='prefs' value=''></td>");
 		sb.append("<td>" + "<select name='type' form='prefs'>" 
-				+ "<option value='xplore'>xPlore</option>"
+				+ "<option value='dsearch'>Dsearch</option>"
+				+ "<option value='indexagent'>IndexAgent</option>"
 				+ "<option value='xcp'>xCP Application</option>" 
 				+ "<option value='cs'>Content Server</option>"
 				+ "<option value='cts'>CTS</option>" 

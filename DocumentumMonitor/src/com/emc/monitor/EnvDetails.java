@@ -2,11 +2,8 @@ package com.emc.monitor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Set;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.emc.monitor.job.XploreMonitor;
 import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.MonitorUtils;
 import com.emc.monitor.utils.DatabaseUtil;
 
 /**
@@ -119,8 +113,7 @@ public class EnvDetails extends HttpServlet {
 		if (sds != null) {
 			Iterator it = sds.iterator();
 			int i = 0;
-			String url;
-			
+			String url;			
 			while (it.hasNext()) {
 				ds = (DocumentumService) it.next();
 				sb.append("<tr>");

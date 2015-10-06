@@ -20,61 +20,50 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import com.emc.monitor.service.DocumentumService;
 
 public class HttpServiceUtils {
-	private static DocumentumService service; 
-	
-	public static String sendRequest(DocumentumService ds) {
+
+	private static DocumentumService service;
+
+	public static String sendRequest(String host, int port, String protocol, String pinfo) {
 		String result = null;
-		service = ds;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 
 		try {
-
 			HttpClientContext context = HttpClientContext.create();
-
 			CookieStore cookieStore = new BasicCookieStore();
-
 			context.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
-
-			HttpHost targetHost = new HttpHost(ds.getHost(), ds.getPort(), "http");
-			HttpGet request = null;
-			
-			switch(service.getType()) {
-			case "xplore": request = new HttpGet("/dsearch");
-				break;
-			case "xcp": request = new HttpGet("/".concat(ds.getName()).concat("/products/xcp_product_info"));
-				break;
-			}
-			
-			//String pwd = getEncodedCredentials();
-			//System.out.println(pwd);
+			HttpHost targetHost = new HttpHost(host, port, protocol);
+			HttpGet request = new HttpGet(protocol);
 			request.addHeader("Authorization", "Basic " + getEncodedCredentials());
 			request.addHeader("Accept", "text/html,application/xml,*/*");
 
-			//System.out.println("Executing request " + request + " to " + targetHost);
+			// System.out.println("Executing request " + request + " to " +
+			// targetHost);
+
 			CloseableHttpResponse response = null;
 			int responseStatusCode = 0;
 			try {
 				response = httpclient.execute(targetHost, request, context);
 			} catch (IOException e) {
-				//System.out.println("Cannot connect to " + targetHost);
+				// System.out.println("Cannot connect to " + targetHost);
 				responseStatusCode = 1;
 			} finally {
 				if (responseStatusCode == 1) {
 					result = "Failed";
 				} else {
 					responseStatusCode = response.getStatusLine().getStatusCode();
-					//System.out.println("GET Response Status:: " + responseStatusCode);
-
+					// System.out.println("GET Response Status:: " +
+					// responseStatusCode);
 					if (responseStatusCode == 259 || responseStatusCode == 200) {
 
-						BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(response.getEntity().getContent()));
 						String inputLine;
 						StringBuffer sb = new StringBuffer();
 						while ((inputLine = br.readLine()) != null) {
 							sb.append(inputLine);
 						}
 						result = sb.toString();
-						//System.out.println("Response: " + result);
+						// System.out.println("Response: " + result);
 					} else {
 						result = "Failed";
 					}
@@ -95,7 +84,7 @@ public class HttpServiceUtils {
 				e.printStackTrace();
 			}
 		}
-		//System.out.println("Response: " + result);
+		// System.out.println("Response: " + result);
 		return result;
 	}
 
@@ -105,5 +94,4 @@ public class HttpServiceUtils {
 				StandardCharsets.UTF_8);
 		return encodedPwd;
 	}
-	
 }

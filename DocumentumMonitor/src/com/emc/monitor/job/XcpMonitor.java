@@ -23,14 +23,12 @@ import com.emc.monitor.utils.HttpServiceUtils;
 public class XcpMonitor implements Job {
 
 	private DocumentumService ds;
+	private static final String XCP_INFO = "/products/xcp_product_info";
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		Set<DocumentumService> sds;
-
 		String result = null;
-
 		sds = DocumentumService.getServicesByType("xcp");
-
 		Iterator it = sds.iterator();
 		int i = 0;
 		String url;
@@ -43,17 +41,15 @@ public class XcpMonitor implements Job {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			 if (isRunning(result)) {
-			 ds.update(true, result);
-			 } else {
-			 ds.update(false, result);
-			 }
+			if (isRunning(result)) {
+				ds.updateStatus(true, result);
+			} else {
+				ds.updateStatus(false, result);
+			}
 		}
 	}
 
 	private boolean isRunning(String result) {
-
 		if (result == "Failed") {
 			return false;
 		} else {
@@ -62,19 +58,16 @@ public class XcpMonitor implements Job {
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds);
-		
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", XCP_INFO);
 		if (response != "Failed") {
-			response = readResponse(response);			
-		} 
+			response = readResponse(response);
+		}
 		System.out.println("Response: " + response);
 		return response;
 	}
 
 	private String readResponse(String response) {
-
 		String version = null;
-
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -89,8 +82,6 @@ public class XcpMonitor implements Job {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-
 		return version.toString();
-
 	}
 }
