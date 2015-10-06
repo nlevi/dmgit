@@ -45,17 +45,17 @@
 <!--             </cron> -->
 <!--         </trigger> -->
 <!--     </schedule> -->
-	<schedule>        
-        <job>
-            <name>CTSMonitor</name>
-            <job-class>com.emc.monitor.jobs.CTSMonitor</job-class>
-        </job>        
-        <trigger>
-            <cron>
-                <name>CTSMonitor</name>
-                <job-name>CTSMonitor</job-name>
-                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
-            </cron>
-        </trigger>
-    </schedule>
+	<schedule>
+		<job>
+			<name>CtsMonitor</name>
+			<job-class>com.emc.monitor.jobs.CtsMonitor</job-class>
+		</job>
+		<trigger>
+			<cron>
+				<name>CtsMonitor</name>
+				<job-name>CtsMonitor</job-name>
+				<cron-expression>0/20 * * 1/1 * ? *</cron-expression>
+			</cron>
+		</trigger>
+	</schedule>
 </job-scheduling-data>

@@ -18,7 +18,7 @@ import com.documentum.fc.common.DfLoginInfo;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
-public class CTSMonitor implements Job{
+public class CtsMonitor implements Job{
 
 	private static final String CTS_MONITOR = "/cts/monitor";	
 	private DocumentumService ds;
@@ -59,8 +59,8 @@ public class CTSMonitor implements Job{
         
         query.setDQL(queryString.toString());
         
-		IDfSessionManager sessionManager;
-		IDfSession session;
+		IDfSessionManager sessionManager = null;
+		IDfSession session = null;
 		try {
 			sessionManager = (new DfClientX()).getLocalClient().newSessionManager();
 			sessionManager.setIdentity(ds.getDocbase(), new DfLoginInfo(ds.getUser(),ds.getPassword()));
@@ -73,7 +73,9 @@ public class CTSMonitor implements Job{
 			}
 		} catch (DfException e) {
 			e.printStackTrace();
-		}		
+		} finally {
+			sessionManager.release(session);
+		}
 		
 		return version;
 	}
