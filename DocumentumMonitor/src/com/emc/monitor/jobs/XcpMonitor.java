@@ -1,4 +1,4 @@
-package com.emc.monitor.job;
+package com.emc.monitor.jobs;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

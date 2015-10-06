@@ -9,7 +9,7 @@
 	<schedule>
 		<job>
 			<name>DsearchMonitor</name>
-			<job-class>com.emc.monitor.job.DsearchMonitor</job-class>
+			<job-class>com.emc.monitor.jobs.DsearchMonitor</job-class>
 		</job>
 		<trigger>
 			<cron>
@@ -22,7 +22,7 @@
 	<schedule>
 		<job>
 			<name>IndexMonitor</name>
-			<job-class>com.emc.monitor.job.IndexMonitor</job-class>
+			<job-class>com.emc.monitor.jobs.IndexMonitor</job-class>
 		</job>
 		<trigger>
 			<cron>
@@ -35,7 +35,7 @@
 	<schedule>        
         <job>
             <name>XcpMonitor</name>
-            <job-class>com.emc.monitor.job.XcpMonitor</job-class>
+            <job-class>com.emc.monitor.jobs.XcpMonitor</job-class>
         </job>        
         <trigger>
             <cron>

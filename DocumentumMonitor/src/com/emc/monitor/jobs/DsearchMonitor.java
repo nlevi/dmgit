@@ -1,4 +1,4 @@
-package com.emc.monitor.job;
+package com.emc.monitor.jobs;
 
 import java.util.Iterator;
 import java.util.Set;

@@ -2,7 +2,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.emc.monitor.job.XcpMonitor;
+import com.emc.monitor.jobs.XcpMonitor;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 import com.emc.monitor.utils.DbProperties;
