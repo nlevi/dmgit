@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.emc.monitor.utils.DatabaseUtil;
+import com.emc.monitor.utils.DocbaseSessionUtils;
 
 public class DocumentumService {
 
@@ -25,6 +26,8 @@ public class DocumentumService {
 	private String version;
 	private String status;
 	private int service_id;
+	private DatabaseUtil dbutils = new DatabaseUtil();
+	protected static DocumentumService instance;
 
 	public DocumentumService() {
 	}
@@ -41,6 +44,14 @@ public class DocumentumService {
 		this.port = port;
 		this.type = type;
 		this.name = name;
+	}
+	
+	public static DocumentumService getInstance() {
+		if(instance == null) {
+			instance = new DocumentumService();
+		}
+		
+		return instance;
 	}
 
 	public String getHost() {
@@ -127,9 +138,9 @@ public class DocumentumService {
 		this.status = status;
 	}
 
-	public static Set<DocumentumService> getServicesByType(String type) {
+	public Set<DocumentumService> getServicesByType(String type) {
 
-		ResultSet rs = DatabaseUtil.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
+		ResultSet rs = dbutils.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
 				+ "service_user, service_host, service_port, service_type," + "service_name FROM mntr_env_details "
 				+ "WHERE service_type = '" + type + "'");
 
@@ -159,8 +170,8 @@ public class DocumentumService {
 		return sds;
 	}
 
-	public static Set<DocumentumService> getServices() {
-		ResultSet rs = DatabaseUtil.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
+	public Set<DocumentumService> getServices() {
+		ResultSet rs = dbutils.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
 				+ "service_user, service_host, service_port, service_type, service_name FROM mntr_env_details ORDER by service_id ASC");
 
 		Set<DocumentumService> sds;
@@ -199,23 +210,23 @@ public class DocumentumService {
 		System.out.println(currentDateTime);
 		if (b) {
 
-			r = DatabaseUtil.executeInsert("UPDATE mntr_env_status SET service_status = 'Running', service_version = '"
+			r = dbutils.executeInsert("UPDATE mntr_env_status SET service_status = 'Running', service_version = '"
 					+ result + "', " + "last_update = '" + d.format(now) + "' WHERE service_id = " + service_id);
 
 			if (r < 1) {
-				r = DatabaseUtil.executeInsert(
+				r = dbutils.executeInsert(
 						"INSERT INTO mntr_env_status (service_id, service_name, service_status, service_version, last_update)"
 								+ " VALUES (" + service_id + ", '" + name + "', 'Running', '" + result + "', '"
 								+ d.format(now) + "')");
 			}
 
 		} else {
-			r = DatabaseUtil.executeInsert(
+			r = dbutils.executeInsert(
 					"UPDATE mntr_env_status SET service_status = '" + result + "', " + "last_update = '" + d.format(now)
 							+ "', service_version = 'Not Available' WHERE service_id = " + service_id);
 
 			if (r < 1) {
-				r = DatabaseUtil.executeInsert(
+				r = dbutils.executeInsert(
 						"INSERT INTO mntr_env_status (service_id, service_name, service_status,service_version , last_update)"
 								+ " VALUES (" + service_id + ", '" + name + "', '" + result + "', 'Not Available', '"
 								+ d.format(now) + "')");
@@ -228,7 +239,7 @@ public class DocumentumService {
 		int n;		
 
 		if (service_id != 0) {
-			n = DatabaseUtil.executeInsert("UPDATE mntr_env_details SET name = '" + name + "', host = '" + host
+			n = dbutils.executeInsert("UPDATE mntr_env_details SET name = '" + name + "', host = '" + host
 					+ "', port = " + port + ", docbase = '" + docbase + "WHERE service_id = " + service_id);
 		} else {		
 			
@@ -236,7 +247,7 @@ public class DocumentumService {
 					+ " VALUES (NEXT VALUE FOR service_id, '" + address + "', '" + docbase + "', '" + password + "', '"
 					+ user + "', " + port + ", '" + host + "', '" + type + "', '" + name + "')");
 			
-			n = DatabaseUtil.executeInsert(
+			n = dbutils.executeInsert(
 					"INSERT INTO mntr_env_details (service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name)"
 							+ " VALUES (NEXT VALUE FOR service_id, '" + address + "', '" + docbase + "', '" + password + "', '"
 							+ user + "', " + port + ", '" + host + "', '" + type + "', '" + name + "')");

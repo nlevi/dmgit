@@ -28,7 +28,7 @@ public class Tester {
 		
 		DatabaseUtil du = new DatabaseUtil();
 		
-		sds = DocumentumService.getServicesByType("cs");
+		sds = DocumentumService.getInstance().getServicesByType("cs");
 		
 		Iterator it = sds.iterator();
 		int i = 0;

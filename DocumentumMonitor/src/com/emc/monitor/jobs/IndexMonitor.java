@@ -19,7 +19,7 @@ public class IndexMonitor implements Job{
 	//public void execute() {
 		Set<DocumentumService> sds;
 		String result = null;
-		sds = DocumentumService.getServicesByType("indexagent");
+		sds = DocumentumService.getInstance().getServicesByType("indexagent");
 		Iterator it = sds.iterator();
 		int i = 0;
 		String url;

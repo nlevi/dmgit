@@ -29,7 +29,7 @@ public class DatabaseUtil {
 		setConnection();
 	}
     
-    public static void setConnection() {
+    public void setConnection() {
         try {        	
         	Class.forName(driverclass);
             conn = DriverManager.getConnection(dburl, user, password);
@@ -39,7 +39,7 @@ public class DatabaseUtil {
 
     }
     
-    public static ResultSet executeSelect(String sql) {
+    public ResultSet executeSelect(String sql) {
 		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -57,7 +57,7 @@ public class DatabaseUtil {
     	
     }
 
-	public static int executeInsert(String sql) {
+	public int executeInsert(String sql) {
 		
 		int r = 0;
 		try {
@@ -77,7 +77,7 @@ public class DatabaseUtil {
 		
 	}
 	
-	public static void closeConnection() {
+	public void closeConnection() {
         try {
             stmt.close();
             conn.close();

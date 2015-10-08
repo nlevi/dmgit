@@ -28,7 +28,7 @@ public class CtsMonitor implements Job {
 		// public void execute() {
 		Set<DocumentumService> sds;
 		String result = null;
-		sds = DocumentumService.getServicesByType("cts");
+		sds = DocumentumService.getInstance().getServicesByType("cts");
 		Iterator it = sds.iterator();
 		int i = 0;
 		String url;

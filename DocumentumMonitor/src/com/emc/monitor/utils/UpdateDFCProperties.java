@@ -51,7 +51,7 @@ public class UpdateDFCProperties {
 		File dfcprops = new File(dfcpropertiespath);
 		if (!dfcprops.exists()) {
 			DatabaseUtil du = new DatabaseUtil();
-			Set<DocumentumService> sds = DocumentumService.getServicesByType("cs");
+			Set<DocumentumService> sds = DocumentumService.getInstance().getServicesByType("cs");
 			DocumentumService tempds;
 			Iterator it = sds.iterator();
 			int i = 0;

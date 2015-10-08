@@ -19,7 +19,7 @@ public class DsearchMonitor implements Job{
 	//public void execute() {
 		Set<DocumentumService> sds;
 		String result = null;
-		sds = DocumentumService.getServicesByType("dsearch");
+		sds = DocumentumService.getInstance().getServicesByType("dsearch");
 		Iterator it = sds.iterator();
 		int i = 0;
 		String url;

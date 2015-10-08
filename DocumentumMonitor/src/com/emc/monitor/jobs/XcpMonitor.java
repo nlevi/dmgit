@@ -28,7 +28,7 @@ public class XcpMonitor implements Job {
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		Set<DocumentumService> sds;
 		String result = null;
-		sds = DocumentumService.getServicesByType("xcp");
+		sds = DocumentumService.getInstance().getServicesByType("xcp");
 		Iterator it = sds.iterator();
 		int i = 0;
 		String url;

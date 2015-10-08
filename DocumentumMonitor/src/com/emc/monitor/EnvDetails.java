@@ -108,7 +108,7 @@ public class EnvDetails extends HttpServlet {
 		sb.append("<th>Type</th>");
 		sb.append("<tr>");
 
-		Set<DocumentumService> sds = DocumentumService.getServices();
+		Set<DocumentumService> sds = DocumentumService.getInstance().getServices();
 
 		if (sds != null) {
 			Iterator it = sds.iterator();
