@@ -32,30 +32,18 @@
 <!-- 			</cron> -->
 <!-- 		</trigger> -->
 <!-- 	</schedule> -->
-<!-- 	<schedule>         -->
-<!--         <job> -->
-<!--             <name>XcpMonitor</name> -->
-<!--             <job-class>com.emc.monitor.jobs.XcpMonitor</job-class> -->
-<!--         </job>         -->
-<!--         <trigger> -->
-<!--             <cron> -->
-<!--                 <name>XcpMonitor</name> -->
-<!--                 <job-name>XcpMonitor</job-name> -->
-<!--                 <cron-expression>0/10 * * 1/1 * ? *</cron-expression> -->
-<!--             </cron> -->
-<!--         </trigger> -->
-<!--     </schedule> -->
-	<schedule>
-		<job>
-			<name>CtsMonitor</name>
-			<job-class>com.emc.monitor.jobs.CtsMonitor</job-class>
-		</job>
-		<trigger>
-			<cron>
-				<name>CtsMonitor</name>
-				<job-name>CtsMonitor</job-name>
-				<cron-expression>0/20 * * 1/1 * ? *</cron-expression>
-			</cron>
-		</trigger>
-	</schedule>
+	<schedule>        
+        <job>
+            <name>XcpMonitor</name>
+            <job-class>com.emc.monitor.jobs.CtsMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>XcpMonitor</name>
+                <job-name>XcpMonitor</job-name>
+                <cron-expression>0/10 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+
 </job-scheduling-data>

@@ -1,0 +1,27 @@
+log4j.rootLogger=INFO, stdout
+log4j.logger.org.quartz=DEBUG
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n
+
+# Set root logger level to debug and its only appender to default.
+log4j.rootLogger=INFO, default, fileAppender
+# default is set to be a ConsoleAppender.
+log4j.appender.default=org.apache.log4j.ConsoleAppender
+# default uses PatternLayout.
+log4j.appender.default.layout=org.apache.log4j.PatternLayout
+# [Timestamp] [Trace Level] [T<ID>] [Class name] Message
+# [      %d ] [        %p ] [  %t ] [ %C       ] %m%n      
+log4j.appender.default.layout.ConversionPattern=%d{HH:mm:ss.SSS} %5p [%C{1}:%L] %m%n
+
+log4j.logger.org.quartz.plugins.history.LoggingJobHistoryPlugin=INFO
+log4j.logger.org.quartz.plugins.history.LoggingTriggerHistoryPlugin=INFO
+log4j.logger.org.quartz.ee.servlet.QuartzInitializerListener=INFO
+
+#------------------- App builder log --------------------------
+log4j.appender.fileAppender=org.apache.log4j.RollingFileAppender
+log4j.appender.fileAppender.File=d:\monitor\dfc\quartz.log
+log4j.appender.fileAppender.MaxFileSize=2MB
+log4j.appender.fileAppender.MaxBackupIndex=2
+log4j.appender.fileAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.fileAppender.layout.ConversionPattern=%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %5p [T%t] [%C:%L] %m%n

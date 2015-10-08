@@ -16,15 +16,16 @@ import com.documentum.fc.client.IDfSessionManager;
 import com.documentum.fc.common.DfException;
 import com.documentum.fc.common.DfLoginInfo;
 import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.DocbaseSessionUtils;
 import com.emc.monitor.utils.HttpServiceUtils;
 
-public class CtsMonitor implements Job{
+public class CtsMonitor implements Job {
 
-	private static final String CTS_MONITOR = "/cts/monitor";	
+	private static final String CTS_MONITOR = "/cts/monitor";
 	private DocumentumService ds;
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-	//public void execute() {
+		// public void execute() {
 		Set<DocumentumService> sds;
 		String result = null;
 		sds = DocumentumService.getServicesByType("cts");
@@ -34,7 +35,7 @@ public class CtsMonitor implements Job{
 		while (it.hasNext()) {
 			ds = (DocumentumService) it.next();
 			try {
-				result = getStatus();				
+				result = getStatus();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -52,31 +53,31 @@ public class CtsMonitor implements Job{
 		IDfCollection col;
 		IDfQuery query = new DfQuery();
 		StringBuilder queryString = new StringBuilder();
-		queryString.append("select r_object_id, hostname, status, websrv_url, inst_type, product, product_version");
-        queryString.append(" where any product is not null and ");
-        queryString.append(" hostname = '" + ds.getHost() + "' ");
-        queryString.append(" order by r_object_id");
-        
-        query.setDQL(queryString.toString());
-        
-		IDfSessionManager sessionManager = null;
+		queryString.append("select r_object_id, hostname, status, websrv_url, inst_type, product, product_version, cts_version from cts_instance_info");
+		queryString.append(" where any product is not null and");
+		queryString.append(" hostname = '" + ds.getHost() + "' ");
+		queryString.append(" order by r_object_id");
+		System.out.println(queryString);
+		query.setDQL(queryString.toString());
+		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
 		IDfSession session = null;
+
 		try {
-			sessionManager = (new DfClientX()).getLocalClient().newSessionManager();
-			sessionManager.setIdentity(ds.getDocbase(), new DfLoginInfo(ds.getUser(),ds.getPassword()));
-			session = sessionManager.getSession("dctm72");
-			
+			session = dsu.getDocbaseSession(ds.getDocbase(), ds.getUser(), ds.getPassword());
 			col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
-			
-			while(col.next()) {
+			while (col.next()) {
 				version = col.getString("cts_version");
+				System.out.println(version);
 			}
 		} catch (DfException e) {
 			e.printStackTrace();
 		} finally {
-			sessionManager.release(session);
+			try {
+				dsu.releaseSession(session);
+			} catch (DfException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return version;
 	}
 
@@ -89,7 +90,7 @@ public class CtsMonitor implements Job{
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", CTS_MONITOR, null, null);		
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", CTS_MONITOR, null, null);
 		return response;
 	}
 }

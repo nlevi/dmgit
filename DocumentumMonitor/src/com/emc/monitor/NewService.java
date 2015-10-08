@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.documentum.fc.common.DfException;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
+import com.emc.monitor.utils.UpdateDFCProperties;
 
 /**
  * Servlet implementation class NewService
@@ -88,6 +90,14 @@ public class NewService extends HttpServlet {
 		ds.setType(request.getParameter("type"));
 		ds.setName(request.getParameter("name"));
 		ds.save();
+		
+		if(request.getParameter("type") == "cs") {
+			try {
+				UpdateDFCProperties.update(request.getParameter("host"), Integer.parseInt(request.getParameter("port")));
+			} catch (NumberFormatException | DfException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		response.sendRedirect("EnvDetails");
 	}

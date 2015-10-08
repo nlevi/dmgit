@@ -1,0 +1,188 @@
+2015-10-07T13:10:04.353  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T13:10:04.362  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_skwLr0223nriGV4vzLYMhQRlt88a
+2015-10-07T13:10:04.363  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_skwLr0223nriGV4vzLYMhQRlt88a
+2015-10-07T13:10:04.366  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T13:10:04.385  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T13:10:10.335  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T13:10:10.654  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_skwLr0223nriGV4vzLYMhQRlt88a	1444212610	RUCSLEVIN1L1C.corp.emc.com		fhhxAYTtaBUcmDerRhPRj1UDOrlU5jHOPK0Pn38o0WhXZnBiNiVYgwi/VheneigcTIi0E5zLJ8ymXggO7Eu3NqL+t8GEyrwPVL9KcwgbnMIkdw4SmHkK9JRYrvF9PYEe5xSX9IvPbivin9Xu5TUSLK7Ee+oEMc6sQ8mfsHg6thY=>
+2015-10-07T13:10:12.089  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T13:10:19.924  INFO [Tmain] [com.documentum.fc.client.security.impl.DfcIdentityPublisher:476] found client registration: true
+2015-10-07T13:10:26.641  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T13:51:24.269  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T13:51:24.278  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_skwLr0223nriGV4vzLYMhQRlt88a
+2015-10-07T13:51:24.279  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_skwLr0223nriGV4vzLYMhQRlt88a
+2015-10-07T13:51:24.281  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T13:51:24.572  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T13:51:30.469  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T13:51:30.789  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_skwLr0223nriGV4vzLYMhQRlt88a	1444215090	RUCSLEVIN1L1C.corp.emc.com		j3+gjsI6DQ58onWx6Duk/XCS7aePBJ9G5gtQLfKhv9Kx7MLEEhjUt7Rdz8oPTzUwHmTYJnlR0JaDXQdHPvlXFf9CXuoTubWnS+6sAEGFXdV6jX066njScOKOG8O+NdUDpDi4YrxOaySXm/kzvppdLoA13vfg6H1o25tlXfe1ppk=>
+2015-10-07T13:51:32.123  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T13:51:37.164  INFO [Tmain] [com.documentum.fc.client.security.impl.DfcIdentityPublisher:476] found client registration: true
+2015-10-07T13:51:41.108  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T16:19:49.096  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T16:19:49.105  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_skwLr0223nriGV4vzLYMhQRlt88a
+2015-10-07T16:19:49.106  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_skwLr0223nriGV4vzLYMhQRlt88a
+2015-10-07T16:19:49.109  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T16:19:49.350  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T16:19:55.260  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T16:19:55.567  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_skwLr0223nriGV4vzLYMhQRlt88a	1444223995	RUCSLEVIN1L1C.corp.emc.com		L6vZBrMui1bNbs+scCATnupek8l2s8p5URrm1gtAm31SQaQ/6DZXDnk3r9ElaVOtIwGRL300uW4VC7ifQ53Ds7TYzpIr7f42b0wwHK/3Y0RmqATpUcDXTayY/j7/qRoHeqdqyWwxgrGpgWIjhPl5O7W70Z9i4sWD8pdVihZSTvo=>
+2015-10-07T16:19:56.917  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T16:20:02.300  INFO [Tmain] [com.documentum.fc.client.security.impl.DfcIdentityPublisher:476] found client registration: true
+2015-10-07T16:20:05.971  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T16:21:54.606 ERROR [Tmain] [com.documentum.fc.common.impl.preferences.PreferencesManager:351] [DFC_PREFERENCE_LOAD_FAILED] Failed to load persistent preferences from null
+java.io.FileNotFoundException: dfc.properties
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.locateMainPersistentStore(PreferencesManager.java:378)
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.readPersistentProperties(PreferencesManager.java:329)
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.<init>(PreferencesManager.java:37)
+	at com.documentum.fc.common.DfPreferences.initialize(DfPreferences.java:64)
+	at com.documentum.fc.common.DfPreferences.getInstance(DfPreferences.java:43)
+	at com.documentum.fc.client.DfSimpleDbor.getDefaultDbor(DfSimpleDbor.java:78)
+	at com.documentum.fc.client.DfSimpleDbor.<init>(DfSimpleDbor.java:66)
+	at com.documentum.fc.client.DfClient$ClientImpl.<init>(DfClient.java:350)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:766)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:21:55.484  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\dfc.keystore
+2015-10-07T16:21:55.492  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_WgCaRFEAKBPR00ii57Pqc6bVoboa
+2015-10-07T16:21:55.493  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_WgCaRFEAKBPR00ii57Pqc6bVoboa
+2015-10-07T16:21:55.496  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T16:21:55.749  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T16:21:55.757  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:23:11.799 ERROR [Tmain] [com.documentum.fc.common.impl.preferences.PreferencesManager:351] [DFC_PREFERENCE_LOAD_FAILED] Failed to load persistent preferences from null
+java.io.FileNotFoundException: dfc.properties
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.locateMainPersistentStore(PreferencesManager.java:378)
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.readPersistentProperties(PreferencesManager.java:329)
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.<init>(PreferencesManager.java:37)
+	at com.documentum.fc.common.DfPreferences.initialize(DfPreferences.java:64)
+	at com.documentum.fc.common.DfPreferences.getInstance(DfPreferences.java:43)
+	at com.documentum.fc.client.DfSimpleDbor.getDefaultDbor(DfSimpleDbor.java:78)
+	at com.documentum.fc.client.DfSimpleDbor.<init>(DfSimpleDbor.java:66)
+	at com.documentum.fc.client.DfClient$ClientImpl.<init>(DfClient.java:350)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:766)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:23:12.601  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\dfc.keystore
+2015-10-07T16:23:12.608  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_WgCaRFEAKBPR00ii57Pqc6bVoboa
+2015-10-07T16:23:12.610  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_WgCaRFEAKBPR00ii57Pqc6bVoboa
+2015-10-07T16:23:12.613  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T16:23:12.866  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T16:23:12.873  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:24:08.968  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T16:24:09.326  INFO [Tmain] [com.documentum.fc.client.security.internal.CreateIdentityCredential$MultiFormatPKIKeyPair:711] generated RSA (1,024-bit strength) mutiformat key pair in 97 ms
+2015-10-07T16:24:09.350  INFO [Tmain] [com.documentum.fc.client.security.internal.CreateIdentityCredential:347] certificate created for DFC <CN=dfc_dgNgsQZy6udJNf2gXG71WZW66m8a,O=EMC,OU=Documentum> valid from Wed Oct 07 16:19:08 EAT 2015 to Sat Oct 04 16:24:08 EAT 2025:
+
+2015-10-07T16:24:09.352  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T16:24:09.363  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:77] [DFC_SECURITY_IDENTITY_INITIALIZED] Initialized new identity in keystore, DFC alias=dfc, identity=dfc_dgNgsQZy6udJNf2gXG71WZW66m8a
+2015-10-07T16:24:09.365  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_dgNgsQZy6udJNf2gXG71WZW66m8a
+2015-10-07T16:24:09.367  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T16:24:09.616  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T16:24:09.623  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:24:15.642  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T16:24:15.972  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_dgNgsQZy6udJNf2gXG71WZW66m8a	1444224255	RUCSLEVIN1L1C.corp.emc.com		ik9X/+FMuW8enJS8eEOrmmPasuY745dhkn5nTvGW+dEygjrznZqHUS4tPKHHKWqZZxyXb1GZ7VqsgYUcIe9izrRxSNymJdO+ZLaBKoclk0VQ+atDeZPdKusGkP3miCizf1DRUNrAFJJuQuXVhuf7d281OVmbJzOaXVxftS2y7GM=>
+2015-10-07T16:25:24.404  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T16:25:24.412  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_dgNgsQZy6udJNf2gXG71WZW66m8a
+2015-10-07T16:25:24.414  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_dgNgsQZy6udJNf2gXG71WZW66m8a
+2015-10-07T16:25:24.416  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T16:25:24.661  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T16:25:24.670  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:25:30.661  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T16:25:30.972  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_dgNgsQZy6udJNf2gXG71WZW66m8a	1444224330	RUCSLEVIN1L1C.corp.emc.com		FoG8G9jCMHe3LTT1q2ZfBPD3XTxmHNKODyG4WgEsPMFZYqaCffco9HSPlCfqWdciIH43xh4hB8ceZPw+U7lLjPObTiZXk/W5p3EeXdB1Pq8LwUPjEk9FdGEZFauC0mRfbOTHrsp/ktIhE0hEu4SSX1pWHe7UBzgF4rTkCE6PRh0=>
+2015-10-07T16:48:19.851 ERROR [Tmain] [com.documentum.fc.common.impl.preferences.PreferencesManager:351] [DFC_PREFERENCE_LOAD_FAILED] Failed to load persistent preferences from null
+java.io.FileNotFoundException: dfc.properties
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.locateMainPersistentStore(PreferencesManager.java:378)
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.readPersistentProperties(PreferencesManager.java:329)
+	at com.documentum.fc.common.impl.preferences.PreferencesManager.<init>(PreferencesManager.java:37)
+	at com.documentum.fc.common.DfPreferences.initialize(DfPreferences.java:64)
+	at com.documentum.fc.common.DfPreferences.getInstance(DfPreferences.java:43)
+	at com.documentum.fc.client.DfSimpleDbor.getDefaultDbor(DfSimpleDbor.java:78)
+	at com.documentum.fc.client.DfSimpleDbor.<init>(DfSimpleDbor.java:66)
+	at com.documentum.fc.client.DfClient$ClientImpl.<init>(DfClient.java:350)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:766)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T16:48:20.660  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\dfc.keystore
+2015-10-07T16:48:20.668  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_WgCaRFEAKBPR00ii57Pqc6bVoboa
+2015-10-07T16:48:20.669  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_WgCaRFEAKBPR00ii57Pqc6bVoboa
+2015-10-07T16:48:20.672  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T16:48:20.918  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T16:48:20.926  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at com.documentum.com.DfClientX.getLocalClient(DfClientX.java:43)
+	at Tester.main(Tester.java:80)
+2015-10-07T17:18:14.591  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T17:18:14.940  INFO [Tmain] [com.documentum.fc.client.security.internal.CreateIdentityCredential$MultiFormatPKIKeyPair:711] generated RSA (1,024-bit strength) mutiformat key pair in 86 ms
+2015-10-07T17:18:14.968  INFO [Tmain] [com.documentum.fc.client.security.internal.CreateIdentityCredential:347] certificate created for DFC <CN=dfc_QsohaeYkg9Ylns9IqXXdb266DCIa,O=EMC,OU=Documentum> valid from Wed Oct 07 17:13:14 EAT 2015 to Sat Oct 04 17:18:14 EAT 2025:
+
+2015-10-07T17:18:14.969  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T17:18:14.981  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:77] [DFC_SECURITY_IDENTITY_INITIALIZED] Initialized new identity in keystore, DFC alias=dfc, identity=dfc_QsohaeYkg9Ylns9IqXXdb266DCIa
+2015-10-07T17:18:14.983  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_QsohaeYkg9Ylns9IqXXdb266DCIa
+2015-10-07T17:18:14.985  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T17:18:15.249  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T17:18:15.257  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at Tester.main(Tester.java:51)
+2015-10-07T17:18:21.385  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T17:18:21.685  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_QsohaeYkg9Ylns9IqXXdb266DCIa	1444227501	RUCSLEVIN1L1C.corp.emc.com		xaa2fmhwkwnYRxVbmW7aBF2nlJ5cJ+cc/nvvJWz/iVtjOgClzXmHDUQ0OuD5gRwFg7thAiOz0ZrjJQxHRh724BBtUJusYaLHsykFC4Tsm0Yxf7ugPDW+Gv2REgUK4IseMw81KoAVS57fex2MxznVdm78KqNmlBhNy2m+A5bVkXs=>
+2015-10-07T18:06:05.413  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T18:06:05.421  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_QsohaeYkg9Ylns9IqXXdb266DCIa
+2015-10-07T18:06:05.423  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_QsohaeYkg9Ylns9IqXXdb266DCIa
+2015-10-07T18:06:05.425  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T18:06:05.683  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T18:06:05.693  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at Tester.main(Tester.java:51)
+2015-10-07T18:06:11.830  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T18:06:12.135  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_QsohaeYkg9Ylns9IqXXdb266DCIa	1444230372	RUCSLEVIN1L1C.corp.emc.com		Sn1IdMUK+ahZrYzdBPcr/nWUXzBqsn/MlXXzrnugFujZweE4RJmmzUkF0XLCteoCaAEuEpktgrmvcLD2XjExQGMtnBXnBKBUDWQtkQgrxOiDNvSH7sQij09lf94RmzUyB+xkPu+7nKGe98bKigpKf1xsmwbeXJ3FVp5O4q36mi4=>
+2015-10-07T18:50:50.306  INFO [Tmain] [com.documentum.fc.client.security.impl.JKSKeystoreUtilForDfc:57] keystore file name is D:\monitor\dfc\dfc.keystore
+2015-10-07T18:50:50.315  INFO [Tmain] [com.documentum.fc.client.security.impl.InitializeKeystoreForDfc:71] [DFC_SECURITY_IDENTITY_LOADED] Loaded identity from keystore, DFC alias=dfc, identity=dfc_QsohaeYkg9Ylns9IqXXdb266DCIa
+2015-10-07T18:50:50.317  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:50] identity for authentication is dfc_QsohaeYkg9Ylns9IqXXdb266DCIa
+2015-10-07T18:50:50.319  INFO [Tmain] [com.documentum.fc.impl.RuntimeContext:189] DFC Version is 7.1.0180.0198
+2015-10-07T18:50:50.617  INFO [TTimer-1] [com.documentum.fc.client.impl.bof.cache.ClassCacheManager$CacheCleanupTask:624] [DFC_BOF_RUNNING_CLEANUP] Running class cache cleanup task
+2015-10-07T18:50:50.628  WARN [Tmain] [com.documentum.fc.client.security.internal.RegistrationMgr:39] [DFC_SECURITY_GR_PUBLICATION_FAILED] Publication of DFC instance with global registry failed
+DfException:: THREAD: main; MSG: [DFC_BOF_GLOBAL_REGISTRY_NOT_CONFIGURED] A global registry is not configured; ERRORCODE: ff; NEXT: null
+	at com.documentum.fc.client.security.impl.DfcIdentityPublisher.<init>(DfcIdentityPublisher.java:51)
+	at com.documentum.fc.client.security.internal.RegistrationMgr.register(RegistrationMgr.java:34)
+	at com.documentum.fc.impl.RuntimeContext.<clinit>(RuntimeContext.java:195)
+	at com.documentum.fc.client.DfClient.<clinit>(DfClient.java:772)
+	at Tester.main(Tester.java:52)
+2015-10-07T18:50:56.848  INFO [Tmain] [com.documentum.fc.client.impl.connection.docbase.DocbaseConnection:378] Object protocol version 2
+2015-10-07T18:50:57.159  INFO [Tmain] [com.documentum.fc.client.security.internal.AuthenticationMgr:448] new identity bundle <dfc_QsohaeYkg9Ylns9IqXXdb266DCIa	1444233057	RUCSLEVIN1L1C.corp.emc.com		GEq3SD/wY5y0rZYp7tixm7XcQL9PS34bEfntfBksbC04DVTU0B9TCBf91VQxv/KjkGORkkqVxw5ttcXMfeK85A+PTu9SsbjK8SZwMLF2mUVv6udIl3cQT2jfpv/NshgVaPH/cTOhltbRF/zjDlVibrNYhgv4PGkdPaYnhUmgtno=>
