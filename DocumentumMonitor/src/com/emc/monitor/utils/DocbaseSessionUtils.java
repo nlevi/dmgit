@@ -32,13 +32,17 @@ public class DocbaseSessionUtils {
 			sessionManager.setIdentity(docbase, new DfLoginInfo(username, password));
 			System.out.println("Identity after set: " + sessionManager.getIdentity(docbase));
 		}
-		
-//		sessionManager = getSessionManager();
-//		System.out.println("Identity before set: " + sessionManager.getIdentity(docbase));
-//		sessionManager.setIdentity(docbase, new DfLoginInfo(username, password));
-//		System.out.println("Identity after set: " + sessionManager.getIdentity(docbase));
+
+		// sessionManager = getSessionManager();
+		// System.out.println("Identity before set: " +
+		// sessionManager.getIdentity(docbase));
+		// sessionManager.setIdentity(docbase, new DfLoginInfo(username,
+		// password));
+		// System.out.println("Identity after set: " +
+		// sessionManager.getIdentity(docbase));
 		session = sessionManager.getSession(docbase);
-		System.out.println("Session obtained: " + session.getSessionId() + " with docbase: " + session.getDocbaseName());
+		System.out
+				.println("Session obtained: " + session.getSessionId() + " with docbase: " + session.getDocbaseName());
 		IDfSessionManagerStatistics stats = sessionManager.getStatistics();
 		System.out.println("Docbases in the session manager: " + stats.getDocbases());
 		System.out.println("Identities: " + stats.getIdentities(docbase));
@@ -52,6 +56,6 @@ public class DocbaseSessionUtils {
 
 	public void releaseSession(IDfSession session) throws DfException {
 		System.out.println("Releasing session " + session.getSessionId());
-		sessionManager.release(session);		
+		sessionManager.release(session);
 	}
 }
