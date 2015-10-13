@@ -20,11 +20,11 @@ public class IndexMonitor implements Job{
 		Set<DocumentumService> sds;
 		String result = null;
 		sds = DocumentumService.getInstance().getServicesByType("indexagent");
-		Iterator it = sds.iterator();
+		Iterator<DocumentumService> it = sds.iterator();
 		int i = 0;
 		String url;
 		while (it.hasNext()) {
-			ds = (DocumentumService) it.next();
+			ds = it.next();
 			try {
 				result = getStatus();				
 			} catch (Exception e) {

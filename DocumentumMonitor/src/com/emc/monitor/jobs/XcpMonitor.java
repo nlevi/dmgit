@@ -29,11 +29,11 @@ public class XcpMonitor implements Job {
 		Set<DocumentumService> sds;
 		String result = null;
 		sds = DocumentumService.getInstance().getServicesByType("xcp");
-		Iterator it = sds.iterator();
+		Iterator<DocumentumService> it = sds.iterator();
 		int i = 0;
 		String url;
 		while (it.hasNext()) {
-			ds = (DocumentumService) it.next();
+			ds = it.next();
 			System.out.println(ds.getType());
 
 			try {

@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.net.Socket;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.List;
@@ -22,38 +23,38 @@ import com.emc.monitor.utils.DocbaseSessionUtils;
 public class Tester {
 
 	public static void main(String[] args) throws Exception {
-		Set<DocumentumService> sds;
-		DocumentumService tempds;
-		String[] url = null;
-		
-		DatabaseUtil du = new DatabaseUtil();
-		
-		sds = DocumentumService.getInstance().getServicesByType("cs");
-		
-		Iterator it = sds.iterator();
-		int i = 0;
-		String tmp;
-		String tmpFolder = System.getProperty("java.io.tmpdir");
-		File file = new File(tmpFolder + File.separator + "dfc.properties");
-		if(file.exists()) {
-			file.delete();
-		}
-		System.out.println(tmpFolder);
-		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-		while(it.hasNext()) {
-			tempds = (DocumentumService) it.next();
-			String fileContent = createDfcPropertiesFileContent(tempds.getHost(),tempds.getPort(), i);
-			bw.write(fileContent);
-			i++;			
-		}
-		
-		bw.close();
-		
-		DocbrokerMap map = (DocbrokerMap) new DfClient().getDocbrokerMap();
-		System.out.println(map.getDocbrokerCount());
-		for (int n = 0, limit = map.getDocbrokerCount(); n < limit; n++) {
-        System.out.println("Host: " + map.getHostName(n) + " port: " + map.getPortNumber(n));
-		}
+//		Set<DocumentumService> sds;
+//		DocumentumService tempds;
+//		String[] url = null;
+//		
+//		DatabaseUtil du = new DatabaseUtil();
+//		
+//		sds = DocumentumService.getInstance().getServicesByType("cs");
+//		
+//		Iterator it = sds.iterator();
+//		int i = 0;
+//		String tmp;
+//		String tmpFolder = System.getProperty("java.io.tmpdir");
+//		File file = new File(tmpFolder + File.separator + "dfc.properties");
+//		if(file.exists()) {
+//			file.delete();
+//		}
+//		System.out.println(tmpFolder);
+//		BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+//		while(it.hasNext()) {
+//			tempds = (DocumentumService) it.next();
+//			String fileContent = createDfcPropertiesFileContent(tempds.getHost(),tempds.getPort(), i);
+//			bw.write(fileContent);
+//			i++;			
+//		}
+//		
+//		bw.close();
+//		
+//		DocbrokerMap map = (DocbrokerMap) new DfClient().getDocbrokerMap();
+//		System.out.println(map.getDocbrokerCount());
+//		for (int n = 0, limit = map.getDocbrokerCount(); n < limit; n++) {
+//        System.out.println("Host: " + map.getHostName(n) + " port: " + map.getPortNumber(n));
+//		}
 		
 //		DbProperties dbp = new DbProperties();
 //		System.out.println(dbp.getDatabase());
@@ -92,18 +93,21 @@ public class Tester {
 //        System.out.println(session.getDocbaseName());
 //        session.get
 		
-		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
-		IDfSession session = dsu.getDocbaseSession("dctm72", "dmadmin", "dctm");
-		System.out.println(session.getDocbaseId());
+//		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
+//		IDfSession session = dsu.getDocbaseSession("dctm72", "dmadmin", "dctm");
+//		System.out.println(session.getDocbaseId());
+//		
+//		
+//	}
+//	
+//	public static String createDfcPropertiesFileContent(String docbrokerHost, int docbrokerPort, int num) {
+//		String content = 
+//    			"dfc.docbroker.host[" + num + "]=" + docbrokerHost + "\r\n" +
+//    			"dfc.docbroker.port[" + num + "]=" + docbrokerPort + "\r\n";
+//		return content;		
+//	}
 		
-		
-	}
-	
-	public static String createDfcPropertiesFileContent(String docbrokerHost, int docbrokerPort, int num) {
-		String content = 
-    			"dfc.docbroker.host[" + num + "]=" + docbrokerHost + "\r\n" +
-    			"dfc.docbroker.port[" + num + "]=" + docbrokerPort + "\r\n";
-		return content;		
+		Socket socket = new Socket("10.76.251.83", 1489);
 	}
 
 }

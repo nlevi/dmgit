@@ -111,7 +111,7 @@ public class EnvDetails extends HttpServlet {
 		Set<DocumentumService> sds = DocumentumService.getInstance().getServices();
 
 		if (sds != null) {
-			Iterator it = sds.iterator();
+			Iterator<DocumentumService> it = sds.iterator();
 			int i = 0;
 			String url;			
 			while (it.hasNext()) {

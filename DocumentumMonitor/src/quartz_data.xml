@@ -58,5 +58,18 @@
             </cron>
         </trigger>
     </schedule>
+    <schedule>        
+        <job>
+            <name>DocbrokerMonitor</name>
+            <job-class>com.emc.monitor.jobs.DocbrokerMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>DocbrokerMonitor</name>
+                <job-name>DocbrokerMonitor</job-name>
+                <cron-expression>0/10 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
 
 </job-scheduling-data>

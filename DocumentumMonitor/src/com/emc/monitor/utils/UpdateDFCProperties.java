@@ -31,7 +31,7 @@ public class UpdateDFCProperties {
 			props.load(new FileReader(dfcprops));
 
 			DocbrokerMap docbrokers = (DocbrokerMap) new DfClient().getDocbrokerMap();
-			HashMap<String, Integer> map = new HashMap();
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			int limit = docbrokers.getDocbrokerCount();
 			for (int i = 0; i < limit; i++) {
 				map.put(docbrokers.getHostName(i), docbrokers.getPortNumber(i));
@@ -53,11 +53,11 @@ public class UpdateDFCProperties {
 			DatabaseUtil du = new DatabaseUtil();
 			Set<DocumentumService> sds = DocumentumService.getInstance().getServicesByType("cs");
 			DocumentumService tempds;
-			Iterator it = sds.iterator();
+			Iterator<DocumentumService> it = sds.iterator();
 			int i = 0;
 			BufferedWriter bw = new BufferedWriter(new FileWriter(dfcprops));
 			while (it.hasNext()) {
-				tempds = (DocumentumService) it.next();
+				tempds = it.next();
 				String fileContent = createDfcPropertiesFileContent(tempds.getHost(), tempds.getPort(), i);
 				bw.write(fileContent);
 				i++;
