@@ -1,7 +1,6 @@
 package com.emc.monitor.jobs;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Set;
@@ -21,8 +20,8 @@ public class DocbrokerMonitor implements Job{
 		String result = null;
 		sds = DocumentumService.getInstance().getServicesByType("cs");
 		Iterator<DocumentumService> it = sds.iterator();
-		int i = 0;
-		String url;
+//		int i = 0;
+//		String url;
 		while (it.hasNext()) {
 			ds = it.next();
 			try {

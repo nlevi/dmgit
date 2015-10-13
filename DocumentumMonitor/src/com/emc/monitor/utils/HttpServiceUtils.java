@@ -17,8 +17,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import com.emc.monitor.service.DocumentumService;
-
 public class HttpServiceUtils {
 
 	public static String sendRequest(String host, int port, String protocol, String pinfo, String user,

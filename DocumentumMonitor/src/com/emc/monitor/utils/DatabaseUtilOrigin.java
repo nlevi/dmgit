@@ -1,7 +1,6 @@
 package com.emc.monitor.utils;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;

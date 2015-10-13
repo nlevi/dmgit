@@ -7,14 +7,11 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.documentum.com.DfClientX;
 import com.documentum.fc.client.DfQuery;
 import com.documentum.fc.client.IDfCollection;
 import com.documentum.fc.client.IDfQuery;
 import com.documentum.fc.client.IDfSession;
-import com.documentum.fc.client.IDfSessionManager;
 import com.documentum.fc.common.DfException;
-import com.documentum.fc.common.DfLoginInfo;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DocbaseSessionUtils;
 import com.emc.monitor.utils.HttpServiceUtils;
@@ -30,8 +27,8 @@ public class CtsMonitor implements Job {
 		String result = null;
 		sds = DocumentumService.getInstance().getServicesByType("cts");
 		Iterator<DocumentumService> it = sds.iterator();
-		int i = 0;
-		String url;
+//		int i = 0;
+//		String url;
 		while (it.hasNext()) {
 			ds = it.next();
 			try {

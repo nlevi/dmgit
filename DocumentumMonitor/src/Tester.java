@@ -108,6 +108,7 @@ public class Tester {
 //	}
 		
 		Socket socket = new Socket("10.76.251.83", 1489);
+		socket.close();
 	}
 
 }

@@ -3,7 +3,6 @@ package com.emc.monitor.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -11,7 +10,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.emc.monitor.utils.DatabaseUtil;
-import com.emc.monitor.utils.DocbaseSessionUtils;
 
 public class DocumentumService {
 

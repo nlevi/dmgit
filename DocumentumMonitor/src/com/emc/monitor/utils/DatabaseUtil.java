@@ -1,7 +1,6 @@
 package com.emc.monitor.utils;
 
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,20 +9,17 @@ import java.sql.Statement;
 public class DatabaseUtil {
 
 	public static Connection conn;
-    private static String user;
-    private static String password;
-    private static Statement stmt;
-    private String tablename;
-    private String dbname;
-    private static String dburl;
-    private static String driverclass;
+    private String user;
+    private String password;
+    private Statement stmt;
+    private String dburl;
+    private String driverclass;
 	
     
     public DatabaseUtil() {
     	DbProperties dbp = new DbProperties();
 		this.user = dbp.getUser();
 		this.password = dbp.getPwd();
-		this.dbname = dbp.getDatabase();
 		this.dburl = dbp.getJdbcUrl().concat(dbp.getDatabase());
 		this.driverclass = dbp.getDriverClass();
 		setConnection();

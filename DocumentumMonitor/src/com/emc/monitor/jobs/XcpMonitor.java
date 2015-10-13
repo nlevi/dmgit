@@ -30,8 +30,8 @@ public class XcpMonitor implements Job {
 		String result = null;
 		sds = DocumentumService.getInstance().getServicesByType("xcp");
 		Iterator<DocumentumService> it = sds.iterator();
-		int i = 0;
-		String url;
+//		int i = 0;
+//		String url;
 		while (it.hasNext()) {
 			ds = it.next();
 			System.out.println(ds.getType());

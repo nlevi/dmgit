@@ -21,8 +21,8 @@ public class IndexMonitor implements Job{
 		String result = null;
 		sds = DocumentumService.getInstance().getServicesByType("indexagent");
 		Iterator<DocumentumService> it = sds.iterator();
-		int i = 0;
-		String url;
+//		int i = 0;
+//		String url;
 		while (it.hasNext()) {
 			ds = it.next();
 			try {

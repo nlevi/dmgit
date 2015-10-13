@@ -5,17 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-import com.documentum.com.DfClientX;
 import com.documentum.fc.client.DfClient;
-import com.documentum.fc.client.IDfDocbrokerClient;
-import com.documentum.fc.client.IDfTypedObject;
-import com.documentum.fc.client.impl.docbroker.DocbrokerClient;
 import com.documentum.fc.client.impl.docbroker.DocbrokerMap;
 import com.documentum.fc.common.DfException;
 import com.emc.monitor.service.DocumentumService;
@@ -50,7 +45,7 @@ public class UpdateDFCProperties {
 	public static void createDfcProperties() throws IOException {
 		File dfcprops = new File(dfcpropertiespath);
 		if (!dfcprops.exists()) {
-			DatabaseUtil du = new DatabaseUtil();
+//			DatabaseUtil du = new DatabaseUtil();
 			Set<DocumentumService> sds = DocumentumService.getInstance().getServicesByType("cs");
 			DocumentumService tempds;
 			Iterator<DocumentumService> it = sds.iterator();
