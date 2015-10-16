@@ -35,7 +35,7 @@ public class HttpServiceUtils {
 			}
 			request.addHeader("Accept", "text/html,application/xml,*/*");
 
-			 System.out.println("Executing request " + request + " to " + targetHost);
+			System.out.println("Executing request " + request + " to " + targetHost);
 
 			CloseableHttpResponse response = null;
 			int responseStatusCode = 0;

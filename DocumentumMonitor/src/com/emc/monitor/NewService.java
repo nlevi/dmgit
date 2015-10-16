@@ -130,6 +130,7 @@ public class NewService extends HttpServlet {
 				+ "<option value='d2'>D2</option>"
 				+ "<option value='bpm'>BPM</option>"
 				+ "<option value='jms'>JMS</option>"
+				+ "<option value='dkbrkr'>Docbroker</option>"
 				+ "<option value='bps'>BPS</option>");
 		sb.append("</tr>");
 

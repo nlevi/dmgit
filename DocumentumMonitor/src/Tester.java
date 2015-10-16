@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.sql.ResultSet;
 import java.util.Iterator;
@@ -9,9 +10,14 @@ import java.util.Set;
 
 import com.documentum.com.DfClientX;
 import com.documentum.fc.client.DfClient;
+import com.documentum.fc.client.DfQuery;
+import com.documentum.fc.client.IDfCollection;
+import com.documentum.fc.client.IDfQuery;
 import com.documentum.fc.client.IDfSession;
 import com.documentum.fc.client.IDfSessionManager;
+import com.documentum.fc.client.IDfSysObject;
 import com.documentum.fc.client.impl.docbroker.DocbrokerMap;
+import com.documentum.fc.common.DfException;
 import com.documentum.fc.common.DfLoginInfo;
 import com.emc.monitor.jobs.XcpMonitor;
 import com.emc.monitor.service.DocumentumService;
@@ -107,8 +113,40 @@ public class Tester {
 //		return content;		
 //	}
 		
-		Socket socket = new Socket("10.76.251.83", 1489);
-		socket.close();
+//		Socket socket = new Socket("10.76.251.83", 1489);
+//		socket.close();
+//	}
+		
+	HttpURLConnection con;
+	
+	
+	String jmsURL;
+	
+	IDfCollection col;
+	IDfQuery query = new DfQuery();
+	StringBuilder queryString = new StringBuilder();
+	queryString.append("select base_uri from dm_jms_config");
+	queryString.append(" where config_type in (1,2)");
+	System.out.println(queryString);
+	query.setDQL(queryString.toString());
+	DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
+	IDfSession session = null;	
+	try {
+		session = dsu.getDocbaseSession("cs71", "dmadmin", "dctm");
+		col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
+		while (col.next()) {
+			jmsURL = col.getString("base_uri");
+			System.out.println(jmsURL);
+		}	
+		
+	} catch (DfException e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			dsu.releaseSession(session);
+		} catch (DfException e) {
+			e.printStackTrace();
+		}
 	}
-
-}
+	}
+	}

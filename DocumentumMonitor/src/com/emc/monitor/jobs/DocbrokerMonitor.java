@@ -18,7 +18,7 @@ public class DocbrokerMonitor implements Job{
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		Set<DocumentumService> sds;
 		String result = null;
-		sds = DocumentumService.getInstance().getServicesByType("cs");
+		sds = DocumentumService.getInstance().getServicesByType("dkbrkr");
 		Iterator<DocumentumService> it = sds.iterator();
 //		int i = 0;
 //		String url;
@@ -30,8 +30,8 @@ public class DocbrokerMonitor implements Job{
 				e.printStackTrace();
 			}
 			if (isRunning(result)) {
-				result = "Check version of corresponsind Content Server instance";
-				ds.updateStatus(true, "Check version of corresponsind Content Server instance");
+				result = "";
+				ds.updateStatus(true, "");
 			} else {
 				ds.updateStatus(false, result);
 			}

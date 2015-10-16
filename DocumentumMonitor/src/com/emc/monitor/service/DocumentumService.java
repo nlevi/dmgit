@@ -231,6 +231,10 @@ public class DocumentumService {
 			}
 		}
 	}
+	
+	public void updateStatus(String servicename, boolean isrunning, String result) {
+		
+	}
 
 	public void save() {
 
