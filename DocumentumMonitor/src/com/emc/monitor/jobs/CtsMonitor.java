@@ -47,7 +47,7 @@ public class CtsMonitor implements Job {
 
 	private String getCTSVersion() {
 		String version = null;
-		IDfCollection col;
+		IDfCollection col = null;
 		IDfQuery query = new DfQuery();
 		StringBuilder queryString = new StringBuilder();
 		queryString.append("select r_object_id, hostname, status, websrv_url, inst_type, product, product_version, cts_version from cts_instance_info");
@@ -70,6 +70,7 @@ public class CtsMonitor implements Job {
 			e.printStackTrace();
 		} finally {
 			try {
+				col.close();
 				dsu.releaseSession(session);
 			} catch (DfException e) {
 				e.printStackTrace();

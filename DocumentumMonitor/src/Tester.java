@@ -122,7 +122,7 @@ public class Tester {
 	
 	String jmsURL;
 	
-	IDfCollection col;
+	IDfCollection col = null;
 	IDfQuery query = new DfQuery();
 	StringBuilder queryString = new StringBuilder();
 	queryString.append("select base_uri from dm_jms_config");
@@ -143,6 +143,7 @@ public class Tester {
 		e.printStackTrace();
 	} finally {
 		try {
+			col.close();
 			dsu.releaseSession(session);
 		} catch (DfException e) {
 			e.printStackTrace();
