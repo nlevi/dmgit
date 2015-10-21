@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.List;
@@ -117,37 +118,40 @@ public class Tester {
 //		socket.close();
 //	}
 		
-	HttpURLConnection con;
-	
-	
-	String jmsURL;
-	
-	IDfCollection col = null;
-	IDfQuery query = new DfQuery();
-	StringBuilder queryString = new StringBuilder();
-	queryString.append("select base_uri from dm_jms_config");
-	queryString.append(" where config_type in (1,2)");
-	System.out.println(queryString);
-	query.setDQL(queryString.toString());
-	DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
-	IDfSession session = null;	
-	try {
-		session = dsu.getDocbaseSession("cs71", "dmadmin", "dctm");
-		col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
-		while (col.next()) {
-			jmsURL = col.getString("base_uri");
-			System.out.println(jmsURL);
-		}	
+//	HttpURLConnection con;
+//	
+//	
+//	String jmsURL;
+//	
+//	IDfCollection col = null;
+//	IDfQuery query = new DfQuery();
+//	StringBuilder queryString = new StringBuilder();
+//	queryString.append("select base_uri from dm_jms_config");
+//	queryString.append(" where config_type in (1,2)");
+//	System.out.println(queryString);
+//	query.setDQL(queryString.toString());
+//	DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
+//	IDfSession session = null;	
+//	try {
+//		session = dsu.getDocbaseSession("cs71", "dmadmin", "dctm");
+//		col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
+//		while (col.next()) {
+//			jmsURL = col.getString("base_uri");
+//			System.out.println(jmsURL);
+//		}	
+//		
+//	} catch (DfException e) {
+//		e.printStackTrace();
+//	} finally {
+//		try {
+//			col.close();
+//			dsu.releaseSession(session);
+//		} catch (DfException e) {
+//			e.printStackTrace();
+//		}
+//	}
 		
-	} catch (DfException e) {
-		e.printStackTrace();
-	} finally {
-		try {
-			col.close();
-			dsu.releaseSession(session);
-		} catch (DfException e) {
-			e.printStackTrace();
-		}
-	}
+	
+		
 	}
 	}

@@ -23,7 +23,7 @@ public class DocumentumService {
 	private String name;
 	private String version;
 	private String status;
-	private int service_id;
+	private int service_id;	
 	private DatabaseUtil dbutils = new DatabaseUtil();
 	protected static DocumentumService instance;
 
@@ -135,125 +135,129 @@ public class DocumentumService {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public Set<DocumentumService> getServicesByType(String type) {
-
-		ResultSet rs = dbutils.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
-				+ "service_user, service_host, service_port, service_type," + "service_name FROM mntr_env_details "
-				+ "WHERE service_type = '" + type + "'");
-
-		Set<DocumentumService> sds;
-		sds = new HashSet<>();
-		DocumentumService ds;
-
-		try {
-			while (rs.next()) {
-				ds = new DocumentumService(rs.getInt("service_id"), rs.getString("admin_address"),
-						rs.getString("docbase"), rs.getString("user_passwd"), rs.getString("service_user"),
-						rs.getString("service_host"), rs.getInt("service_port"), rs.getString("service_type"),
-						rs.getString("service_name"));
-				sds.add(ds);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return sds;
-	}
-
-	public Set<DocumentumService> getServices() {
-		ResultSet rs = dbutils.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
-				+ "service_user, service_host, service_port, service_type, service_name FROM mntr_env_details ORDER by service_id ASC");
-
-		Set<DocumentumService> sds;
-		sds = new LinkedHashSet<>();
-		DocumentumService ds;
-
-		try {
-			while (rs.next()) {
-				ds = new DocumentumService(rs.getInt("service_id"), rs.getString("admin_address"),
-						rs.getString("docbase"), rs.getString("user_passwd"), rs.getString("service_user"),
-						rs.getString("service_host"), rs.getInt("service_port"), rs.getString("service_type"),
-						rs.getString("service_name"));
-				sds.add(ds);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return sds;
-	}
-
-	public void updateStatus(boolean b, String result) {
-		int r;
-		Locale currentLocale = Locale.getDefault();
-		Date now = new Date();
-		DateFormat d = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, currentLocale);
-		//DateFormat d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String currentDateTime = d.format(now);
-		System.out.println(currentDateTime);
-		if (b) {
-
-			r = dbutils.executeInsert("UPDATE mntr_env_status SET service_status = 'Running', service_version = '"
-					+ result + "', " + "last_update = '" + d.format(now) + "' WHERE service_id = " + service_id);
-
-			if (r < 1) {
-				r = dbutils.executeInsert(
-						"INSERT INTO mntr_env_status (service_id, service_name, service_status, service_version, last_update)"
-								+ " VALUES (" + service_id + ", '" + name + "', 'Running', '" + result + "', '"
-								+ d.format(now) + "')");
-			}
-
-		} else {
-			r = dbutils.executeInsert(
-					"UPDATE mntr_env_status SET service_status = '" + result + "', " + "last_update = '" + d.format(now)
-							+ "', service_version = 'Not Available' WHERE service_id = " + service_id);
-
-			if (r < 1) {
-				r = dbutils.executeInsert(
-						"INSERT INTO mntr_env_status (service_id, service_name, service_status,service_version , last_update)"
-								+ " VALUES (" + service_id + ", '" + name + "', '" + result + "', 'Not Available', '"
-								+ d.format(now) + "')");
-			}
-		}
-	}
 	
-	public void updateStatus(String servicename, boolean isrunning, String result) {
-		
+	public void setServiceId(int service_id) {
+		this.service_id = service_id;
 	}
 
-	public void save() {
+//	public Set<DocumentumService> getServicesByType(String type) {
+//
+//		ResultSet rs = dbutils.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
+//				+ "service_user, service_host, service_port, service_type," + "service_name FROM mntr_env_details "
+//				+ "WHERE service_type = '" + type + "'");
+//
+//		Set<DocumentumService> sds;
+//		sds = new HashSet<>();
+//		DocumentumService ds;
+//
+//		try {
+//			while (rs.next()) {
+//				ds = new DocumentumService(rs.getInt("service_id"), rs.getString("admin_address"),
+//						rs.getString("docbase"), rs.getString("user_passwd"), rs.getString("service_user"),
+//						rs.getString("service_host"), rs.getInt("service_port"), rs.getString("service_type"),
+//						rs.getString("service_name"));
+//				sds.add(ds);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (rs != null) {
+//				try {
+//					rs.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return sds;
+//	}
+//
+//	public Set<DocumentumService> getServices() {
+//		ResultSet rs = dbutils.executeSelect("SELECT service_id, admin_address, docbase, user_passwd,"
+//				+ "service_user, service_host, service_port, service_type, service_name FROM mntr_env_details ORDER by service_id ASC");
+//
+//		Set<DocumentumService> sds;
+//		sds = new LinkedHashSet<>();
+//		DocumentumService ds;
+//
+//		try {
+//			while (rs.next()) {
+//				ds = new DocumentumService(rs.getInt("service_id"), rs.getString("admin_address"),
+//						rs.getString("docbase"), rs.getString("user_passwd"), rs.getString("service_user"),
+//						rs.getString("service_host"), rs.getInt("service_port"), rs.getString("service_type"),
+//						rs.getString("service_name"));
+//				sds.add(ds);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (rs != null) {
+//				try {
+//					rs.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return sds;
+//	}
+//
+//	public void updateStatus(boolean b, String result) {
+//		int r;
+//		Locale currentLocale = Locale.getDefault();
+//		Date now = new Date();
+//		DateFormat d = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, currentLocale);
+//		//DateFormat d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		String currentDateTime = d.format(now);
+//		System.out.println(currentDateTime);
+//		if (b) {
+//
+//			r = dbutils.executeInsert("UPDATE mntr_env_status SET service_status = 'Running', service_version = '"
+//					+ result + "', " + "last_update = '" + d.format(now) + "' WHERE service_id = " + service_id);
+//
+//			if (r < 1) {
+//				r = dbutils.executeInsert(
+//						"INSERT INTO mntr_env_status (service_id, service_name, service_status, service_version, last_update)"
+//								+ " VALUES (" + service_id + ", '" + name + "', 'Running', '" + result + "', '"
+//								+ d.format(now) + "')");
+//			}
+//
+//		} else {
+//			r = dbutils.executeInsert(
+//					"UPDATE mntr_env_status SET service_status = '" + result + "', " + "last_update = '" + d.format(now)
+//							+ "', service_version = 'Not Available' WHERE service_id = " + service_id);
+//
+//			if (r < 1) {
+//				r = dbutils.executeInsert(
+//						"INSERT INTO mntr_env_status (service_id, service_name, service_status,service_version , last_update)"
+//								+ " VALUES (" + service_id + ", '" + name + "', '" + result + "', 'Not Available', '"
+//								+ d.format(now) + "')");
+//			}
+//		}
+//	}
+//	
+//	public void updateStatus(String servicename, boolean isrunning, String result) {
+//		
+//	}
+//
+//	public void save() {
+//
+//		int n;		
+//
+//		if (service_id != 0) {
+//			n = dbutils.executeInsert("UPDATE mntr_env_details SET name = '" + name + "', host = '" + host
+//					+ "', port = " + port + ", docbase = '" + docbase + "WHERE service_id = " + service_id);
+//		} else {		
+//			
+//			System.out.println("INSERT INTO mntr_env_details (service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name)"
+//					+ " VALUES (NEXT VALUE FOR service_id, '" + address + "', '" + docbase + "', '" + password + "', '"
+//					+ user + "', " + port + ", '" + host + "', '" + type + "', '" + name + "')");
+//			
+//			n = dbutils.executeInsert(
+//					"INSERT INTO mntr_env_details (service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name)"
+//							+ " VALUES (NEXT VALUE FOR service_id, '" + address + "', '" + docbase + "', '" + password + "', '"
+//							+ user + "', " + port + ", '" + host + "', '" + type + "', '" + name + "')");
+//		}
 
-		int n;		
-
-		if (service_id != 0) {
-			n = dbutils.executeInsert("UPDATE mntr_env_details SET name = '" + name + "', host = '" + host
-					+ "', port = " + port + ", docbase = '" + docbase + "WHERE service_id = " + service_id);
-		} else {		
-			
-			System.out.println("INSERT INTO mntr_env_details (service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name)"
-					+ " VALUES (NEXT VALUE FOR service_id, '" + address + "', '" + docbase + "', '" + password + "', '"
-					+ user + "', " + port + ", '" + host + "', '" + type + "', '" + name + "')");
-			
-			n = dbutils.executeInsert(
-					"INSERT INTO mntr_env_details (service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name)"
-							+ " VALUES (NEXT VALUE FOR service_id, '" + address + "', '" + docbase + "', '" + password + "', '"
-							+ user + "', " + port + ", '" + host + "', '" + type + "', '" + name + "')");
-		}
-
-	}
+//	}
 }
