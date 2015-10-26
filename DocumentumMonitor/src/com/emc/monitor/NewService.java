@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.documentum.fc.common.DfException;
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 import com.emc.monitor.utils.UpdateDFCProperties;
@@ -69,13 +71,12 @@ public class NewService extends HttpServlet {
 			// HTTP session");
 		}
 		
-		ServletContext sc = getServletContext();
-		du = (DatabaseUtil) sc.getAttribute("dbcon");
-		if (du == null) {
-			du = new DatabaseUtil();
-			sc.setAttribute("dbcon", du);
-		}
-
+//		ServletContext sc = getServletContext();
+		
+		
+		DAOFactory daofactory = DAOFactory.getInstance(); 
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		
 		DocumentumService ds = new DocumentumService();
 		
 		ds.setAddress(request.getParameter("address"));
@@ -86,7 +87,8 @@ public class NewService extends HttpServlet {
 		ds.setPort(Integer.parseInt(request.getParameter("port")));
 		ds.setType(request.getParameter("type"));
 		ds.setName(request.getParameter("name"));
-		ds.save();
+
+		dsdao.create(ds);
 		
 		if(request.getParameter("type") == "cs") {
 			try {

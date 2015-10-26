@@ -3,12 +3,13 @@ package com.emc.monitor.jobs;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Iterator;
-import java.util.Set;
-
+import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 
 public class DocbrokerMonitor implements Job{
@@ -16,12 +17,14 @@ public class DocbrokerMonitor implements Job{
 	private DocumentumService ds;
 	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-		Set<DocumentumService> sds;
+		DAOFactory daofactory = DAOFactory.getInstance();
+		
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		List<DocumentumService> dslist = dsdao.getServicesByType("dkbrkr");
 		String result = null;
-		sds = DocumentumService.getInstance().getServicesByType("dkbrkr");
-		Iterator<DocumentumService> it = sds.iterator();
-//		int i = 0;
-//		String url;
+		
+		Iterator<DocumentumService> it = dslist.iterator();
+
 		while (it.hasNext()) {
 			ds = it.next();
 			try {
@@ -29,12 +32,12 @@ public class DocbrokerMonitor implements Job{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (isRunning(result)) {
-				result = "";
-				ds.updateStatus(true, "");
+			if (isRunning(result)) {				
+				ds.setStatus("Running");
 			} else {
-				ds.updateStatus(false, result);
+				ds.setStatus("Failed");
 			}
+			dsdao.update(ds);
 		}
 	}
 	

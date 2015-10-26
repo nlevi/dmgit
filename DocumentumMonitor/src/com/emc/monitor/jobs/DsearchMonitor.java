@@ -1,12 +1,13 @@
 package com.emc.monitor.jobs;
 
 import java.util.Iterator;
-import java.util.Set;
-
+import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
@@ -16,13 +17,14 @@ public class DsearchMonitor implements Job{
 	private DocumentumService ds;
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-	//public void execute() {
-		Set<DocumentumService> sds;
+		DAOFactory daofactory = DAOFactory.getInstance();
+		
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		List<DocumentumService> dslist = dsdao.getServicesByType("dsearch");
 		String result = null;
-		sds = DocumentumService.getInstance().getServicesByType("dsearch");
-		Iterator<DocumentumService> it = sds.iterator();
-//		int i = 0;
-//		String url;
+		
+		Iterator<DocumentumService> it = dslist.iterator();
+		
 		while (it.hasNext()) {
 			ds = it.next();
 			try {
@@ -31,10 +33,12 @@ public class DsearchMonitor implements Job{
 				e.printStackTrace();
 			}
 			if (isRunning(result)) {
-				ds.updateStatus(true, result);
+				ds.setVersion(result);
+				ds.setStatus("Running");
 			} else {
-				ds.updateStatus(false, result);
+				ds.setStatus("Failed");;
 			}
+			dsdao.update(ds);
 		}
 	}
 

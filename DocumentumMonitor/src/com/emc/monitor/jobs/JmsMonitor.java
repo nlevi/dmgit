@@ -1,8 +1,7 @@
 package com.emc.monitor.jobs;
 
 import java.util.Iterator;
-import java.util.Set;
-
+import java.util.List;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -12,7 +11,8 @@ import com.documentum.fc.client.IDfCollection;
 import com.documentum.fc.client.IDfQuery;
 import com.documentum.fc.client.IDfSession;
 import com.documentum.fc.common.DfException;
-import com.documentum.fc.common.IDfId;
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DocbaseSessionUtils;
 import com.emc.monitor.utils.HttpServiceUtils;
@@ -23,13 +23,14 @@ public class JmsMonitor implements Job{
 	private DocumentumService ds;
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-	//public void execute() {
-		Set<DocumentumService> sds;
+		DAOFactory daofactory = DAOFactory.getInstance();
+		
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		List<DocumentumService> dslist = dsdao.getServicesByType("jms");
 		String result = null;
-		sds = DocumentumService.getInstance().getServicesByType("cs");
-		Iterator<DocumentumService> it = sds.iterator();
-//		int i = 0;
-//		String url;
+		
+		Iterator<DocumentumService> it = dslist.iterator();
+
 		while (it.hasNext()) {
 			ds = it.next();
 			
@@ -40,10 +41,12 @@ public class JmsMonitor implements Job{
 			}
 			if (isRunning(result)) {
 				result = "Please check corresponding Dsearch version";
-				ds.updateStatus(true, result);
+				ds.setVersion(result);
+				ds.setStatus("Running");
 			} else {
-				ds.updateStatus(false, result);
+				ds.setStatus("Failed");
 			}
+			dsdao.update(ds);
 		}
 	}
 

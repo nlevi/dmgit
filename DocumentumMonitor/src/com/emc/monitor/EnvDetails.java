@@ -1,9 +1,10 @@
 package com.emc.monitor;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
 
@@ -37,12 +41,7 @@ public class EnvDetails extends HttpServlet {
 			// response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid
 			// HTTP session");
 		}
-		ServletContext sc = getServletContext();
-		du = (DatabaseUtil) sc.getAttribute("dbcon");
-		if (du == null) {
-			du = new DatabaseUtil();
-			sc.setAttribute("dbcon", du);
-		}
+		
 		try (PrintWriter out = response.getWriter()) {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
@@ -108,12 +107,15 @@ public class EnvDetails extends HttpServlet {
 		sb.append("<th>Type</th>");
 		sb.append("<tr>");
 
-		Set<DocumentumService> sds = DocumentumService.getInstance().getServices();
+		
+		DAOFactory daofactory = DAOFactory.getInstance(); 
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		
+		List<DocumentumService> allDS = dsdao.getAllServices();
 
-		if (sds != null) {
-			Iterator<DocumentumService> it = sds.iterator();
-//			int i = 0;
-//			String url;			
+		if (allDS != null) {
+			Iterator<DocumentumService> it = allDS.iterator();
+		
 			while (it.hasNext()) {
 				ds = (DocumentumService) it.next();
 				sb.append("<tr>");

@@ -1,16 +1,20 @@
 package com.emc.monitor.utils;
 
-import java.sql.ResultSet;
-import com.emc.monitor.utils.DatabaseUtil;
+import java.util.List;
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
+import com.emc.monitor.service.DocumentumService;
 
 public class MonitorUtils {
-	private static DatabaseUtil dbutils = new DatabaseUtil();
-	public static ResultSet getStatus() {
+//	private static DatabaseUtil dbutils = new DatabaseUtil();
+	public static List<DocumentumService> getStatus() {
 
-		ResultSet rs = dbutils
-				.executeSelect("SELECT service_name, service_status, service_version, last_update FROM mntr_env_status");
+		DAOFactory daofactory = DAOFactory.getInstance();
+		
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		List<DocumentumService> dslist = dsdao.getAllServices();
 
-		return rs;
+		return dslist;
 
 	}
 }

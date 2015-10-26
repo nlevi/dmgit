@@ -7,20 +7,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
-import java.util.Set;
-
 import com.documentum.fc.client.DfClient;
 import com.documentum.fc.client.impl.docbroker.DocbrokerMap;
 import com.documentum.fc.common.DfException;
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 
 public class UpdateDFCProperties {
 
-	private static String dfcpropertiespath = System.getProperty("java.io.tmpdir") + File.separator + "dfc.properties";
+	private static String dfcPropertiesPath = System.getProperty("java.io.tmpdir") + File.separator + "dfc.properties";
 
 	public static void update(String hostname, int port) throws IOException, DfException {
-		File dfcprops = new File(dfcpropertiespath);
+		File dfcprops = new File(dfcPropertiesPath);
 		if (dfcprops.exists()) {
 			Properties props = new Properties();
 			props.load(new FileReader(dfcprops));
@@ -43,12 +44,14 @@ public class UpdateDFCProperties {
 	}
 
 	public static void createDfcProperties() throws IOException {
-		File dfcprops = new File(dfcpropertiespath);
+		File dfcprops = new File(dfcPropertiesPath);
 		if (!dfcprops.exists()) {
-//			DatabaseUtil du = new DatabaseUtil();
-			Set<DocumentumService> sds = DocumentumService.getInstance().getServicesByType("cs");
-			DocumentumService tempds;
-			Iterator<DocumentumService> it = sds.iterator();
+			DAOFactory daofactory = DAOFactory.getInstance();
+			
+			DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+			List<DocumentumService> dslist = dsdao.getServicesByType("xcp");
+			Iterator<DocumentumService> it = dslist.iterator();
+			DocumentumService tempds = new DocumentumService();
 			int i = 0;
 			BufferedWriter bw = new BufferedWriter(new FileWriter(dfcprops));
 			while (it.hasNext()) {
@@ -59,7 +62,7 @@ public class UpdateDFCProperties {
 			}
 			bw.close();
 		} else {
-			System.out.println("dfc.properties already exists at location: " + dfcpropertiespath);
+			System.out.println("dfc.properties is already exists at location: " + dfcPropertiesPath);
 		}
 	}
 

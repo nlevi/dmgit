@@ -20,6 +20,8 @@ import com.documentum.fc.client.IDfSysObject;
 import com.documentum.fc.client.impl.docbroker.DocbrokerMap;
 import com.documentum.fc.common.DfException;
 import com.documentum.fc.common.DfLoginInfo;
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.jobs.XcpMonitor;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DatabaseUtil;
@@ -151,6 +153,13 @@ public class Tester {
 //		}
 //	}
 		
+//		DAOFactory daofactory = DAOFactory.getInstance();
+//		
+//		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+//		
+//		Set<DocumentumService> allds = dsdao.getAllServices();
+//		System.out.println("List of users successfully queried: " + allds);
+//        System.out.println("Thus, amount of users in database is: " + allds.size());
 	
 		
 	}

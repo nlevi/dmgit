@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +17,8 @@ import org.quartz.JobExecutionException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.HttpServiceUtils;
 
@@ -26,12 +28,14 @@ public class XcpMonitor implements Job {
 	private static final String XCP_INFO = "/products/xcp_product_info";
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
-		Set<DocumentumService> sds;
+		
+		DAOFactory daofactory = DAOFactory.getInstance();
+		
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		List<DocumentumService> dslist = dsdao.getServicesByType("xcp");
 		String result = null;
-		sds = DocumentumService.getInstance().getServicesByType("xcp");
-		Iterator<DocumentumService> it = sds.iterator();
-//		int i = 0;
-//		String url;
+		
+		Iterator<DocumentumService> it = dslist.iterator();
 		while (it.hasNext()) {
 			ds = it.next();
 			System.out.println(ds.getType());
@@ -42,10 +46,13 @@ public class XcpMonitor implements Job {
 				e.printStackTrace();
 			}
 			if (isRunning(result)) {
-				ds.updateStatus(true, result);
+				ds.setVersion(result);
+				ds.setStatus("Running");
 			} else {
-				ds.updateStatus(false, result);
+				ds.setStatus("Failed");
 			}
+			
+			dsdao.update(ds);
 		}
 	}
 
