@@ -11,23 +11,23 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.HttpServiceUtils;
+import static com.emc.monitor.utils.HttpServiceUtils.*;
 
-public class IndexMonitor implements Job{
+public class WebtopMonitor implements Job{
 
-	private static final String INDEX_INFO = "/IndexAgent";	
+	private static final String WEBTOP_INFO = "/webtop/version.properties";	
 	private DocumentumService ds;
-	final static Logger logger = Logger.getLogger(IndexMonitor.class);
+	final static Logger logger = Logger.getLogger(WebtopMonitor.class);
 	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		DAOFactory daofactory = DAOFactory.getInstance();
 		
 		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
-		List<DocumentumService> dslist = dsdao.getServicesByType("indexagent");
+		List<DocumentumService> dslist = dsdao.getServicesByType("webtop");
 		String result = null;
 		
 		Iterator<DocumentumService> it = dslist.iterator();
-
+		
 		while (it.hasNext()) {
 			ds = it.next();
 			try {
@@ -36,11 +36,10 @@ public class IndexMonitor implements Job{
 				e.printStackTrace();
 			}
 			if (isRunning(result)) {
-				result = "Please check corresponding Dsearch version";
 				ds.setVersion(result);
 				ds.setStatus("Running");
 			} else {
-				ds.setStatus("Failed");
+				ds.setStatus("Failed");;
 			}
 			dsdao.update(ds);
 		}
@@ -55,10 +54,20 @@ public class IndexMonitor implements Job{
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", INDEX_INFO, null, null);	
-		if (response.equals("Failed")) {
-			logger.info("IndexAgent service is not reachable. ServiceID: " + ds.getId());
+		String response = sendRequest(ds.getHost(), ds.getPort(), "http", WEBTOP_INFO, ds.getUser(), ds.getPassword());
+		if(logger.isDebugEnabled()) {
+			logger.debug("Webtop request response: " + response);
 		}
-		return response;
+		String version;
+		if (response != "Failed") {
+			version = response.replaceAll("[^0-9&&[^\\.]]", "");
+			if(logger.isDebugEnabled()) {
+				logger.debug("Webtop version: " + version + ". ServiceID: " + ds.getId());
+			}
+		} else {
+			logger.warn("Webtop service is not available. Service ID: " + ds.getId());
+			version = "Failed";
+		}
+		return version;
 	}
 }

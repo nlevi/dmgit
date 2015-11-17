@@ -8,26 +8,26 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
 
-public class HttpServiceUtils {
-
+public final class HttpServiceUtils {
+	
+	final static Logger logger = Logger.getLogger(HttpServiceUtils.class);
+	
+	private HttpServiceUtils() {
+		
+	}
+	
 	public static String sendRequest(String host, int port, String protocol, String pinfo, String user, String password)
 			throws IOException {
 		String result = null;		
 		URL url = null;
 		try {
 			url = new URL(protocol.concat("://").concat(host).concat(":").concat(Integer.toString(port)).concat(pinfo));
+			if(logger.isDebugEnabled()) {
+				logger.debug("URL: " + url.toString());
+			}
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
@@ -37,18 +37,18 @@ public class HttpServiceUtils {
 		if (user != null && password != null) {
 			con.setRequestProperty("Authorization", "Basic " + getEncodedCredentials(user, password));
 		}
-		System.out.println("Executing request to " + url.toString());
+		
 		int responseStatusCode = 0;
 		try {
 			responseStatusCode = con.getResponseCode();
+			System.out.println("Response: " + responseStatusCode);
 		} catch (IOException e) {
-			System.out.println("Cannot connect to " + url.toString());
+			logger.warn("Cannot connect to: " + url.toString());
 			responseStatusCode = 1;
 		} finally {
-			if (responseStatusCode == 1) {
+			if (responseStatusCode == 1) {				
 				result = "Failed";
-			} else {
-				System.out.println("GET Response Status:: " + responseStatusCode);
+			} else {				
 				if (responseStatusCode == 259 || responseStatusCode == 200) {
 
 					BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -58,7 +58,9 @@ public class HttpServiceUtils {
 						response.append(inputLine);
 					}
 					result = response.toString();
-					System.out.println("Response: " + result);
+					if(logger.isDebugEnabled()) {
+						logger.debug("Service response: " + result);
+					}
 				} else {
 					result = "Failed";
 				}

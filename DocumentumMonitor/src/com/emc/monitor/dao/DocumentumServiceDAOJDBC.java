@@ -1,9 +1,10 @@
-package com.emc.monitor.dao;
+﻿package com.emc.monitor.dao;
 
 
 
 import static com.emc.monitor.dao.DAOUtils.*;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,21 +12,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import com.documentum.fc.common.DfException;
+import com.emc.monitor.jobs.CsMonitor;
 import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.UpdateDFCProperties;
 
 public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
-
-    private static final String GET_BY_ID_STMT =
-        "SELECT service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name, service_status, service_version, last_update FROM mntr_env_details WHERE service_id = ?";
-    private static final String GET_BY_TYPE_STMT =
-        "SELECT service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name, service_status, service_version, last_update FROM mntr_env_details WHERE service_type = ?";
-    private static final String GET_ALL_STMT =
-        "SELECT service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name, service_status, service_version, last_update FROM mntr_env_details ORDER BY service_id";
-    private static final String CREATE_STMT =
-        "INSERT INTO mntr_env_details (service_id, admin_address, docbase, user_passwd, service_user, service_port, service_host, service_type, service_name) VALUES (NEXT VALUE FOR service_id, ?, ?, ?, ?, ?, ?, ? ,?)";
-    private static final String UPDATE_STMT =
-        "UPDATE mntr_env_details SET admin_address = ?, docbase = ?, user_passwd = ?, service_user = ?, service_port = ?, service_host = ?, service_type = ?, service_name = ?, service_status = ?, service_version = ?, last_update = ? WHERE service_id = ?";
-
+	final static Logger logger = Logger.getLogger(DocumentumServiceDAOJDBC.class);
     private DAOFactory daoFactory;
 
     DocumentumServiceDAOJDBC(DAOFactory daoFactory) {
@@ -35,10 +31,10 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
     @Override
     public DocumentumService getServiceById(int id) throws DAOException {
       DocumentumService dctmService = new DocumentumService();
-
+      String by_id_stmt = "SELECT service_id, address, docbase, password, service_user, service_port, service_host, service_type, service_name, service_status, service_version, last_update FROM mntr_env_details WHERE service_id = ?";
         try (
-            Connection con = daoFactory.getConnection();
-            PreparedStatement stmt = preparedStmt(con, GET_BY_ID_STMT, false, id);
+            Connection con = daoFactory.getConnection();        	
+            PreparedStatement stmt = preparedStmt(con, by_id_stmt, false, id);
             ResultSet resultSet = stmt.executeQuery();
         ) {
             if (resultSet.next()) {
@@ -54,10 +50,10 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
     @Override
     public List<DocumentumService> getServicesByType(String type) throws DAOException {
       List<DocumentumService> dctmServices = new ArrayList<>();
-
+      String by_type_stmt = "SELECT service_id, address, docbase, password, service_user, service_port, service_host, service_type, service_name, service_status, service_version, last_update FROM mntr_env_details WHERE service_type = ?";
         try (
             Connection con = daoFactory.getConnection();
-            PreparedStatement stmt = preparedStmt(con, GET_BY_TYPE_STMT, false, type);
+            PreparedStatement stmt = preparedStmt(con, by_type_stmt, false, type);
             ResultSet resultSet = stmt.executeQuery();
         ) {
             while (resultSet.next()) {
@@ -73,10 +69,11 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
     @Override
     public List<DocumentumService> getAllServices() throws DAOException {
         List<DocumentumService> dctmServices = new ArrayList<>();
-        
+        String all_stmt =
+                "SELECT service_id, address, docbase, password, service_user, service_port, service_host, service_type, service_name, service_status, service_version, last_update FROM mntr_env_details ORDER BY service_id";
         try (
         	Connection con = daoFactory.getConnection();
-            PreparedStatement stmt = con.prepareStatement(GET_ALL_STMT);
+            PreparedStatement stmt = con.prepareStatement(all_stmt);
             ResultSet resultSet = stmt.executeQuery();
         ) {
             while (resultSet.next()) {
@@ -101,19 +98,24 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
         		dctmService.getHost(),
         		dctmService.getType(),
         		dctmService.getName()
-//            toSqlDate(dctmService.getDate())
         };
-
+        
+        String create_stmt = "INSERT INTO mntr_env_details (address, docbase, password, service_user, service_port, service_host, service_type, service_name) VALUES (?, ?, ?, ?, ?, ?, ? ,?)";
+        
         try (
             Connection con = daoFactory.getConnection();
-            PreparedStatement stmt = preparedStmt(con, CREATE_STMT, true, values);
+            PreparedStatement stmt = preparedStmt(con, create_stmt, true, values);
         ) {
             int createdRows = stmt.executeUpdate();
             if (createdRows == 0) {
                 throw new DAOException("Creating service failed.");
+            } else {            	
+            	if(dctmService.getType().equals("cs")) {        			
+        			UpdateDFCProperties.update(dctmService.getHost(), dctmService.getPort());        			
+        		}
             }
             
-        } catch (SQLException e) {
+        } catch (SQLException | IOException | DfException e) {
             throw new DAOException(e);
         }
     }
@@ -135,15 +137,16 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
         		dctmService.getName(),        	
         		dctmService.getStatus(),
         		dctmService.getVersion(),        		
-        		convertToSqlTimestamp(new Date()),
+        		convertToTimestamp(new Date()),
         		dctmService.getId()
         };
-
+        
+        String update_stmt = "UPDATE mntr_env_details SET address = ?, docbase = ?, password = ?, service_user = ?, service_port = ?, service_host = ?, service_type = ?, service_name = ?, service_status = ?, service_version = ?, last_update = ? WHERE service_id = ?";
+        
         try (
             Connection con = daoFactory.getConnection();
-            PreparedStatement stmt = preparedStmt(con, UPDATE_STMT, false, values);
-        ) {
-        	System.out.println(stmt.toString());
+            PreparedStatement stmt = preparedStmt(con, update_stmt, false, values);
+        ) {        	
             int updatedRows = stmt.executeUpdate();
             if (updatedRows == 0) {
                 throw new DAOException("Updating user failed, no rows affected.");
@@ -151,5 +154,38 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         }
+    }
+    
+    @Override
+    public void delete(int id) throws DAOException {
+    	
+    	String delete_stmt = "DELETE FROM mntr_env_details WHERE service_id = ?";
+    	
+        try (
+            Connection con = daoFactory.getConnection();
+            PreparedStatement stmt = preparedStmt(con, delete_stmt, false, id);
+        ) {
+            int deletedRow = stmt.executeUpdate();
+            if (deletedRow == 0) {
+                throw new DAOException("Deleting service failed, no rows affected.");
+            } 
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+    
+    @Override
+    public void execQuery(String query) {
+    	try (
+                Connection con = daoFactory.getConnection();
+                PreparedStatement stmt = preparedStmt(con, query, false, null);
+            ) {
+                stmt.executeUpdate();
+                
+            } catch (SQLException e) {
+                if(tableExists(e)) {
+                	logger.info("Tablealready exists.");
+                }
+            }
     }
 }

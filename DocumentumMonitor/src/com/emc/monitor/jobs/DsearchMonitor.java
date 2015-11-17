@@ -2,6 +2,8 @@ package com.emc.monitor.jobs;
 
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -9,13 +11,14 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.HttpServiceUtils;
+import static com.emc.monitor.utils.HttpServiceUtils.*;
 
 public class DsearchMonitor implements Job{
 
 	private static final String DSEARCH_INFO = "/dsearch";	
 	private DocumentumService ds;
-
+	final static Logger logger = Logger.getLogger(DsearchMonitor.class);
+	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		DAOFactory daofactory = DAOFactory.getInstance();
 		
@@ -43,7 +46,7 @@ public class DsearchMonitor implements Job{
 	}
 
 	private boolean isRunning(String result) {
-		if (result == "Failed") {
+		if (result.equals("Failed")) {
 			return false;
 		} else {
 			return true;
@@ -51,13 +54,15 @@ public class DsearchMonitor implements Job{
 	}
 
 	private String getStatus() throws Exception {
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", DSEARCH_INFO, null, null);
+		String response = sendRequest(ds.getHost(), ds.getPort(), "http", DSEARCH_INFO, null, null);
 		String version;
 		if (response != "Failed") {
-			System.out.println(response);
-			version = response.replaceAll("[^0-9&&[^\\.]]", "");			
-			//System.out.println(version);
+			version = response.replaceAll("[^0-9&&[^\\.]]", "");
+			if(logger.isDebugEnabled()) {
+				logger.debug("Dsearch version: " + version + ". ServiceID: " + ds.getId());
+			}
 		} else {
+			logger.warn("Dsearch service is not available. Service ID: " + ds.getId());
 			version = "Failed";
 		}
 		return version;

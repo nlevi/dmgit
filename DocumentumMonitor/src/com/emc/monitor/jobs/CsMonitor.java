@@ -1,7 +1,5 @@
 package com.emc.monitor.jobs;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,20 +8,22 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.documentum.fc.client.IDfSession;
+import com.documentum.fc.common.DfException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.DocbaseSessionUtils;
 
-public class DocbrokerMonitor implements Job {
-
+public class CsMonitor implements Job{
 	private DocumentumService ds;
-	final static Logger logger = Logger.getLogger(DocbrokerMonitor.class);
+	final static Logger logger = Logger.getLogger(CsMonitor.class);
 	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		DAOFactory daofactory = DAOFactory.getInstance();
 
 		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
-		List<DocumentumService> dslist = dsdao.getServicesByType("dkbrkr");
+		List<DocumentumService> dslist = dsdao.getServicesByType("cs");
 		String result = null;
 
 		Iterator<DocumentumService> it = dslist.iterator();
@@ -36,9 +36,10 @@ public class DocbrokerMonitor implements Job {
 				e.printStackTrace();
 			}
 			if (isRunning(result)) {
+				ds.setVersion(result);
 				ds.setStatus("Running");
 			} else {
-				ds.setStatus("Failed");
+				ds.setStatus("Failed");				
 			}
 			dsdao.update(ds);
 		}
@@ -52,23 +53,22 @@ public class DocbrokerMonitor implements Job {
 		}
 	}
 
-	private String getStatus() {
-		String response = "Running";
-		Socket socket = null;
+	private String getStatus() throws Exception {
+		String version = "";
+		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
 		try {
-			socket = new Socket(ds.getHost(), ds.getPort());
-		} catch (IOException e) {
-			logger.warn("Docbroker service not reachable. Service ID: " + ds.getId());
-			response = "Failed";
-		} finally {
-			try {
-				if (socket != null) {
-					socket.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+			IDfSession session = dsu.getDocbaseSession(ds.getDocbase().concat(".").concat(ds.getName().toLowerCase()), ds.getUser(),
+					ds.getPassword());
+			version = session.getServerVersion().replaceAll("[^0-9&&[^\\.]]", "");
+			if(logger.isDebugEnabled()) {
+				logger.debug("Content Server version: " + version + ". Service ID: " + ds.getId());
 			}
+		} catch (DfException de) {
+			de.printStackTrace();
+			version = "Failed";
+			logger.warn("Content Server is not available. Service ID: " + ds.getId());
 		}
-		return response;
+
+		return version;
 	}
 }

@@ -2,6 +2,8 @@ package com.emc.monitor.jobs;
 
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -19,8 +21,9 @@ import com.emc.monitor.utils.HttpServiceUtils;
 
 public class JmsMonitor implements Job{
 
-	private static final String JMS_INFO = "/IndexAgent";	
+	private static final String JMS_INFO = "/DmMethods/servlet/DoMethod";	
 	private DocumentumService ds;
+	final static Logger logger = Logger.getLogger(JmsMonitor.class);
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		DAOFactory daofactory = DAOFactory.getInstance();
@@ -40,7 +43,7 @@ public class JmsMonitor implements Job{
 				e.printStackTrace();
 			}
 			if (isRunning(result)) {
-				result = "Please check corresponding Dsearch version";
+				result = "Please check corresponding Content Server version";
 				ds.setVersion(result);
 				ds.setStatus("Running");
 			} else {
@@ -51,7 +54,7 @@ public class JmsMonitor implements Job{
 	}
 
 	private boolean isRunning(String result) {
-		if (result == "Failed") {
+		if (result.equals("Failed")) {
 			return false;
 		} else {
 			return true;
@@ -59,35 +62,38 @@ public class JmsMonitor implements Job{
 	}
 
 	private String getStatus() throws Exception {
-		String jmsURL;
+//		String jmsURL;
+//		
+//		IDfCollection col;
+//		IDfQuery query = new DfQuery();
+//		StringBuilder queryString = new StringBuilder();
+//		queryString.append("select base_uri from dm_jms_config");
+//		queryString.append(" where config_type in (1,2)");
+//		System.out.println(queryString);
+//		query.setDQL(queryString.toString());
+//		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
+//		IDfSession session = null;
+//		try {
+//			session = dsu.getDocbaseSession(ds.getDocbase(), ds.getUser(), ds.getPassword());
+//			col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
+//			while (col.next()) {
+//				jmsURL = col.getString("base_uri");
+//				System.out.println(jmsURL);
+//			}
+//		} catch (DfException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				dsu.releaseSession(session);
+//			} catch (DfException e) {
+//				e.printStackTrace();
+//			}
+//		}
 		
-		IDfCollection col;
-		IDfQuery query = new DfQuery();
-		StringBuilder queryString = new StringBuilder();
-		queryString.append("select base_uri from dm_jms_config");
-		queryString.append(" where config_type in (1,2)");
-		System.out.println(queryString);
-		query.setDQL(queryString.toString());
-		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
-		IDfSession session = null;
-		try {
-			session = dsu.getDocbaseSession(ds.getDocbase(), ds.getUser(), ds.getPassword());
-			col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
-			while (col.next()) {
-				jmsURL = col.getString("base_uri");
-				System.out.println(jmsURL);
-			}
-		} catch (DfException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				dsu.releaseSession(session);
-			} catch (DfException e) {
-				e.printStackTrace();
-			}
+		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", JMS_INFO, null, null);
+		if (response.equals("Failed")) {
+			logger.info("CTS service is not reachable. ServiceID: " + ds.getId());
 		}
-		
-		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", JMS_INFO, null, null);		
 		return response;
 	}
 }

@@ -2,6 +2,8 @@ package com.emc.monitor.jobs;
 
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,7 +23,7 @@ public class CtsMonitor implements Job {
 
 	private static final String CTS_MONITOR = "/cts/monitor";
 	private DocumentumService ds;
-
+	final static Logger logger = Logger.getLogger(CtsMonitor.class);
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		DAOFactory daofactory = DAOFactory.getInstance();
 		
@@ -58,7 +60,9 @@ public class CtsMonitor implements Job {
 		queryString.append(" where any product is not null and");
 		queryString.append(" hostname = '" + ds.getHost() + "' ");
 		queryString.append(" order by r_object_id");
-		System.out.println(queryString);
+		if(logger.isDebugEnabled()) {
+			logger.debug("ServiceID: " + ds.getId() + "Retrieving CTS info.");
+		}
 		query.setDQL(queryString.toString());
 		DocbaseSessionUtils dsu = DocbaseSessionUtils.getInstance();
 		IDfSession session = null;
@@ -68,9 +72,11 @@ public class CtsMonitor implements Job {
 			col = query.execute(session, IDfQuery.DF_EXECREAD_QUERY);
 			while (col.next()) {
 				version = col.getString("cts_version");
-				System.out.println(version);
+				if(logger.isDebugEnabled()){
+					logger.debug("CTS version: " + version + ". ServiceID: " + ds.getId());
+				}
 			}
-		} catch (DfException e) {
+		} catch (DfException e) {			
 			e.printStackTrace();
 		} finally {
 			try {
@@ -84,7 +90,7 @@ public class CtsMonitor implements Job {
 	}
 
 	private boolean isRunning(String result) {
-		if (result == "Failed") {
+		if (result.equals("Failed")) {
 			return false;
 		} else {
 			return true;
@@ -93,6 +99,9 @@ public class CtsMonitor implements Job {
 
 	private String getStatus() throws Exception {
 		String response = HttpServiceUtils.sendRequest(ds.getHost(), ds.getPort(), "http", CTS_MONITOR, null, null);
+		if (response.equals("Failed")) {
+			logger.info("CTS service is not reachable. ServiceID: " + ds.getId());
+		}
 		return response;
 	}
 }

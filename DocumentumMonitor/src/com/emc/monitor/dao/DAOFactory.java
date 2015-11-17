@@ -21,8 +21,8 @@ public abstract class DAOFactory {
 		DAOFactory instance;
 
 		try {
-			Class.forName(driverClass);
-		} catch (ClassNotFoundException e) {
+			Class.forName(driverClass).newInstance();
+		} catch (Exception e) {
 			throw new DAOConfigurationException("Driver class '" + driverClass + "' is missing in classpath.", e);
 		}
 		instance = new DriverManagerDAOFactory(url, username, password);
@@ -50,7 +50,7 @@ class DriverManagerDAOFactory extends DAOFactory {
 	}
 
 	@Override
-	Connection getConnection() throws SQLException {
+	Connection getConnection() throws SQLException {		
 		return DriverManager.getConnection(url, username, password);
 	}
 }

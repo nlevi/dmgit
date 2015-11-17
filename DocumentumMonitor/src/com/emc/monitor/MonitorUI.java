@@ -1,28 +1,35 @@
 package com.emc.monitor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.DatabaseUtil;
-import com.emc.monitor.utils.MonitorUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import com.documentum.fc.common.DfException;
+import com.emc.monitor.dao.DAOFactory;
+import com.emc.monitor.dao.DocumentumServiceDAO;
+import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.MonitorUtils;
+import com.emc.monitor.utils.UpdateDFCProperties;
 
 /**
  * Servlet implementation class MonitorUI
  */
 
 public class MonitorUI extends HttpServlet {
-	 private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 
@@ -34,52 +41,50 @@ public class MonitorUI extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+	protected void processGetRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// response.setContentType("text/html;charset=UTF-8");
 		HttpSession s = request.getSession();
 
-
+		response.setContentType("application/json");
 		try (PrintWriter out = response.getWriter()) {
-
-			out.println("<!DOCTYPE html>");
-			out.println("<html>");
-			out.println("<head>");
-			// out.println("<meta http-equiv='Content-Style-Type'
-			// content='text/css'>");
-			// out.println("<link rel='stylesheet' type='text/css'
-			// href='bootstrap.css'>");
-			out.println("<title>Documentum Environment Monitor</title>");
-			out.println("</head>");
-			out.println("<body>");
-//			out.println("<h1>" + du.executeSelect("select count(*) from mntr_env_details").toString() + "</h1>");
-//			out.println("<h1>" + du + "</h1>");
-			out.println("<table border = '1'>");
-			out.println("<tr>");
-			out.println("<th>Service ID</th>");
-			out.println("<th>Service Name</th>");
-			out.println("<th>Version</th>");
-			out.println("<th>Status</th>");
-			out.println("<th>Last Update</th>");
-			out.println("<tr>");
-			List<DocumentumService> dslist = MonitorUtils.getStatus();
-			Iterator<DocumentumService> it = dslist.iterator();
+			DAOFactory daofactory = DAOFactory.getInstance();
+			DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
 			DocumentumService ds;
-			while (it.hasNext()) {
+			if (request.getParameter("action").equals("find")) {
+				ds = dsdao.getServiceById(Integer.parseInt(request.getParameter("id")));
+				JSONObject json = new JSONObject();
+				json.put("name", ds.getName());
+				json.put("docbase", ds.getDocbase());
+				json.put("host", ds.getHost());
+				json.put("port", ds.getPort());
+				json.put("user", ds.getUser());
+				json.put("password", ds.getPassword());
+				json.put("email", ds.getAddress());
+				json.put("type", ds.getType());
+				json.put("status", ds.getStatus());
+				json.put("version", ds.getVersion());
+				out.print(json.toString());
+			} else {
+				List<DocumentumService> dslist = dsdao.getAllServices();
+				Iterator<DocumentumService> it = dslist.iterator();
+
+				JSONArray jsonArray = new JSONArray();
+				Map<String, Object> map;
+				while (it.hasNext()) {
 					ds = it.next();
-					out.println("<tr>");
-					out.println("<td>" + ds.getId() + "</td>");
-					out.println("<td>" + ds.getName() + "</td>");
-					out.println("<td>" + ds.getVersion() + "</td>");
-					out.println("<td>" + ds.getStatus() + "</td>");
-					out.println("<td>" + ds.getLastUpdate() + "</td>");
-					out.println("</tr>");
+					map = new HashMap<String, Object>();
+					map.put("id", ds.getId());
+					map.put("name", ds.getName());
+					map.put("version", ds.getVersion());
+					map.put("status", ds.getStatus());
+					map.put("lastUpdate", ds.getLastUpdate());
+
+					jsonArray.put(map);
+
 				}
-			
-			out.println("</table>");
-			out.println(preferencesForm());
-			out.println("</body>");
-			out.println("</html>");
+				out.print(jsonArray.toString());
+			}
 		}
 	}
 
@@ -89,7 +94,7 @@ public class MonitorUI extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processRequest(request, response);
+		processGetRequest(request, response);
 	}
 
 	/**
@@ -98,30 +103,41 @@ public class MonitorUI extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
+		response.setContentType("application/json");
 
 		HttpSession s = request.getSession();
 
-		try (PrintWriter out = response.getWriter()) {
-			out.println("<!DOCTYPE html>");
-			out.println("<html>");
-			out.println("<head>");
-			out.println("<title>iStore registration</title>");
-			out.println("</head>");
-			out.println("<body>");
-			out.println("<h3> User host: " + request.getRemoteHost() + ":" + request.getRemotePort() + "</h3>");
-			out.println(params);
-			out.println("</body>");
-			out.println("</html>");
-		}
-	}
-
-	private String preferencesForm() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<form action=\"EnvDetails\" method=\"GET\">");
-		sb.append("<input type=\"submit\" value=\"Modify Environment Details\"/>");
-		sb.append("</form>");
-		return sb.toString();
+		BufferedReader br = request.getReader();
+		String str;
+		while ((str = br.readLine()) != null) {
+			sb.append(str);
+		}
+
+		JSONObject jrequest = new JSONObject(sb.toString());
+
+		DocumentumService ds = new DocumentumService();
+		ds.setName(jrequest.getString("name"));
+		ds.setDocbase(jrequest.getString("docbase"));
+		ds.setHost(jrequest.getString("host"));
+		ds.setPort(jrequest.getInt("port"));
+		ds.setUser(jrequest.getString("user"));
+		ds.setPassword(jrequest.getString("password"));
+		ds.setAddress(jrequest.getString("email"));
+		ds.setType(jrequest.getString("type"));
+
+		DAOFactory daofactory = DAOFactory.getInstance();
+
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		dsdao.create(ds);
+
 	}
 
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		DAOFactory daofactory = DAOFactory.getInstance();
+
+		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+		dsdao.delete(Integer.parseInt(request.getParameter("id")));
+	}
 }

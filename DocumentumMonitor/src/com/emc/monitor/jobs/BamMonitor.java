@@ -14,19 +14,19 @@ import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 
-public class XcpMonitor implements Job {
+public class BamMonitor implements Job {
 
 	private DocumentumService ds;
-	private static final String XCP_INFO = "/products/xcp_product_info";
-	private static final String[] versionTags = {"dm:major","dm:minor","dm:build_number"};
-	final static Logger logger = Logger.getLogger(XcpMonitor.class);
+	private static final String BAM_INFO = "/bam-server/admin?action=version";
+	private static final String[] versionTags = {"major","minor","build-number"};
+	final static Logger logger = Logger.getLogger(BamMonitor.class);
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		
 		DAOFactory daofactory = DAOFactory.getInstance();
 		
 		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
-		List<DocumentumService> dslist = dsdao.getServicesByType("xcp");
+		List<DocumentumService> dslist = dsdao.getServicesByType("bam");
 		String result = null;
 		
 		Iterator<DocumentumService> it = dslist.iterator();
@@ -34,7 +34,7 @@ public class XcpMonitor implements Job {
 			ds = it.next();
 
 			try {
-				result = sendRequest(ds.getHost(), ds.getPort(), "http", XCP_INFO, ds.getUser(), ds.getPassword());				
+				result = sendRequest(ds.getHost(), ds.getPort(), "http", BAM_INFO, ds.getUser(), ds.getPassword());				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -47,5 +47,5 @@ public class XcpMonitor implements Job {
 			
 			dsdao.update(ds);
 		}
-	}	
+	}
 }

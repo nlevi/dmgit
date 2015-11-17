@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+	<table class="table table-bordered table-curved">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Version</th>
+			<th>Status</th>
+			<th>Last Update</th>
+		</tr>
+		<tr ng-repeat="service in services" ng-class="isRunning(service)">
+			<td><a href="#serviceDetails/{{ service.id }}">{{ service.id
+					}}</a></td>
+			<td>{{ service.name }}</td>
+			<td>{{ service.version }}</td>
+			<td>{{ service.status }}</td>
+			<td>{{ service.lastUpdate }}</td>
+		</tr>
+	</table>
+</div>

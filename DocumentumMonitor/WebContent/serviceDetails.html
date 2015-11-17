@@ -1,0 +1,45 @@
+<h4>{{ service.name }} details</h4>
+<div class="panel panel-default">
+	<table class="table  table-bordered table-responsive">
+		<tr>
+			<td>Service Name:</td>
+			<td>{{ service.name }}</td>
+		</tr>
+		<tr>
+			<td>Service Docbase:</td>
+			<td>{{ service.docbase }}</td>
+		</tr>
+		<tr>
+			<td>Service Status:</td>
+			<td>{{ service.status }}</td>
+		</tr>
+		<tr>
+			<td>Service Version:</td>
+			<td>{{ service.version }}</td>
+		</tr>
+		<tr>
+			<td>Service Host:</td>
+			<td>{{ service.host }}</td>
+		</tr>
+		<tr>
+			<td>Service Port:</td>
+			<td>{{ service.port }}</td>
+		</tr>
+		<tr>
+			<td>Service User:</td>
+			<td>{{ service.user }}</td>
+		</tr>
+		<tr>
+			<td>Service Email:</td>
+			<td>{{ service.email }}</td>
+		</tr>
+		<tr>
+			<td>Service Type:</td>
+			<td>{{ service.type }}</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<button type="submit" class="btn btn-primary btn-sm"
+		ng-click="remove()">Delete</button>
+</div>

@@ -23,7 +23,9 @@ public final class DAOUtils {
     {
         PreparedStatement stmt = con.prepareStatement(sql,
             returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
-        setStmtParams(stmt, values);
+        if(values != null) {
+        	setStmtParams(stmt, values);
+        }
         return stmt;
     }
 
@@ -34,22 +36,17 @@ public final class DAOUtils {
             stmt.setObject(i + 1, values[i]);
         }
     }
-
-//    public static Date toSqlDate(java.util.Date date) {
-//    	System.out.println(new Date(date.getTime()));
-//     return (date != null) ? new Date(date.getTime()) : null;
-//    }
     
-    public static Timestamp convertToSqlTimestamp(java.util.Date date) {
+    public static Timestamp convertToTimestamp(java.util.Date date) {
      return (date != null) ? new Timestamp(date.getTime()) : null;
     }
     
     public static DocumentumService mapResults(ResultSet resultSet) throws SQLException {
     	DocumentumService dctmService = new DocumentumService();    	
     	dctmService.setServiceId(resultSet.getInt("service_id"));    	
-    	dctmService.setAddress(resultSet.getString("admin_address"));    	
+    	dctmService.setAddress(resultSet.getString("address"));    	
     	dctmService.setDocbase(resultSet.getString("docbase"));
-    	dctmService.setPassword(resultSet.getString("user_passwd"));
+    	dctmService.setPassword(resultSet.getString("password"));
     	dctmService.setUser(resultSet.getString("service_user"));
     	dctmService.setPort(resultSet.getInt("service_port"));
     	dctmService.setHost(resultSet.getString("service_host"));
@@ -59,6 +56,17 @@ public final class DAOUtils {
     	dctmService.setVersion(resultSet.getString("service_version"));
     	dctmService.setLastUpdate(resultSet.getTimestamp("last_update"));
         return dctmService;
+    }
+    
+    public static boolean tableExists(SQLException ex) {
+    	boolean exists;
+    	if(ex.getSQLState().equals("X0Y32")) {
+    		exists = true;
+    	} else {
+    		exists = false;
+    	}
+    	
+    	return exists;
     }
 
 }
