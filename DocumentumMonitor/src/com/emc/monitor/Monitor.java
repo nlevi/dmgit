@@ -17,29 +17,15 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.documentum.fc.common.DfException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.MonitorUtils;
-import com.emc.monitor.utils.UpdateDFCProperties;
 
-/**
- * Servlet implementation class MonitorUI
- */
-
-public class MonitorUI extends HttpServlet {
+public class Monitor extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
 	// private static final long serialVersionUID = -7681214561115135621L;
 	private String params;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 
 	protected void processGetRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -88,19 +74,12 @@ public class MonitorUI extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processGetRequest(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("application/json");

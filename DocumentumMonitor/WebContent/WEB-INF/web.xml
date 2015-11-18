@@ -8,7 +8,7 @@
   </servlet>
   <servlet>
     <servlet-name>MonitorUI</servlet-name>
-    <servlet-class>com.emc.monitor.MonitorUI</servlet-class>
+    <servlet-class>com.emc.monitor.Monitor</servlet-class>
     <init-param>
       <param-name>dbname</param-name>
       <param-value>myDB</param-value>

@@ -64,7 +64,7 @@ monitorApp.controller('AddServiceController', function($scope,$http,$location) {
 	$scope.create = function() {
 		var request = $http({
 			method: "POST",
-			url: "/DocumentumMonitor/MonitorUI",
+			url: "/DocumentumMonitor/Monitor",
 			params: {
 				action: "add"
 			},
@@ -95,7 +95,7 @@ monitorApp.controller('AddServiceController', function($scope,$http,$location) {
 monitorApp.controller('ViewServicesController', function($scope, $http, $location, $interval) {
 	$http({
 		method: "GET",
-		url: "/DocumentumMonitor/MonitorUI",
+		url: "/DocumentumMonitor/Monitor",
 		params: {action: "view"}
 	})
 	.success(function(data, status, headers, config) {
@@ -114,7 +114,7 @@ monitorApp.controller('ViewServicesController', function($scope, $http, $locatio
 monitorApp.controller('ServiceDetailsController', function($scope, $http,$routeParams,$location) {
 	$http({
 			method: "GET",
-			url: "/DocumentumMonitor/MonitorUI",
+			url: "/DocumentumMonitor/Monitor",
 			params: {action: "find",id: $routeParams.id}
 		})
 		.success(function(data, status, headers, config) {
@@ -123,7 +123,7 @@ monitorApp.controller('ServiceDetailsController', function($scope, $http,$routeP
 	$scope.remove = function() {
 		var request = $http({
 			method: "DELETE",
-			url: "/DocumentumMonitor/MonitorUI",
+			url: "/DocumentumMonitor/Monitor",
 			params: {
 				id: $routeParams.id
 			}
