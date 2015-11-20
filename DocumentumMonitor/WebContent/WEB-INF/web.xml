@@ -7,7 +7,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
-    <servlet-name>MonitorUI</servlet-name>
+    <servlet-name>Monitor</servlet-name>
     <servlet-class>com.emc.monitor.Monitor</servlet-class>
     <init-param>
       <param-name>dbname</param-name>
@@ -27,8 +27,8 @@
     </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MonitorUI</servlet-name>
-    <url-pattern>/MonitorUI</url-pattern>
+    <servlet-name>Monitor</servlet-name>
+    <url-pattern>/Monitor</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

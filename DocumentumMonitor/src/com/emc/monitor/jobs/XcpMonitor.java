@@ -34,7 +34,7 @@ public class XcpMonitor implements Job {
 			ds = it.next();
 
 			try {
-				result = sendRequest(ds.getHost(), ds.getPort(), "http", XCP_INFO, ds.getUser(), ds.getPassword());				
+				result = sendRequest(ds.getHost(), ds.getPort(), "http", "/".concat(ds.getName()).concat(XCP_INFO), ds.getUser(), ds.getPassword());				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -1,9 +1,5 @@
-﻿package com.emc.monitor.dao;
-
-
-
+package com.emc.monitor.dao;
 import static com.emc.monitor.dao.DAOUtils.*;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +12,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.documentum.fc.common.DfException;
-import com.emc.monitor.jobs.CsMonitor;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.UpdateDFCProperties;
 

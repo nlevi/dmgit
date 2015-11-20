@@ -1,6 +1,9 @@
 import static com.emc.monitor.dao.DAOUtils.*;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +11,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Properties;
+
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,7 +37,7 @@ import com.emc.monitor.utils.UpdateDFCProperties;
 
 public class Tester {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, MessagingException {
 		// Set<DocumentumService> sds;
 		// DocumentumService tempds;
 		// String[] url = null;
@@ -207,7 +220,7 @@ public class Tester {
 		// allds.size());
 		// System.out.println(json.toString());
 
-		String html = "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'><html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>xMS-Agent 1.2.0030.0447</title></head><body style='margin-left:20px;'><font size='2' face='verdana'>    <div><b>xMS-Agent version: </b>1.2.0030.0447</div><br /><div><b>xMS-Agent health:</b><div class='valid'>Ok</div></div><br /><table class='statustable'><tr><td colspan='2' align='center'><b>Status information</b></td></tr><tr><td>xMS Server Home:</td><td>/opt/tcserver/72/xms2/webapps/xms-agent/WEB-INF</td></tr><tr><td>Vix Library path:</td><td>/opt/tcserver/72/xms2/webapps/xms-agent/WEB-INF/lib/vix/linux64</td></tr><tr><td>Environment name [mode]:</td><td>Dev22 [Development]</td></tr></table></font></body></html>";
+//		String html = "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'><html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>xMS-Agent 1.2.0030.0447</title></head><body style='margin-left:20px;'><font size='2' face='verdana'>    <div><b>xMS-Agent version: </b>1.2.0030.0447</div><br /><div><b>xMS-Agent health:</b><div class='valid'>Ok</div></div><br /><table class='statustable'><tr><td colspan='2' align='center'><b>Status information</b></td></tr><tr><td>xMS Server Home:</td><td>/opt/tcserver/72/xms2/webapps/xms-agent/WEB-INF</td></tr><tr><td>Vix Library path:</td><td>/opt/tcserver/72/xms2/webapps/xms-agent/WEB-INF/lib/vix/linux64</td></tr><tr><td>Environment name [mode]:</td><td>Dev22 [Development]</td></tr></table></font></body></html>";
 
 //		List<String> versions = new ArrayList<>();
 //		Document doc = Jsoup.parse(html);
@@ -222,23 +235,23 @@ public class Tester {
 //				}
 //			}
 			
-			String version = null;
-			List<String> versions = new ArrayList<>();
+//			String version = null;
+//			List<String> versions = new ArrayList<>();
+//			
+//			Document doc;
+//			doc = Jsoup.parse(html);
+//			
+//			Elements modules = doc.select("div");
+//			for (Element module : modules) {
+//				String tmp = module.text().replaceAll("[^0-9&&[^\\.]]", "");
+//				if (tmp.length() == 13) {
+//					versions.add(tmp);
+//				}
+//			}		
 			
-			Document doc;
-			doc = Jsoup.parse(html);
 			
-			Elements modules = doc.select("div");
-			for (Element module : modules) {
-				String tmp = module.text().replaceAll("[^0-9&&[^\\.]]", "");
-				if (tmp.length() == 13) {
-					versions.add(tmp);
-				}
-			}		
-			
-			
-			version = versions.get(0);
-			System.out.println(version);
+//			version = versions.get(0);
+//			System.out.println(version);
 			
 
 //			for (int i = 0; i < versions.size() - 1; i++) {
@@ -260,6 +273,29 @@ public class Tester {
 //				System.out.println("Table already exsists.");
 //			}
 //		}
+		
+		String to = "dmadmin@dctm71";
+		Properties prop = new Properties();
+		
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		InputStream pFile = classLoader.getResourceAsStream("mail.properties");
+		
+		FileReader f = new FileReader(new File(("d:/monitor/dmgit/DocumentumMonitor/src/smtp.properties")));
+				
+		prop.load(f);
+		
+		Session session = Session.getDefaultInstance(prop);
+		System.out.println(session.getProperties());
+		
+		MimeMessage message = new MimeMessage(session);
+		
+		message.setFrom(prop.getProperty("mail.from"));
+		message.addRecipient(Message.RecipientType.TO,new InternetAddress("dmadmin@dctm71"));
+		message.setSubject("Mail from MonitorApp");		
+		message.setText("This is email from Monitor Application");
+		
+		Transport.send(message);
+		
 		}
 	}
 //}

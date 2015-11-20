@@ -13,11 +13,13 @@ import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import static com.emc.monitor.utils.HttpServiceUtils.*;
 import static com.emc.monitor.utils.HttpResponseParser.*;
+import com.emc.monitor.utils.MailSender;
 
 public class DaMonitor implements Job{
 
 	private static final String DA_INFO = "/da/version.properties";	
 	private DocumentumService ds;
+	private MailSender ms = new MailSender();
 	final static Logger logger = Logger.getLogger(DaMonitor.class);
 	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
@@ -39,8 +41,9 @@ public class DaMonitor implements Job{
 			if (!result.equals("Failed")) {
 				ds.setVersion(getVersionFromResponse(result));
 				ds.setStatus("Running");
-			} else {
+			} else {				
 				ds.setStatus(result);;
+				ms.sendMail(ds);
 			}
 			dsdao.update(ds);
 		}
