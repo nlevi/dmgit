@@ -41,7 +41,9 @@ public final class HttpServiceUtils {
 		int responseStatusCode = 0;
 		try {
 			responseStatusCode = con.getResponseCode();
-			System.out.println("Response: " + responseStatusCode);
+			if(logger.isDebugEnabled()) {
+				logger.debug("Response: " + responseStatusCode);
+			}			
 		} catch (IOException e) {
 			logger.warn("Cannot connect to: " + url.toString());
 			responseStatusCode = 1;

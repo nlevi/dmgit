@@ -1,5 +1,7 @@
 package com.emc.monitor.jobs;
 
+import static com.emc.monitor.utils.HttpResponseParser.getVersionFromResponse;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Iterator;
@@ -13,10 +15,12 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.MailSender;
 
 public class DocbrokerMonitor implements Job {
 
 	private DocumentumService ds;
+	private MailSender ms = new MailSender();
 	final static Logger logger = Logger.getLogger(DocbrokerMonitor.class);
 	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
@@ -35,20 +39,15 @@ public class DocbrokerMonitor implements Job {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (isRunning(result)) {
+			if (!result.equals("Failed")) {				
 				ds.setStatus("Running");
-			} else {
-				ds.setStatus("Failed");
+			} else {				
+				if(ds.getStatus() == null || !ds.getStatus().equals(result)) {
+					ds.setStatus(result);
+					ms.sendMail(ds);
+				}					
 			}
 			dsdao.update(ds);
-		}
-	}
-
-	private boolean isRunning(String result) {
-		if (result.equals("Failed")) {
-			return false;
-		} else {
-			return true;
 		}
 	}
 

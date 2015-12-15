@@ -11,12 +11,16 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.MailSender;
+
+import static com.emc.monitor.utils.HttpResponseParser.getVersionFromResponse;
 import static com.emc.monitor.utils.HttpServiceUtils.*;
 
 public class WebtopMonitor implements Job{
 
 	private static final String WEBTOP_INFO = "/webtop/version.properties";	
 	private DocumentumService ds;
+	private MailSender ms = new MailSender();
 	final static Logger logger = Logger.getLogger(WebtopMonitor.class);
 	
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
@@ -31,15 +35,18 @@ public class WebtopMonitor implements Job{
 		while (it.hasNext()) {
 			ds = it.next();
 			try {
-				result = getStatus();				
+				result = sendRequest(ds.getHost(), ds.getPort(), "http", WEBTOP_INFO, ds.getUser(), ds.getPassword());				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (isRunning(result)) {
-				ds.setVersion(result);
+			if (!result.equals("Failed")) {
+				ds.setVersion(getVersionFromResponse(result));
 				ds.setStatus("Running");
-			} else {
-				ds.setStatus("Failed");;
+			} else {				
+				if(ds.getStatus() == null || !ds.getStatus().equals(result)) {
+					ds.setStatus(result);
+					ms.sendMail(ds);
+				}								
 			}
 			dsdao.update(ds);
 		}

@@ -1,6 +1,7 @@
 package com.emc.monitor;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +19,12 @@ public class PopulateData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void init() throws ServletException {
-		try {
-			UpdateDFCProperties.createDfcProperties();
-			createTable();
-		} catch (IOException | SQLException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			UpdateDFCProperties.createDfcProperties();
+//			createTable();
+//		} catch (IOException | SQLException | URISyntaxException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private void createTable() throws SQLException {

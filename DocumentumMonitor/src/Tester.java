@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.documentum.fc.common.DfException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DAOUtils;
 import com.emc.monitor.dao.DocumentumServiceDAO;
@@ -274,27 +276,34 @@ public class Tester {
 //			}
 //		}
 		
-		String to = "dmadmin@dctm71";
-		Properties prop = new Properties();
+//		String to = "dmadmin@dctm71";
+//		Properties prop = new Properties();
+//		
+//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//		InputStream pFile = classLoader.getResourceAsStream("mail.properties");
+//		
+//		FileReader f = new FileReader(new File(("d:/monitor/dmgit/DocumentumMonitor/src/smtp.properties")));
+//				
+//		prop.load(f);
+//		
+//		Session session = Session.getDefaultInstance(prop);
+//		System.out.println(session.getProperties());
+//		
+//		MimeMessage message = new MimeMessage(session);
+//		
+//		message.setFrom(prop.getProperty("mail.from"));
+//		message.addRecipient(Message.RecipientType.TO,new InternetAddress("dmadmin@dctm71"));
+//		message.setSubject("Mail from MonitorApp");		
+//		message.setText("This is email from Monitor Application");
+//		
+//		Transport.send(message);
 		
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream pFile = classLoader.getResourceAsStream("mail.properties");
-		
-		FileReader f = new FileReader(new File(("d:/monitor/dmgit/DocumentumMonitor/src/smtp.properties")));
-				
-		prop.load(f);
-		
-		Session session = Session.getDefaultInstance(prop);
-		System.out.println(session.getProperties());
-		
-		MimeMessage message = new MimeMessage(session);
-		
-		message.setFrom(prop.getProperty("mail.from"));
-		message.addRecipient(Message.RecipientType.TO,new InternetAddress("dmadmin@dctm71"));
-		message.setSubject("Mail from MonitorApp");		
-		message.setText("This is email from Monitor Application");
-		
-		Transport.send(message);
+		try {
+			UpdateDFCProperties.createDfcProperties();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		}
 	}

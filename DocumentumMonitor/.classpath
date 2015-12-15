@@ -52,7 +52,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/classes"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/monitor/derbyclient.jar">
+	<classpathentry kind="lib" path="D:/monitor/db-derby-10.11.1.1-bin/lib/derbyclient.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

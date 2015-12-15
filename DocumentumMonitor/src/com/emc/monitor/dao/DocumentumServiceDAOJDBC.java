@@ -1,6 +1,7 @@
 package com.emc.monitor.dao;
 import static com.emc.monitor.dao.DAOUtils.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -110,7 +111,7 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
         		}
             }
             
-        } catch (SQLException | IOException | DfException e) {
+        } catch (SQLException | IOException | DfException | URISyntaxException e) {
             throw new DAOException(e);
         }
     }

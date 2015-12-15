@@ -1,21 +1,190 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <job-scheduling-data
-    xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
-    version="1.8">
+	xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
+	version="1.8">
 
-    <schedule>
+	<schedule>
+		<job>
+			<name>DsearchMonitor</name>
+			<job-class>com.emc.monitor.jobs.DsearchMonitor</job-class>
+		</job>
+		<trigger>
+			<cron>
+				<name>DsearchMonitor</name>
+				<job-name>DsearchMonitor</job-name>
+				<cron-expression>0 0/1 * 1/1 * ? *</cron-expression>
+			</cron>
+		</trigger>
+	</schedule>
+	<schedule>
+		<job>
+			<name>IndexMonitor</name>
+			<job-class>com.emc.monitor.jobs.IndexMonitor</job-class>
+		</job>
+		<trigger>
+			<cron>
+				<name>IndexMonitor</name>
+				<job-name>IndexMonitor</job-name>
+				<cron-expression>0 0/1 * 1/1 * ? *</cron-expression>
+			</cron>
+		</trigger>
+	</schedule>
+	<schedule>        
         <job>
-            <name>XploreMonitor</name>
-            <job-class>com.emc.monitor.job.XploreMonitor</job-class>
-        </job>
+            <name>XcpMonitor</name>
+            <job-class>com.emc.monitor.jobs.XcpMonitor</job-class>
+        </job>        
         <trigger>
             <cron>
-                <name>XploreMonitor</name>
-                <job-name>XploreMonitor</job-name>
-                <cron-expression>0 0/5 * 1/1 * ? *</cron-expression>
+                <name>XcpMonitor</name>
+                <job-name>XcpMonitor</job-name>
+                <cron-expression>0 0/1 * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+	<schedule>        
+        <job>
+            <name>CtsMonitor</name>
+            <job-class>com.emc.monitor.jobs.CtsMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>CtsMonitor</name>
+                <job-name>CtsMonitor</job-name>
+                <cron-expression>0 0/1 * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>DocbrokerMonitor</name>
+            <job-class>com.emc.monitor.jobs.DocbrokerMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>DocbrokerMonitor</name>
+                <job-name>DocbrokerMonitor</job-name>
+                <cron-expression>0 0/1 * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>CsMonitor</name>
+            <job-class>com.emc.monitor.jobs.CsMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>CsMonitor</name>
+                <job-name>CsMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>JmsMonitor</name>
+            <job-class>com.emc.monitor.jobs.JmsMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>JmsMonitor</name>
+                <job-name>JmsMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>BpmMonitor</name>
+            <job-class>com.emc.monitor.jobs.BpmMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>BpmMonitor</name>
+                <job-name>BpmMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>BamMonitor</name>
+            <job-class>com.emc.monitor.jobs.BamMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>BamMonitor</name>
+                <job-name>BamMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>BpsMonitor</name>
+            <job-class>com.emc.monitor.jobs.BpsMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>BpsMonitor</name>
+                <job-name>BpsMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>XmsMonitor</name>
+            <job-class>com.emc.monitor.jobs.XmsMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>XmsMonitor</name>
+                <job-name>XmsMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>DaMonitor</name>
+            <job-class>com.emc.monitor.jobs.DaMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>DaMonitor</name>
+                <job-name>DaMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>WebtopMonitor</name>
+            <job-class>com.emc.monitor.jobs.WebtopMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>WebtopMonitor</name>
+                <job-name>WebtopMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
+            </cron>
+        </trigger>
+    </schedule>
+    <schedule>        
+        <job>
+            <name>TspMonitor</name>
+            <job-class>com.emc.monitor.jobs.TspMonitor</job-class>
+        </job>        
+        <trigger>
+            <cron>
+                <name>TspMonitor</name>
+                <job-name>TspMonitor</job-name>
+                <cron-expression>0/5 * * 1/1 * ? *</cron-expression>
             </cron>
         </trigger>
     </schedule>

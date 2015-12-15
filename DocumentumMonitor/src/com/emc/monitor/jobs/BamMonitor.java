@@ -13,12 +13,14 @@ import org.quartz.JobExecutionException;
 import com.emc.monitor.dao.DAOFactory;
 import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
+import com.emc.monitor.utils.MailSender;
 
 public class BamMonitor implements Job {
 
 	private DocumentumService ds;
 	private static final String BAM_INFO = "/bam-server/admin?action=version";
 	private static final String[] versionTags = {"major","minor","build-number"};
+	private MailSender ms = new MailSender();
 	final static Logger logger = Logger.getLogger(BamMonitor.class);
 
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
@@ -41,8 +43,11 @@ public class BamMonitor implements Job {
 			if (!result.equals("Failed")) {
 				ds.setVersion(getVersionFromResponse(result,versionTags));
 				ds.setStatus("Running");
-			} else {
-				ds.setStatus("Failed");
+			} else {				
+				if(ds.getStatus() == null || !ds.getStatus().equals(result)) {
+					ds.setStatus(result);
+					ms.sendMail(ds);
+				}					
 			}
 			
 			dsdao.update(ds);

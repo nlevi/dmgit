@@ -17,6 +17,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
+
+import com.emc.monitor.jobs.BamMonitor;
 import com.emc.monitor.service.DocumentumService;
 
 import freemarker.cache.ClassTemplateLoader;
@@ -27,11 +30,20 @@ import freemarker.template.TemplateException;
 
 public class MailSender {
 	
+	final static Logger logger = Logger.getLogger(MailSender.class);
+	
 	public MailSender() {
 		
 	}
 
 	public void sendMail(DocumentumService service) {
+		
+		if (service.getAddress() == null) {
+			if(logger.isDebugEnabled()) {
+				logger.debug("No email address is set for " + service.getId() + ":" + service.getName());
+			}
+			return;
+		}
 
 		Properties prop = new Properties();
 

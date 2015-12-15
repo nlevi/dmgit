@@ -42,8 +42,10 @@ public class DaMonitor implements Job{
 				ds.setVersion(getVersionFromResponse(result));
 				ds.setStatus("Running");
 			} else {				
-				ds.setStatus(result);;
-				ms.sendMail(ds);
+				if(ds.getStatus() == null || !ds.getStatus().equals(result)) {
+					ds.setStatus(result);
+					ms.sendMail(ds);
+				}								
 			}
 			dsdao.update(ds);
 		}

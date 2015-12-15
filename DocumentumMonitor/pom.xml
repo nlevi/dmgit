@@ -119,13 +119,6 @@
   	</dependency>
   	<dependency>
   		<groupId>dctm-libs</groupId>
-  		<artifactId>derbyclient</artifactId>
-  		<scope>system</scope>
-  		<systemPath>d:\monitor\derbyclient.jar</systemPath>
-  		<version>10.11.1.1</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>dctm-libs</groupId>
   		<artifactId>jsafeFIPS</artifactId>
   		<scope>system</scope>
   		<systemPath>d:\monitor\jsafeFIPS.jar</systemPath>
@@ -142,6 +135,11 @@
   		<groupId>commons-lang</groupId>
   		<artifactId>commons-lang</artifactId>
   		<version>2.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.derby</groupId>
+  		<artifactId>derbyclient</artifactId>
+  		<version>10.11.1.1</version>
   	</dependency>
   </dependencies>
   <properties>

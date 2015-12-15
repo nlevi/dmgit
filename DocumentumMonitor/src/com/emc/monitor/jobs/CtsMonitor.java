@@ -1,5 +1,7 @@
 package com.emc.monitor.jobs;
 
+import static com.emc.monitor.utils.HttpResponseParser.getVersionFromResponse;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,11 +20,13 @@ import com.emc.monitor.dao.DocumentumServiceDAO;
 import com.emc.monitor.service.DocumentumService;
 import com.emc.monitor.utils.DocbaseSessionUtils;
 import com.emc.monitor.utils.HttpServiceUtils;
+import com.emc.monitor.utils.MailSender;
 
 public class CtsMonitor implements Job {
 
 	private static final String CTS_MONITOR = "/cts/monitor";
 	private DocumentumService ds;
+	private MailSender ms = new MailSender();
 	final static Logger logger = Logger.getLogger(CtsMonitor.class);
 	public void execute(final JobExecutionContext ctx) throws JobExecutionException {
 		DAOFactory daofactory = DAOFactory.getInstance();
@@ -40,12 +44,14 @@ public class CtsMonitor implements Job {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (isRunning(result)) {
-				result = getCTSVersion();
-				ds.setVersion(result);
+			if (!result.equals("Failed")) {
+				ds.setVersion(getCTSVersion());
 				ds.setStatus("Running");
-			} else {
-				ds.setStatus("Failed");
+			} else {				
+				if(ds.getStatus() == null || !ds.getStatus().equals(result)) {
+					ds.setStatus(result);
+					ms.sendMail(ds);
+				}					
 			}
 			dsdao.update(ds);
 		}
@@ -87,14 +93,6 @@ public class CtsMonitor implements Job {
 			}
 		}
 		return version;
-	}
-
-	private boolean isRunning(String result) {
-		if (result.equals("Failed")) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	private String getStatus() throws Exception {
