@@ -1,9 +1,7 @@
 package com.emc.monitor.utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
@@ -19,11 +17,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
-import com.emc.monitor.jobs.BamMonitor;
 import com.emc.monitor.service.DocumentumService;
 
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -60,7 +55,7 @@ public class MailSender {
 
 			message.setFrom(prop.getProperty("mail.from"));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(service.getAddress()));
-			message.setSubject("ALERT: Service " + service.getId() + ":" + service.getName() + "is not reachable!");
+			message.setSubject("ALERT: Service " + service.getId() + ":" + service.getName() + " is not reachable!");
 						
 			Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
 			cfg.setClassForTemplateLoading(this.getClass(),"/");			
@@ -80,10 +75,10 @@ public class MailSender {
 			Writer output = new StringWriter();
 			template.process(paramMap, output);
 			message.setContent(output.toString(), "text/html");
-
+			
 			Transport.send(message);
 		} catch (IOException | MessagingException | TemplateException e) {
-			e.printStackTrace();
+			logger.warn("Failed to send notification", e);			
 		}
 
 	}
