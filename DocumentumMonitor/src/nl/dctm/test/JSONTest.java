@@ -1,3 +1,4 @@
+package nl.dctm.test;
 
 public class JSONTest {
 

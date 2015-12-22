@@ -1,3 +1,4 @@
+package nl.dctm.test;
 import static nl.dctm.monitor.dao.DAOUtils.*;
 
 import java.io.File;
