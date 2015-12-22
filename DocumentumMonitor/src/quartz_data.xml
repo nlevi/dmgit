@@ -9,7 +9,7 @@
 	<schedule>
 		<job>
 			<name>DsearchMonitor</name>
-			<job-class>com.emc.monitor.jobs.DsearchMonitor</job-class>
+			<job-class>nl.dctm.monitor.jobs.DsearchMonitor</job-class>
 		</job>
 		<trigger>
 			<cron>
@@ -22,7 +22,7 @@
 	<schedule>
 		<job>
 			<name>IndexMonitor</name>
-			<job-class>com.emc.monitor.jobs.IndexMonitor</job-class>
+			<job-class>nl.dctm.monitor.jobs.IndexMonitor</job-class>
 		</job>
 		<trigger>
 			<cron>
@@ -35,7 +35,7 @@
 	<schedule>        
         <job>
             <name>XcpMonitor</name>
-            <job-class>com.emc.monitor.jobs.XcpMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.XcpMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -48,7 +48,7 @@
 	<schedule>        
         <job>
             <name>CtsMonitor</name>
-            <job-class>com.emc.monitor.jobs.CtsMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.CtsMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -61,7 +61,7 @@
     <schedule>        
         <job>
             <name>DocbrokerMonitor</name>
-            <job-class>com.emc.monitor.jobs.DocbrokerMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.DocbrokerMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -74,7 +74,7 @@
     <schedule>        
         <job>
             <name>CsMonitor</name>
-            <job-class>com.emc.monitor.jobs.CsMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.CsMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -87,7 +87,7 @@
     <schedule>        
         <job>
             <name>JmsMonitor</name>
-            <job-class>com.emc.monitor.jobs.JmsMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.JmsMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -100,7 +100,7 @@
     <schedule>        
         <job>
             <name>BpmMonitor</name>
-            <job-class>com.emc.monitor.jobs.BpmMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.BpmMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -113,7 +113,7 @@
     <schedule>        
         <job>
             <name>BamMonitor</name>
-            <job-class>com.emc.monitor.jobs.BamMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.BamMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -126,7 +126,7 @@
     <schedule>        
         <job>
             <name>BpsMonitor</name>
-            <job-class>com.emc.monitor.jobs.BpsMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.BpsMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -139,7 +139,7 @@
     <schedule>        
         <job>
             <name>XmsMonitor</name>
-            <job-class>com.emc.monitor.jobs.XmsMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.XmsMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -152,7 +152,7 @@
     <schedule>        
         <job>
             <name>DaMonitor</name>
-            <job-class>com.emc.monitor.jobs.DaMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.DaMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -165,7 +165,7 @@
     <schedule>        
         <job>
             <name>WebtopMonitor</name>
-            <job-class>com.emc.monitor.jobs.WebtopMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.WebtopMonitor</job-class>
         </job>        
         <trigger>
             <cron>
@@ -178,7 +178,7 @@
     <schedule>        
         <job>
             <name>TspMonitor</name>
-            <job-class>com.emc.monitor.jobs.TspMonitor</job-class>
+            <job-class>nl.dctm.monitor.jobs.TspMonitor</job-class>
         </job>        
         <trigger>
             <cron>

@@ -3,12 +3,12 @@
   <display-name>DocumentumMonitor</display-name>
   <servlet>
     <servlet-name>PopulateData</servlet-name>
-    <servlet-class>com.emc.monitor.PopulateData</servlet-class>
+    <servlet-class>nl.dctm.monitor.PopulateData</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>Monitor</servlet-name>
-    <servlet-class>com.emc.monitor.Monitor</servlet-class>
+    <servlet-class>nl.dctm.monitor.Monitor</servlet-class>
     <init-param>
       <param-name>dbname</param-name>
       <param-value>myDB</param-value>

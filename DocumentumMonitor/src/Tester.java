@@ -1,4 +1,4 @@
-import static com.emc.monitor.dao.DAOUtils.*;
+import static nl.dctm.monitor.dao.DAOUtils.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -31,11 +31,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.documentum.fc.common.DfException;
-import com.emc.monitor.dao.DAOFactory;
-import com.emc.monitor.dao.DAOUtils;
-import com.emc.monitor.dao.DocumentumServiceDAO;
-import com.emc.monitor.service.DocumentumService;
-import com.emc.monitor.utils.UpdateDFCProperties;
+
+import nl.dctm.monitor.dao.DAOFactory;
+import nl.dctm.monitor.dao.DAOUtils;
+import nl.dctm.monitor.dao.DocumentumServiceDAO;
+import nl.dctm.monitor.service.DocumentumService;
+import nl.dctm.monitor.utils.UpdateDFCProperties;
 
 public class Tester {
 
