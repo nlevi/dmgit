@@ -1,10 +1,16 @@
 <div>
 	<h4>New Service</h4>
-	<form class="form-horizontal" name="newServiceForm">
+	<form class="form-horizontal" name="newServiceForm" id = "newService">
+		<div class="form-group col-sm-10"  ng-controller="ServiceTypes">
+			<label for="serviceType">Type</label> <select
+				ng-model="newServiceForm.type"
+				ng-options="option.display for option in data.types"
+				class="form-control" id = "serviceType" ng-change="setRequired()"></select>
+		</div>
 		<div class="form-group col-sm-10">
 			<label for="serviceName">Name* (for Content Server name is dm_server_config object_name, for xCP application name is application name) </label> <input type="text"
 				id="serviceName" ng-model="newServiceForm.name" ng-minlength="1"
-				class="form-control input-sm" required>
+				class="form-control input-sm" ng-Required=isRequired>
 		</div>
 		<div class="form-group col-sm-10">
 			<label for="serviceDocbase">Docbase Name</label> <input type="text"
@@ -24,28 +30,22 @@
 		<div class="form-group col-sm-10">
 			<label for="serviceUser">User</label> <input type="text"
 				id="serviceUser" ng-model="newServiceForm.user" ng-minlength="1"
-				class="form-control input-sm" required>
+				class="form-control input-sm">
 		</div>
 		<div class="form-group col-sm-10">
 			<label for="servicePwd">Password</label> <input type="password"
 				id="servicePwd" ng-model="newServiceForm.pwd" ng-minlength="1"
-				class="form-control input-sm" required>
+				class="form-control input-sm">
 		</div>
 		<div class="form-group col-sm-10">
 			<label for="serviceEmail">E-mail (notifications will be sent to this address)</label> <input type="email"
 				id="serviceEmail" ng-model="newServiceForm.email" ng-minlength="1"
 				class="form-control input-sm"> <span style="color: red"
-				ng-show="studentForm.email.$invalid"> <span
+				ng-show="newServiceForm.email.$invalid"> <span
 				ng-show="newServiceForm.email.$error.email">Invalid email
 					address.</span>
 			</span>
-		</div>
-		<div class="form-group col-sm-10" ng-controller="ServiceTypes">
-			<label for="serviceType">Type</label> <select
-				ng-model="newServiceForm.type"
-				ng-options="option.display for option in data.types"
-				class="form-control"></select>
-		</div>
+		</div>		
 		<div class="form-group col-sm-10">
 			<div>
 				<button type="submit" class="btn btn-primary btn-sm"

@@ -40,7 +40,7 @@ monitorApp.controller('NavBarController', function($scope,$location) {
 //	}, 60000)
 //});
 
-monitorApp.controller('ServiceTypes', function($scope) {
+monitorApp.controller('ServiceTypes', function($scope, $rootScope) {
 	$scope.data = {
 			types: [
 	                {value: "cs", display: "Content Server"},
@@ -57,9 +57,14 @@ monitorApp.controller('ServiceTypes', function($scope) {
 	                {value: "cts", display: "CTS"}
 	                ],
 	};
+	$scope.onTypeChange = function() {
+		$rootScope.$emit("SetRequiredMethod", {});
+	}
+	
+	
 });
 
-monitorApp.controller('AddServiceController', function($scope,$http,$location) {
+monitorApp.controller('AddServiceController', function($scope,$http,$location,$rootScope) {
 	
 	$scope.create = function() {
 		var request = $http({
@@ -86,10 +91,32 @@ monitorApp.controller('AddServiceController', function($scope,$http,$location) {
         });
         request.error(function(data, status, headers, config) {
             alert("Request failed!");
-        });
+        });        
 	};
 	
-
+	$rootScope.$on("SetRequiredMethod", function() {
+		$scope.setRequired();
+	});
+	
+	$scope.isRequired=false;
+	$scope.setRequired = function() {
+		var selectedType = $scope.newServiceForm.type.value;
+		var lt = ["cs","xcp","bam","cts"];
+		console.log(lt);
+		console.log(selectedType);
+    	var required;
+    	for (i = 0; i < lt.length; i++) {
+    		if(selectedType == lt[i]) {
+    			$scope.isRequired=true;
+				console.log($scope.newServiceForm.type.value);		
+				console.log($scope.isRequired);				
+    			break;
+    		} else {
+				$scope.isRequired=false;
+				break;
+			}
+    	}		
+    };
 });
 
 monitorApp.controller('ViewServicesController', function($scope, $http, $location, $interval) {
