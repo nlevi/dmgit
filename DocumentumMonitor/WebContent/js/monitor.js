@@ -99,20 +99,19 @@ monitorApp.controller('AddServiceController', function($scope,$http,$location,$r
 	});
 	
 	$scope.isRequired=false;
+	$scope.requiredClass="";
 	$scope.setRequired = function() {
 		var selectedType = $scope.newServiceForm.type.value;
-		var lt = ["cs","xcp","bam","cts"];
-		console.log(lt);
-		console.log(selectedType);
+		var lt = ["cs","xcp","bam","cts"];		
     	var required;
     	for (i = 0; i < lt.length; i++) {
     		if(selectedType == lt[i]) {
     			$scope.isRequired=true;
-				console.log($scope.newServiceForm.type.value);		
-				console.log($scope.isRequired);				
+				$scope.requiredClass="required";				
     			break;
     		} else {
 				$scope.isRequired=false;
+				$scope.requiredClass="";
 				break;
 			}
     	}		

@@ -2,27 +2,62 @@ package nl.dctm.monitor.service;
 
 import java.sql.Timestamp;
 
-public class DocumentumService {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "mntr_env_details")
+
+public class DocumentumService {
+	
+	@Column(name = "address")
 	private String address;
+	
+	@Column(name = "docbase")
 	private String docbase;
+	
+	@Column(name = "password")
 	private String password;
-	private String user;
-	private String host;
-	private int port;
-	private String type;
-	private String name;
-	private String version;
-	private String status;
+	
+	@Column(name = "service_user")
+	private String service_user;
+	
+	@Column(name = "service_host")
+	private String service_host;
+	
+	@Column(name = "service_port")
+	private int service_port;
+	
+	@Column(name = "service_type")
+	private String service_type;
+	
+	@Column(name = "service_name")
+	private String service_name;
+	
+	@Column(name = "service_version")
+	private String service_version;
+	
+	@Column(name = "service_status")
+	private String service_status;
+	
+	@Id
+	@Column(name = "service_id")
 	private int service_id;
-	private Timestamp lastUpdate;
+	
+	@Column(name = "last_update")
+	private Timestamp last_update;
+	
+	@Column(name = "service_context")
+	private String service_context;
 
 	public String getHost() {
-		return host;
+		return service_host;
 	}
 
 	public int getPort() {
-		return port;
+		return service_port;
 	}
 
 	public String getAddress() {
@@ -38,23 +73,23 @@ public class DocumentumService {
 	}
 
 	public String getUser() {
-		return user;
+		return service_user;
 	}
 
 	public String getType() {
-		return type;
+		return service_type;
 	}
 
 	public String getName() {
-		return name;
+		return service_name;
 	}
 
 	public String getVersion() {
-		return version;
+		return service_version;
 	}
 
 	public String getStatus() {
-		return status;
+		return service_status;
 	}
 
 	public int getId() {
@@ -74,31 +109,31 @@ public class DocumentumService {
 	}
 
 	public void setUser(String user) {
-		this.user = user;
+		this.service_user = user;
 	}
 
 	public void setHost(String host) {
-		this.host = host;
+		this.service_host = host;
 	}
 
 	public void setPort(int port) {
-		this.port = port;
+		this.service_port = port;
 	}
 
 	public void setType(String type) {
-		this.type = type;
+		this.service_type = type;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.service_name = name;
 	}
 
 	public void setVersion(String version) {
-		this.version = version;
+		this.service_version = version;
 	}
 
 	public void setStatus(String status) {
-		this.status = status;
+		this.service_status = status;
 	}
 
 	public void setServiceId(int service_id) {
@@ -108,15 +143,24 @@ public class DocumentumService {
 	@Override
     public String toString() {
         return String.format("Service[id=%d,name=%s,host=%s,port=%d,user=%s]\n", 
-            service_id, name, host, port, user);
+            service_id, service_name, service_host, service_port, service_user);
     }
 
 	public void setLastUpdate(Timestamp date) {
-		this.lastUpdate = date;
+		this.last_update = date;
 		
 	}
 
 	public Timestamp getLastUpdate() {
-		return lastUpdate;
+		return last_update;
 	}
+
+	public String getServiceContext() {
+		return service_context;
+	}
+
+	public void setServiceContext(String service_context) {
+		this.service_context = service_context;
+	}
+
 }

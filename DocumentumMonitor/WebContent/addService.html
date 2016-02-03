@@ -1,47 +1,47 @@
 <div>
 	<h4>New Service</h4>
 	<form class="form-horizontal" name="newServiceForm" id = "newService">
-		<div class="form-group col-sm-10"  ng-controller="ServiceTypes">
-			<label for="serviceType">Type</label> <select
+		<div class="form-group required col-sm-10"  ng-controller="ServiceTypes">
+			<label for="serviceType" class="control-label">Type</label> <select
 				ng-model="newServiceForm.type"
 				ng-options="option.display for option in data.types"
-				class="form-control" id = "serviceType" ng-change="setRequired()"></select>
+				class="form-control" id = "serviceType" ng-change="setRequired()" required></select>
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="serviceName">Name* (for Content Server name is dm_server_config object_name, for xCP application name is application name) </label> <input type="text"
+		<div class="form-group required col-sm-10">
+			<label for="serviceName" class="control-label">Name* (for Content Server name is dm_server_config object_name, for xCP application name is application name) </label> <input type="text"
 				id="serviceName" ng-model="newServiceForm.name" ng-minlength="1"
-				class="form-control input-sm" ng-Required=isRequired>
+				class="form-control input-sm">
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="serviceDocbase">Docbase Name</label> <input type="text"
+		<div class="form-group required col-sm-10">
+			<label for="serviceDocbase" class="control-label">Docbase Name</label> <input type="text"
 				id="serviceDocbase" ng-model="newServiceForm.docbase"
 				ng-minlength="1" class="form-control input-sm" required>
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="serviceHost">Service Host</label> <input type="text"
+		<div class="form-group required col-sm-10">
+			<label for="serviceHost" class="control-label">Service Host</label> <input type="text"
 				id="serviceHost" ng-model="newServiceForm.host" ng-minlength="1"
 				class="form-control input-sm" required>
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="servicePort">Service Port</label> <input type="number"
+		<div class="form-group required col-sm-10">
+			<label for="servicePort" class="control-label">Service Port</label> <input type="number"
 				id="servicePort" ng-model="newServiceForm.port" ng-minlength="2"
 				class="form-control input-sm" required>
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="serviceUser">User</label> <input type="text"
+		<div class="form-group col-sm-10" ng-class=requiredClass>
+			<label for="serviceUser" class="control-label">User</label> <input type="text"
 				id="serviceUser" ng-model="newServiceForm.user" ng-minlength="1"
-				class="form-control input-sm">
+				class="form-control input-sm" ng-Required=isRequired>
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="servicePwd">Password</label> <input type="password"
+		<div class="form-group col-sm-10" ng-class=requiredClass>
+			<label for="servicePwd" class="control-label">Password</label> <input type="password"
 				id="servicePwd" ng-model="newServiceForm.pwd" ng-minlength="1"
-				class="form-control input-sm">
+				class="form-control input-sm" ng-Required=isRequired>
 		</div>
-		<div class="form-group col-sm-10">
-			<label for="serviceEmail">E-mail (notifications will be sent to this address)</label> <input type="email"
+		<div class="form-group required col-sm-10">
+			<label for="serviceEmail" class="control-label">E-mail (notifications will be sent to this address)</label> <input type="email"
 				id="serviceEmail" ng-model="newServiceForm.email" ng-minlength="1"
-				class="form-control input-sm"> <span style="color: red"
-				ng-show="newServiceForm.email.$invalid"> <span
+				class="form-control input-sm" required> <span style="color: red"
+				ng-show="newServiceForm.email.$dirty && newServiceForm.email.$invalid"> <span
 				ng-show="newServiceForm.email.$error.email">Invalid email
 					address.</span>
 			</span>

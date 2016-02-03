@@ -27,10 +27,10 @@ public class PopulateData extends HttpServlet {
 		}
 	}
 
-	private void createTable() throws SQLException {
-		DAOFactory daofactory = DAOFactory.getInstance();
-		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
-		String stmt = "create table mntr_env_details (service_id integer not null generated always as identity (start with 1, increment by 1), service_name varchar(255) not null, docbase varchar(255), service_host varchar(255) not null, service_port integer not null, service_type varchar(128) not null, service_status varchar(32), service_version varchar(255), last_update timestamp, service_user varchar(255), password varchar(255), address varchar(255))";
-		dsdao.execQuery(stmt);
-	}
+//	private void createTable() throws SQLException {
+//		DAOFactory daofactory = DAOFactory.getInstance();
+//		DocumentumServiceDAO dsdao = daofactory.getDocumentumServiceDAO();
+//		String stmt = "create table mntr_env_details (service_id integer not null generated always as identity (start with 1, increment by 1), service_name varchar(255) not null, docbase varchar(255), service_host varchar(255) not null, service_port integer not null, service_type varchar(128) not null, service_status varchar(32), service_version varchar(255), last_update timestamp, service_user varchar(255), password varchar(255), address varchar(255))";
+//		dsdao.execQuery(stmt);
+//	}
 }

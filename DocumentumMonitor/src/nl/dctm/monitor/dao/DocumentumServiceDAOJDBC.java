@@ -136,10 +136,11 @@ public class DocumentumServiceDAOJDBC implements DocumentumServiceDAO {
         		dctmService.getStatus(),
         		dctmService.getVersion(),        		
         		convertToTimestamp(new Date()),
+        		dctmService.getServiceContext(),
         		dctmService.getId()
         };
         
-        String update_stmt = "UPDATE mntr_env_details SET address = ?, docbase = ?, password = ?, service_user = ?, service_port = ?, service_host = ?, service_type = ?, service_name = ?, service_status = ?, service_version = ?, last_update = ? WHERE service_id = ?";
+        String update_stmt = "UPDATE mntr_env_details SET address = ?, docbase = ?, password = ?, service_user = ?, service_port = ?, service_host = ?, service_type = ?, service_name = ?, service_status = ?, service_version = ?, last_update = ?, service_context = ? WHERE service_id = ?";
         
         try (
             Connection con = daoFactory.getConnection();

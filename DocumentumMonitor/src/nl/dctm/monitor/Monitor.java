@@ -74,7 +74,6 @@ public class Monitor extends HttpServlet {
 		}
 	}
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processGetRequest(request, response);
@@ -100,8 +99,10 @@ public class Monitor extends HttpServlet {
 		ds.setDocbase(jrequest.getString("docbase"));
 		ds.setHost(jrequest.getString("host"));
 		ds.setPort(jrequest.getInt("port"));
-		ds.setUser(jrequest.getString("user"));
-		ds.setPassword(jrequest.getString("password"));
+		if (jrequest.has("user") && jrequest.has("password")) {
+			ds.setUser(jrequest.getString("user"));
+			ds.setPassword(jrequest.getString("password"));
+		}
 		ds.setAddress(jrequest.getString("email"));
 		ds.setType(jrequest.getString("type"));
 

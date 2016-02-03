@@ -60,21 +60,21 @@ public class WebtopMonitor implements Job{
 		}
 	}
 
-	private String getStatus() throws Exception {
-		String response = sendRequest(ds.getHost(), ds.getPort(), "http", WEBTOP_INFO, ds.getUser(), ds.getPassword());
-		if(logger.isDebugEnabled()) {
-			logger.debug("Webtop request response: " + response);
-		}
-		String version;
-		if (response != "Failed") {
-			version = response.replaceAll("[^0-9&&[^\\.]]", "");
-			if(logger.isDebugEnabled()) {
-				logger.debug("Webtop version: " + version + ". ServiceID: " + ds.getId());
-			}
-		} else {
-			logger.warn("Webtop service is not available. Service ID: " + ds.getId());
-			version = "Failed";
-		}
-		return version;
-	}
+//	private String getStatus() throws Exception {
+//		String response = sendRequest(ds.getHost(), ds.getPort(), "http", WEBTOP_INFO, ds.getUser(), ds.getPassword());
+//		if(logger.isDebugEnabled()) {
+//			logger.debug("Webtop request response: " + response);
+//		}
+//		String version;
+//		if (response != "Failed") {
+//			version = response.replaceAll("[^0-9&&[^\\.]]", "");
+//			if(logger.isDebugEnabled()) {
+//				logger.debug("Webtop version: " + version + ". ServiceID: " + ds.getId());
+//			}
+//		} else {
+//			logger.warn("Webtop service is not available. Service ID: " + ds.getId());
+//			version = "Failed";
+//		}
+//		return version;
+//	}
 }
