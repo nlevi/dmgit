@@ -1,10 +1,19 @@
 package nl.emonitor.dao;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
-@Repository
-@Transactional
-public class EnvironmentServiceDAO {
+import nl.emonitor.service.EnvironmentService;
+
+public interface EnvironmentServiceDAO {
+	
+	public void save(EnvironmentService eService);
+	
+	public EnvironmentService getServiceById(int id);
+	
+	public List<EnvironmentService> getServicesByType(String type);
+	
+	public List<EnvironmentService> getAllServices();
+	
+	public void delete(int id);
 
 }

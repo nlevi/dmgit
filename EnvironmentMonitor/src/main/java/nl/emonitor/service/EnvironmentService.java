@@ -1,5 +1,6 @@
 package nl.emonitor.service;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -10,9 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "env_services")
+@Table(name = "MNTR_ENV_DETAILS")
 
-public class EnvironmentService {	
+public class EnvironmentService  implements Serializable{	
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String address;	
 	private String docbase;	
@@ -59,7 +66,7 @@ public class EnvironmentService {
 	}
 	
 	@Column(name = "service_type")
-	public String getType() {
+	public String getServiceType() {
 		return service_type;
 	}
 	
@@ -80,7 +87,7 @@ public class EnvironmentService {
 	
 	@Id
 	@Column(name = "service_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return service_id;
 	}	
@@ -91,7 +98,7 @@ public class EnvironmentService {
 	}
 	
 	@Column(name = "service_context")
-	public String getServiceContext() {
+	public String getContext() {
 		return service_context;
 	}
 	
@@ -119,7 +126,7 @@ public class EnvironmentService {
 		this.service_port = port;
 	}
 
-	public void setType(String type) {
+	public void setServiceType(String type) {
 		this.service_type = type;
 	}
 
@@ -135,7 +142,7 @@ public class EnvironmentService {
 		this.service_status = status;
 	}
 
-	public void setServiceId(int service_id) {
+	public void setId(int service_id) {
 		this.service_id = service_id;
 	}
 	
@@ -144,7 +151,7 @@ public class EnvironmentService {
 		
 	}
 
-	public void setServiceContext(String service_context) {
+	public void setContext(String service_context) {
 		this.service_context = service_context;
 	}
 	
