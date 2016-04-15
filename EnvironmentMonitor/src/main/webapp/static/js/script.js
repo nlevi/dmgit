@@ -15,29 +15,25 @@ $(function() {
 	function generateEServicesTableHTML(data) {
 		var listServicesTable = $('#eservices-list > tbody');
 		var lDate = new Date();
-		data
-				.forEach(function(item) {
-					lDate.setTime(item.lastUpdate);
-					listServicesTable
-							.append("<tr data-index="
-									+ item.id
-									+ " class="
-									+ isRunning(item.status)
-									+ " data-toggle='modal' data-target='#view-eservice-dialog'>"
-									+ "<td>" + item.id + "</td>" + "<td>"
-									+ item.name + "</td>" + "<td>"
-									+ item.version + "</td>" + "<td>"
-									+ item.status + "</td>" + "<td>"
-									+ lDate.toLocaleString() + "</td></tr>");
+		var itemMenu = '<div class="btn-group pull-right"><button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopop="true" aria-expanded="false"><i class="glyphicon glyphicon-fire"></i>Action<span class="caret"></span></button><ul class="dropdown-menu"><li><a href="#" data-dismiss="modal" data-toggle="modal" data-target="#view-eservice-dialog">View</a></li><li><a href="#">Edit</a></li><li><a href="#">Delete</a></li></ul></div>';
+		//listServicesTable.remove();
+		data.forEach(function(item) {
+			lDate.setTime(item.lastUpdate);
+			listServicesTable.append("<tr data-index=" + item.id + " class="
+					+ isRunning(item.status) + "><td>"
+					+ item.id + "</td><td>" + item.name + "</td><td>"
+					+ item.version + "</td><td>" + item.status + "</td><td>"
+					+ lDate.toLocaleString() + "</td><td>" + itemMenu
+					+ "</td></tr>");
 
-				});
-		listServicesTable.find('tr').on('click', function(e) {
-			e.preventDefault();
-			var eServiceId = $(this).data('index');
-			// window.location.hash = 'service/' + eServiceId;
-			console.log("Open view dialog" + eServiceId);
-			// viewEService(eServiceId);
-		})
+		});
+//		listServicesTable.find('tr').on('click', function(e) {
+//			e.preventDefault();
+//			var eServiceId = $(this).data('index');
+//			// window.location.hash = 'service/' + eServiceId;
+//			console.log("Open view dialog" + eServiceId);
+//			// viewEService(eServiceId);
+//		})
 	}
 	;
 
@@ -82,6 +78,26 @@ $(function() {
 	}
 	;
 
+	function deleteService(index) {
+		$('#confirmDelete').modal('show')
+		$.ajax({
+			url : 'service/' + index,
+			type : 'DELETE'
+		})
+	}
+	;
+
+	function addService(form) {
+		var form = $('form#newServiceForm');
+		$.post('/EnvironmentMonitor/service/', form.serialize(),
+				function(response) {
+					console.log(response);
+				}, 'json').success(function() {
+			$('#new-eservice-dialog').modal('toggle');
+		})
+	}
+	;
+
 	function showError() {
 		var page = $('.error');
 		page.addClass('visible');
@@ -93,6 +109,39 @@ $(function() {
 	}
 	;
 
+	function formToJSON(form) {
+		var array = form.serializeArray();
+		var json = {};
+		$.each(array, function() {
+			if (json[this.name]) {
+				if (!json[this.name].push) {
+					json[this.name] = [ json[this.name] ];
+				}
+				json[this.name].push(this.value || '');
+			} else {
+				json[this.name] = this.value || '';
+			}
+		});
+		return json;
+	}
+	;
+
+	function loadTypes(obj, url, attr) {
+		$(obj).empty();
+		$.getJSON(url, {}, function(data) {
+			$.each(data, function(i, o) {
+				$(obj).append(
+						$('<option></option').val(o['value']).html(o[attr]));
+			});
+		});
+	}
+	;
+
+	function isRunning(status) {
+		return status == 'Running' ? 'success' : 'danger';
+	}
+	;
+
 	// Bootstrap modals
 
 	$('#view-eservice-dialog').modal({
@@ -100,40 +149,49 @@ $(function() {
 		backdrop : "static",
 		show : false,
 	}).on('show.bs.modal', function(e) {
-		var rowIndex = $(e.relatedTarget).data('index');
+		var rowIndex = $(e.relatedTarget).closest('tr').data('index');
+		console.log(rowIndex);
 		$(this).find('.modal-title').text('Service ID #' + rowIndex);
+		$(this).find('#delete').on('click', function(e) {
+			e.preventDefault();
+			deleteService(rowIndex);
+		});
 		renderSingleServicePage(rowIndex, eservices);
+
 	});
-	
-	$('form#add').click(function(e) {
-		e.preventDefault();
-		var frm = $('form#new-eservice-dialog');
-		var data = formToJSON(frm);
-		var j = frm.serializeFormJSON();
-		var s = frm.serialize();
-		console.log(data);
-		console.log(j);
-		console.log(JSON.stringify(j));
-		$.post('/EnvironmentMonitor/service/', s, function(response) {
-			console.log(response);			
-		}, 'json');
-		
-//		$.ajax({
-//		    url: '/EnvironmentMonitor/service/',
-//		    type: 'POST',
-//		    data: JSON.stringify(j),
-//		    contentType: 'application/json; charset=utf-8',
-//		    dataType: 'json',
-//		    async: false,
-//		    success: function(msg) {
-//		        alert(msg);
-//		    }
-//		});
-	});
-	
+
+	$('#new-eservice-dialog').modal({
+		keyboard : false,
+		backdrop : "static",
+		show : false,
+	}).on(
+			'show.bs.modal',
+			function(e) {
+				var stype = $('select#eServiceType').get(0);
+				loadTypes($('select#eServiceType').get(0),
+						'/EnvironmentMonitor/static/jsons/types.json',
+						'display');
+				$(this).find('#add').on('click', function(e) {
+					e.preventDefault();
+					addService('#new-eservice-dialog > form');
+				})
+			})
+
+	// $('#add').click(function(e) {
+	// e.preventDefault();
+	// var frm = $('form#newServiceForm');
+	// $.post('/EnvironmentMonitor/service/', frm.serialize(),
+	// function(response) {
+	// console.log(response);
+	// }, 'json')
+	// .success(function() {
+	// $('#new-eservice-dialog').modal('toggle');
+	// })
+	// });
+
 	$('.modal-body').css({
-		'max-height': '100%',
-		'overflow-y': 'auto'
+		'max-height' : '100%',
+		'overflow-y' : 'auto'
 	});
 
 	// Jquery-UI modals
@@ -158,42 +216,24 @@ $(function() {
 	 * 
 	 * addEServiceDialog.dialog("open"); };
 	 */
-	function formToJSON(form) {
-		var array = form.serializeArray();
-		var json = {};
-		$.each(array, function () {
-            if (json[this.name]) {
-                if (!json[this.name].push) {
-                    json[this.name] = [json[this.name]];
-                }
-                json[this.name].push(this.value || '');
-            } else {
-                json[this.name] = this.value || '';
-            }
-        });
-        return json;
-	};
-		
-	function isRunning(status) {
-		return status == 'Running' ? 'success' : 'danger';
-	};
+
 });
 
-(function($) {
-	$.fn.serializeFormJSON = function() {
-
-	   var o = {};
-	   var a = this.serializeArray();
-	   $.each(a, function() {
-	       if (o[this.name]) {
-	           if (!o[this.name].push) {
-	               o[this.name] = [o[this.name]];
-	           }
-	           o[this.name].push(this.value || '');
-	       } else {
-	           o[this.name] = this.value || '';
-	       }
-	   });
-	   return o;
-	};
-	})(jQuery);
+// (function($) {
+// $.fn.serializeFormJSON = function() {
+//
+// var o = {};
+// var a = this.serializeArray();
+// $.each(a, function() {
+// if (o[this.name]) {
+// if (!o[this.name].push) {
+// o[this.name] = [o[this.name]];
+// }
+// o[this.name].push(this.value || '');
+// } else {
+// o[this.name] = this.value || '';
+// }
+// });
+// return o;
+// };
+// })(jQuery);

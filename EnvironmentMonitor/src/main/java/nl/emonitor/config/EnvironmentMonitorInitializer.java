@@ -8,12 +8,12 @@ public class EnvironmentMonitorInitializer extends AbstractAnnotationConfigDispa
   
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { EnvironmentMonitorConfiguration.class };
+        return new Class[] { PersistenceConfig.class };
     }
    
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return null;
+    	return new Class[] { EnvironmentMonitorConfiguration.class };
     }
    
     @Override

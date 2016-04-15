@@ -18,9 +18,11 @@ See here for more details: http://gordondickens.com/wordpress/2013/03/27/sawing-
 
 	<!--<logger name="org.hibernate" level="debug"/> -->
    <!-- Uncomment and add your logger here: -->
-    <logger name="org.hibernate.type" level="ALL"/>
-    <logger name="org.hibernate.jdbc" level="ALL"/>
-    <logger name="org.hibernate" level="DEBUG"/>
+    <logger name="org.hibernate.type" level="INFO"/>
+    <logger name="org.hibernate.jdbc" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
+    
+    <logger name="org.springframework" level="DEBUG"/>
          
     <root level="all">
         <appender-ref ref="console"/>

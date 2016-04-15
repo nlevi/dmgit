@@ -1,7 +1,11 @@
 package nl.emonitor.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -49,8 +53,14 @@ public class EServiceRestController {
 
 	// Create service
 	@RequestMapping(value = "/service/", method = RequestMethod.POST)
+//	public void parseJson(HttpServletRequest request) throws IOException {
+//		String jsonBody = IOUtils.toString(request.getInputStream());
+//		System.out.println(jsonBody);
+//	}
 	public ResponseEntity<Void> createService(@ModelAttribute EnvironmentService eservice,
 			UriComponentsBuilder ucBuilder) {
+		System.out.println("Creating User " + eservice.toString());
+		
 		eServiceService.save(eservice);
 
 		HttpHeaders headers = new HttpHeaders();
